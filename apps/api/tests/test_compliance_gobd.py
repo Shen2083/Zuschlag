@@ -149,7 +149,8 @@ async def test_synced_quote_is_final(studio: Studio, sessionmaker: Sm, tmp_path:
     assert (await studio.post(f"{Q}/{q['id']}/calculate", {"zuschlag_pct": "5"})).status_code == 409
     for statement in (
         "UPDATE quotes SET status = 'draft', revision = revision + 1 WHERE id = :q",
-        "UPDATE quotes SET last_idoc_docnum = '0000000000000001' WHERE id = :q",
+        # Must differ from the DOCNUM actually sent (a fresh database starts at 1).
+        "UPDATE quotes SET last_idoc_docnum = '9999999999999999' WHERE id = :q",
         "UPDATE quote_items SET unit_price = 1 WHERE quote_id = :q",
     ):
         with pytest.raises(DBAPIError, match=r"synced|frozen"):
