@@ -15,6 +15,9 @@ ENTRY_POINTS = [
     "zuschlag_api.sap.ingest",
     "zuschlag_api.api.routes.sap",
     "zuschlag_api.audit.service",
+    "zuschlag_api.rfq.pipeline",
+    "zuschlag_api.api.routes.quotes",
+    "zuschlag_api.core.config",
 ]
 
 

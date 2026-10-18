@@ -315,6 +315,23 @@ async def _ingest(
 # --------------------------------------------------------------------------- #
 
 
+def _price_columns(m: MaterialMaster, area: str | None, currency: str) -> dict[str, Any]:
+    valuation = m.valuation(area)
+    if valuation is None:
+        return {
+            "standard_price": None,
+            "price_unit": 1,
+            "price_currency": None,
+            "price_valuation_area": None,
+        }
+    return {
+        "standard_price": valuation.price,
+        "price_unit": valuation.peinh,
+        "price_currency": currency,
+        "price_valuation_area": valuation.bwkey,
+    }
+
+
 async def _prefetch_materials(session: AsyncSession, keys: list[str]) -> dict[str, _Prior]:
     priors: dict[str, _Prior] = {}
     for chunk in _batches(keys):
@@ -348,6 +365,8 @@ async def ingest_materials(
     actor_id: str,
     ip_sha256: str | None,
     payload_sha256: str,
+    valuation_area: str | None = None,
+    valuation_currency: str = "EUR",
 ) -> IngestResult:
     result = IngestResult("MATMAS05")
     tenant_id = _tenant(session)
@@ -388,6 +407,7 @@ async def ingest_materials(
                 "description": m.description(preferred_languages),
                 "descriptions": m.descriptions_by_language,
                 "is_active": not m.is_deleted,
+                **_price_columns(m, valuation_area, valuation_currency),
                 "source_system": m.control.sndprn,
                 "source_docnum": m.control.docnum_int,
                 "content_sha256": m.content_sha256,
@@ -420,6 +440,10 @@ async def ingest_materials(
                         "description",
                         "descriptions",
                         "is_active",
+                        "standard_price",
+                        "price_unit",
+                        "price_currency",
+                        "price_valuation_area",
                         "source_system",
                         "source_docnum",
                         "content_sha256",

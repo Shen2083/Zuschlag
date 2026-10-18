@@ -177,6 +177,8 @@ async def ingest_matmas(
             actor_id=principal.actor_id,
             ip_sha256=principal.ip_sha256,
             payload_sha256=_digest(payloads),
+            valuation_area=settings.sap_valuation_area,
+            valuation_currency=settings.sap_valuation_currency,
         )
     except IdocConflictError as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc

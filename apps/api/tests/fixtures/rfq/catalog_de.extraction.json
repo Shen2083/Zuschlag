@@ -1,0 +1,42 @@
+{
+  "language": "de",
+  "summary": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
+  "customer": {
+    "company_name": "Brenner Lebensmitteltechnik",
+    "contact_name": "Anja Krüger",
+    "contact_email": null,
+    "contact_phone": null,
+    "customer_reference": null,
+    "target_delivery_date": "2026-12-15",
+    "delivery_date_text": "bis 15.12.2026"
+  },
+  "line_items": [
+    {
+      "position": 1,
+      "description": "Schwerlastrollen mit Bremse PT-CAS-125HD",
+      "search_text": "Schwerlastrolle Bremse heavy-duty castor brake",
+      "quantity": 40,
+      "unit": "PCE",
+      "kind": "purchased_part",
+      "is_custom_made": false,
+      "material_number": "PT-CAS-125HD",
+      "specs": [],
+      "components": [],
+      "labor": []
+    },
+    {
+      "position": 2,
+      "description": "Lochblech 1.4301, 1,5 mm, Rundloch R5T8",
+      "search_text": "Lochblech 1.4301 1,5 mm R5T8 perforated stainless sheet",
+      "quantity": 50,
+      "unit": "KGM",
+      "kind": "raw_material",
+      "is_custom_made": false,
+      "material_number": null,
+      "specs": [{"name": "Lochung", "value": "R5T8", "unit": null, "constraint": "exact"}],
+      "components": [],
+      "labor": []
+    }
+  ],
+  "open_questions": []
+}

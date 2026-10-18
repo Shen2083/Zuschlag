@@ -27,7 +27,7 @@ import uuid
 from collections.abc import Mapping
 from dataclasses import dataclass, replace
 from datetime import UTC, datetime
-from typing import Any, Literal, Protocol
+from typing import Any, Generic, Literal, Protocol, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -72,6 +72,17 @@ class LLMResponse(BaseModel):
     output_tokens: int
 
 
+T = TypeVar("T", bound=BaseModel)
+
+
+@dataclass(frozen=True, slots=True)
+class StructuredResponse(Generic[T]):
+    """A schema-validated model output plus the raw response metadata."""
+
+    parsed: T
+    response: LLMResponse
+
+
 class LLMProvider(Protocol):
     """A transport to one model endpoint. Implementations must send `headers`."""
 
@@ -82,9 +93,19 @@ class LLMProvider(Protocol):
 
     async def complete(self, request: LLMRequest, *, headers: Mapping[str, str]) -> LLMResponse: ...
 
+    async def complete_structured(
+        self, request: LLMRequest, output_type: type[T], *, headers: Mapping[str, str]
+    ) -> StructuredResponse[T]:
+        """Return output constrained to `output_type`'s JSON Schema (structured outputs)."""
+        ...
+
 
 class ComplianceError(RuntimeError):
     """The request would violate the data-retention or residency policy."""
+
+
+class LLMOutputError(RuntimeError):
+    """The model declined (refusal), was cut off, or returned unusable output."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -124,6 +145,13 @@ class ComplianceRecord:
 
 @dataclass(frozen=True, slots=True)
 class LLMResult:
+    response: LLMResponse
+    compliance: ComplianceRecord
+
+
+@dataclass(frozen=True, slots=True)
+class StructuredLLMResult(Generic[T]):
+    output: T
     response: LLMResponse
     compliance: ComplianceRecord
 
@@ -172,10 +200,55 @@ class ZeroRetentionLLMClient:
         extra_headers: Mapping[str, str] | None = None,
     ) -> LLMResult:
         headers = self._preflight(extra_headers)
-        p = self._provider
-        response = await p.complete(request, headers=headers)
+        response = await self._provider.complete(request, headers=headers)
+        record = await self._seal(
+            {"request": request.model_dump(mode="json")},
+            response,
+            tenant_id=tenant_id,
+            actor_id=actor_id,
+            audit_session=audit_session,
+        )
+        return LLMResult(response=response, compliance=record)
 
-        prompt_sha256 = _sha256(request.model_dump(mode="json"))
+    async def complete_structured(
+        self,
+        request: LLMRequest,
+        output_type: type[T],
+        *,
+        tenant_id: uuid.UUID,
+        actor_id: str,
+        audit_session: AsyncSession | None = None,
+        extra_headers: Mapping[str, str] | None = None,
+    ) -> StructuredLLMResult[T]:
+        """Like `complete`, but the output is validated against `output_type`."""
+        headers = self._preflight(extra_headers)
+        result = await self._provider.complete_structured(request, output_type, headers=headers)
+        if result.response.stop_reason == "refusal":
+            raise LLMOutputError("model declined the request (refusal)")
+        if result.response.stop_reason == "max_tokens":
+            raise LLMOutputError("model output was truncated (max_tokens)")
+        record = await self._seal(
+            {"request": request.model_dump(mode="json"), "output_schema": output_type.__name__},
+            result.response,
+            tenant_id=tenant_id,
+            actor_id=actor_id,
+            audit_session=audit_session,
+        )
+        return StructuredLLMResult(
+            output=result.parsed, response=result.response, compliance=record
+        )
+
+    async def _seal(
+        self,
+        prompt: dict[str, Any],
+        response: LLMResponse,
+        *,
+        tenant_id: uuid.UUID,
+        actor_id: str,
+        audit_session: AsyncSession | None,
+    ) -> ComplianceRecord:
+        p = self._provider
+        prompt_sha256 = _sha256(prompt)
         response_sha256 = _sha256(
             {"text": response.text, "model": response.model, "stop_reason": response.stop_reason}
         )
@@ -220,4 +293,4 @@ class ZeroRetentionLLMClient:
                     "output_tokens": response.output_tokens,
                 },
             )
-        return LLMResult(response=response, compliance=record)
+        return record

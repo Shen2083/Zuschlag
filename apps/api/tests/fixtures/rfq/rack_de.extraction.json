@@ -1,0 +1,74 @@
+{
+  "language": "de",
+  "summary": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
+  "customer": {
+    "company_name": "Rechenzentrum Nord GmbH",
+    "contact_name": "Markus Weber",
+    "contact_email": "m.weber@rz-nord.de",
+    "contact_phone": "+49 40 123456-0",
+    "customer_reference": null,
+    "target_delivery_date": "2026-11-27",
+    "delivery_date_text": "bis KW 48"
+  },
+  "line_items": [
+    {
+      "position": 1,
+      "description": "Edelstahl-Server-Rack nach Maß mit Belüftungsschlitzen und Schwerlastrollen",
+      "search_text": "Serverschrank Edelstahl 42 HE stainless steel server rack",
+      "quantity": 15,
+      "unit": "PCE",
+      "kind": "finished_good",
+      "is_custom_made": true,
+      "material_number": null,
+      "specs": [
+        {"name": "Werkstoff", "value": "Edelstahl", "unit": null, "constraint": "exact"},
+        {"name": "Belastbarkeit", "value": "250", "unit": "kg", "constraint": "min"},
+        {"name": "Abmessungen (B x T x H)", "value": "600 x 1000 x 2000", "unit": "mm", "constraint": "approx"},
+        {"name": "Höheneinheiten", "value": "42", "unit": "HE", "constraint": "exact"},
+        {"name": "Türen", "value": "vorne und hinten abschließbar", "unit": null, "constraint": "exact"}
+      ],
+      "components": [
+        {
+          "description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000",
+          "search_text": "Edelstahlblech 1.4301 2 mm stainless steel sheet",
+          "kind": "raw_material",
+          "quantity_per_unit": 6,
+          "unit": "PCE",
+          "specs": [{"name": "Werkstoff", "value": "1.4301", "unit": null, "constraint": "exact"}]
+        },
+        {
+          "description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m",
+          "search_text": "Vierkantrohr Edelstahl 1.4301 40x40x3 stainless square tube",
+          "kind": "raw_material",
+          "quantity_per_unit": 4,
+          "unit": "PCE",
+          "specs": []
+        },
+        {
+          "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+          "search_text": "Schwerlastrolle 125 mm 150 kg Bremse heavy-duty castor brake",
+          "kind": "purchased_part",
+          "quantity_per_unit": 4,
+          "unit": "PCE",
+          "specs": [{"name": "Tragkraft je Rolle", "value": "150", "unit": "kg", "constraint": "min"}]
+        },
+        {
+          "description": "Scharnier Edelstahl 180°",
+          "search_text": "Scharnier Edelstahl 180 stainless hinge",
+          "kind": "purchased_part",
+          "quantity_per_unit": 4,
+          "unit": "PCE",
+          "specs": []
+        }
+      ],
+      "labor": [
+        {"operation": "cutting", "hours_per_unit": 1.5, "note": "Laserzuschnitt"},
+        {"operation": "bending", "hours_per_unit": 1.5, "note": null},
+        {"operation": "welding", "hours_per_unit": 4.0, "note": "WIG-Schweißen Rahmen"},
+        {"operation": "assembly", "hours_per_unit": 2.5, "note": null},
+        {"operation": "quality_inspection", "hours_per_unit": 0.5, "note": "Belastungsprüfung 250 kg"}
+      ]
+    }
+  ],
+  "open_questions": ["Oberfläche (geschliffen K240 oder gebürstet)?"]
+}

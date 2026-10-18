@@ -9,8 +9,10 @@ from sqlalchemy import (
     CHAR,
     BigInteger,
     Boolean,
+    Computed,
     DateTime,
     Index,
+    Integer,
     Numeric,
     String,
     Text,
@@ -47,6 +49,13 @@ class Material(UuidPk, TenantScoped, SapSourced, Timestamps, Base):
             postgresql_with={"m": 16, "ef_construction": 64},
             postgresql_ops={"embedding": "vector_cosine_ops"},
         ),
+        # pg_trgm index for lexical (fuzzy) matching on MATNR + short texts.
+        Index(
+            "ix_materials_search_text_trgm",
+            "search_text",
+            postgresql_using="gin",
+            postgresql_ops={"search_text": "gin_trgm_ops"},
+        ),
     )
 
     matnr: Mapped[str] = mapped_column(String(40), nullable=False)  # S/4HANA: 40 chars
@@ -63,6 +72,22 @@ class Material(UuidPk, TenantScoped, SapSourced, Timestamps, Base):
     )
     long_text: Mapped[str | None] = mapped_column(Text)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=True)
+
+    # Costing price from MBEW (E1MBEWM): price per `price_unit` base units.
+    standard_price: Mapped[Decimal | None] = mapped_column(Numeric(15, 4))
+    price_unit: Mapped[int] = mapped_column(Integer, nullable=False, default=1, server_default="1")
+    price_currency: Mapped[str | None] = mapped_column(String(3))
+    price_valuation_area: Mapped[str | None] = mapped_column(String(4))  # BWKEY
+
+    # Lower-cased MATNR + short texts, maintained by PostgreSQL for trigram search.
+    search_text: Mapped[str] = mapped_column(
+        Text,
+        Computed(
+            "lower(matnr || ' ' || coalesce(description, '') || ' ' || "
+            "coalesce(descriptions ->> 'DE', '') || ' ' || coalesce(descriptions ->> 'EN', ''))",
+            persisted=True,
+        ),
+    )
 
     embedding: Mapped[list[float] | None] = mapped_column(Vector(EMBEDDING_DIMENSIONS))
     embedding_model: Mapped[str | None] = mapped_column(String(200))

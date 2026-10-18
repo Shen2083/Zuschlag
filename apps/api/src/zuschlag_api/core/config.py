@@ -8,6 +8,7 @@ configuration.
 
 from __future__ import annotations
 
+from decimal import Decimal
 from enum import StrEnum
 from functools import lru_cache
 from typing import Annotated, Literal
@@ -15,6 +16,8 @@ from urllib.parse import urlsplit
 
 from pydantic import Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+
+from zuschlag_api.rfq.pricing import DEFAULT_LABOR_RATES_EUR
 
 
 class Environment(StrEnum):
@@ -121,6 +124,29 @@ class Settings(BaseSettings):
     sap_idoc_max_files: int = Field(default=20, ge=1, le=100)
     # Order in which E1MAKTM languages are preferred for the primary description.
     sap_description_languages: Annotated[list[str], NoDecode] = ["DE", "EN"]
+    # Valuation area (BWKEY) whose E1MBEWM price is used for costing; None = first priced area.
+    sap_valuation_area: str | None = None
+    # Company-code currency of the valuation prices (MBEW carries no currency).
+    sap_valuation_currency: str = "EUR"
+
+    # --- RFQ -> quote pipeline ---------------------------------------------------
+    rfq_max_chars: int = Field(default=50_000, ge=100)
+    # Matches below this confidence are flagged NEEDS_HUMAN_REVIEW.
+    rfq_review_threshold: float = Field(default=0.75, ge=0, le=1)
+    # Below this, the best candidate is not even linked as a suggestion.
+    rfq_suggestion_floor: float = Field(default=0.60, ge=0, le=1)
+    # Score calibration (see rfq/matching.py); defaults suit multilingual-e5-large.
+    rfq_dense_floor: float = 0.70
+    rfq_dense_ceiling: float = 0.95
+    rfq_lexical_floor: float = 0.10
+    rfq_lexical_ceiling: float = 0.60
+    quote_default_margin_pct: Decimal = Field(default=Decimal("22"), ge=0, lt=1000)
+    quote_default_currency: str = "EUR"
+    # EUR per hour by fabrication operation (JSON object in the environment).
+    labor_rates_eur: dict[str, Decimal] = Field(
+        default_factory=lambda: dict(DEFAULT_LABOR_RATES_EUR)
+    )
+    labor_default_rate_eur: Decimal = Decimal("80")
 
     _split_origins = field_validator(
         "cors_allowed_origins", "trusted_hosts", "sap_description_languages", mode="before"

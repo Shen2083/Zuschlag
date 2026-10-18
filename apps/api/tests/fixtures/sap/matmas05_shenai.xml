@@ -51,6 +51,15 @@
         <WERKS>1000</WERKS>
         <DISMM>PD</DISMM>
       </E1MARCM>
+      <E1MBEWM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <BWKEY>1000</BWKEY>
+        <VPRSV>S</VPRSV>
+        <VERPR>1395.10</VERPR>
+        <STPRS>1420.00</STPRS>
+        <PEINH>1</PEINH>
+        <BKLAS>7920</BKLAS>
+      </E1MBEWM>
     </E1MARAM>
   </IDOC>
 </MATMAS05>

@@ -7,7 +7,7 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime
 
-from zuschlag_api.models import LineItemType, Quote
+from zuschlag_api.models import Quote, QuoteItemKind
 from zuschlag_api.sap.orders05 import (
     E1EDK01Segment,
     E1EDK02Segment,
@@ -55,12 +55,17 @@ def build_quotation_idoc(
     matnr_by_material_id: Mapping[uuid.UUID, str],
     customer_ref: str | None = None,
 ) -> Orders05Quotation:
-    if not quote.line_items:
+    # Only what the customer ordered goes to SAP; components and labor below a
+    # finished good are internal costing.
+    top_level = [i for i in quote.items if i.parent_item_id is None]
+    if not top_level:
         raise IdocBuildError(f"quote {quote.quote_number} has no line items")
 
     items: list[E1EDP01Segment] = []
-    for line in quote.line_items:
-        if line.item_type is LineItemType.LABOR and line.material_id is None:
+    for line in top_level:
+        if line.unit_price is None:
+            raise IdocBuildError(f"line {line.position} has no price")
+        if line.kind is QuoteItemKind.LABOR and line.material_id is None:
             matnr = profile.labor_material
         elif line.material_id is not None and line.material_id in matnr_by_material_id:
             matnr = matnr_by_material_id[line.material_id]

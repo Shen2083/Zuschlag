@@ -1,0 +1,29 @@
+{
+  "language": "en",
+  "summary": "Quote for 2 stainless steel work tables 1200 x 700 mm",
+  "customer": {
+    "company_name": "Nordwind Marine AG",
+    "contact_name": "Tom Hansen",
+    "contact_email": null,
+    "contact_phone": null,
+    "customer_reference": null,
+    "target_delivery_date": "2026-11-08",
+    "delivery_date_text": "within 3 weeks"
+  },
+  "line_items": [
+    {
+      "position": 1,
+      "description": "Stainless steel work table 1200 x 700 mm",
+      "search_text": "Edelstahl-Arbeitstisch 1200 x 700 mm stainless steel work table",
+      "quantity": 2,
+      "unit": "PCE",
+      "kind": "finished_good",
+      "is_custom_made": false,
+      "material_number": null,
+      "specs": [{"name": "Dimensions", "value": "1200 x 700", "unit": "mm", "constraint": "exact"}],
+      "components": [],
+      "labor": []
+    }
+  ],
+  "open_questions": []
+}

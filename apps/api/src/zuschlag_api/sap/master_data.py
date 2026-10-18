@@ -159,8 +159,27 @@ class MaterialDescription(SapModel):
         return self.spras_iso or SAP_LANGUAGE_TO_ISO[(self.spras or "").upper()]
 
 
+class MaterialValuation(SapModel):
+    """E1MBEWM — valuation data for one valuation area (plant)."""
+
+    bwkey: Annotated[str, StringConstraints(min_length=1, max_length=4)]
+    bwtar: str | None = None  # valuation type (split valuation); not used for pricing
+    vprsv: Annotated[str, StringConstraints(max_length=1)] | None = (
+        None  # S = standard, V = moving avg
+    )
+    stprs: Annotated[SapDecimal, Field(ge=0)] | None = None
+    verpr: Annotated[SapDecimal, Field(ge=0)] | None = None
+    peinh: Annotated[int, Field(ge=1)] = 1
+
+    @property
+    def price(self) -> Decimal | None:
+        """Price per PEINH base units, per the area's price control."""
+        return self.verpr if (self.vprsv or "").upper() == "V" else self.stprs
+
+
 class MaterialMaster(SapModel):
-    """E1MARAM — general material data, with its E1MAKTM short texts."""
+    """E1MARAM — general material data, with its E1MAKTM short texts and
+    E1MBEWM valuation data."""
 
     control: IdocControl
     msgfn: str | None = None
@@ -173,6 +192,7 @@ class MaterialMaster(SapModel):
     gewei: Annotated[Code, StringConstraints(max_length=3)] | None = None
     lvorm: SapFlag = False
     descriptions: tuple[MaterialDescription, ...] = ()
+    valuations: tuple[MaterialValuation, ...] = ()
 
     @model_validator(mode="after")
     def _check_consistency(self) -> MaterialMaster:
@@ -192,6 +212,14 @@ class MaterialMaster(SapModel):
     @property
     def descriptions_by_language(self) -> dict[str, str]:
         return {d.language: d.maktx for d in self.descriptions}
+
+    def valuation(self, valuation_area: str | None = None) -> MaterialValuation | None:
+        """The valuation used for costing: the configured area, else the first
+        area without split valuation that carries a price."""
+        usable = [v for v in self.valuations if v.bwtar is None and v.price is not None]
+        if valuation_area is not None:
+            return next((v for v in usable if v.bwkey == valuation_area), None)
+        return usable[0] if usable else None
 
     def description(self, preferred_languages: Iterable[str]) -> str | None:
         texts = self.descriptions_by_language
@@ -347,6 +375,7 @@ def _build_material(control: IdocControl, seg: Segment) -> MaterialMaster:
             **seg.fields,
             "control": control,
             "descriptions": [t.fields for t in seg.all("E1MAKTM")],
+            "valuations": [v.fields for v in seg.all("E1MBEWM")],
         }
     )
 
@@ -383,6 +412,7 @@ __all__ = [
     "IdocValidationError",
     "MaterialDescription",
     "MaterialMaster",
+    "MaterialValuation",
     "parse_debmas06",
     "parse_matmas05",
 ]

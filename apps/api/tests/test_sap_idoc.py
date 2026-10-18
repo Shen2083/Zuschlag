@@ -10,7 +10,7 @@ from typing import Any
 import pytest
 from jsonschema import Draft202012Validator
 
-from zuschlag_api.models import LineItemType, Quote, QuoteLineItem
+from zuschlag_api.models import MatchStatus, Quote, QuoteItem, QuoteItemKind, Sourcing
 from zuschlag_api.sap.builder import IdocBuildError, SapPartnerProfile, build_quotation_idoc
 from zuschlag_api.sap.orders05 import Orders05Quotation, sap_decimal
 
@@ -36,19 +36,23 @@ def _quote(**overrides: Any) -> Quote:
     quote = Quote(
         quote_number="AN-2026-1187", currency="EUR", margin_pct=Decimal("22.00"), **overrides
     )
-    quote.line_items = [
-        QuoteLineItem(
+    quote.items = [
+        QuoteItem(
             position=10,
-            item_type=LineItemType.PART,
+            kind=QuoteItemKind.PURCHASED_PART,
+            match_status=MatchStatus.MATCHED,
+            sourcing=Sourcing.CATALOG,
             material_id=CASTER_ID,
             description="Heavy-duty swivel caster Ø125 mm, 150 kg, with brake",
             quantity=Decimal("60"),
             uom="PCE",
             unit_price=Decimal("38.9"),
         ),
-        QuoteLineItem(
+        QuoteItem(
             position=20,
-            item_type=LineItemType.LABOR,
+            kind=QuoteItemKind.LABOR,
+            match_status=MatchStatus.NOT_APPLICABLE,
+            sourcing=Sourcing.INTERNAL,
             description="TIG welding, stainless frame",
             quantity=Decimal("37.5"),
             uom="HUR",
