@@ -59,10 +59,10 @@ async function proxy(request: NextRequest, ctx: { params: Promise<{ path: string
   if (method !== "GET") {
     const site = request.headers.get("sec-fetch-site");
     const origin = request.headers.get("origin");
-    if (
-      (site && site !== "same-origin") ||
-      (origin && new URL(origin).host !== request.nextUrl.host)
-    ) {
+    // Compare with the Host the browser addressed: behind Docker or a proxy,
+    // nextUrl.host is the server's bind address (e.g. 0.0.0.0:3000), not that host.
+    const host = request.headers.get("host");
+    if ((site && site !== "same-origin") || (origin && new URL(origin).host !== host)) {
       return problem(403, "cross-site request refused");
     }
   }
