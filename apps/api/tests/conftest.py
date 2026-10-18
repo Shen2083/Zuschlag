@@ -15,6 +15,7 @@ os.environ.update(
         "AUDIT_IP_HMAC_KEY": "test-only-audit-ip-hmac-key-0123456789abcdef",
         "AUTH_MODE": "dev_headers",
         "LLM_PROVIDER": "disabled",
+        "EMBEDDING_PROVIDER": "hashing",
     }
 )
 TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")

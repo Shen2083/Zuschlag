@@ -74,7 +74,8 @@ jobs:
         with:
           version: "0.8.17"
           enable-cache: true
-      - run: uv sync --frozen --all-extras
+      # The `embeddings` extra (PyTorch) is skipped in CI: tests use the hashing embedder.
+      - run: uv sync --frozen --extra llm
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy

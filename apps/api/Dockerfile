@@ -7,15 +7,24 @@ ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never
 WORKDIR /app
 COPY apps/api/pyproject.toml apps/api/uv.lock apps/api/README.md ./
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --extra llm --no-install-project
+    uv sync --frozen --no-dev --extra llm --extra embeddings --no-install-project
 COPY apps/api/src ./src
 COPY apps/api/alembic ./alembic
 COPY apps/api/alembic.ini ./
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --extra llm
+    uv sync --frozen --no-dev --extra llm --extra embeddings
+
+# Optionally bake the embedding model into the image so production never
+# downloads weights at runtime:  --build-arg PRELOAD_EMBEDDING_MODEL=intfloat/multilingual-e5-large
+ARG PRELOAD_EMBEDDING_MODEL=""
+ENV HF_HOME=/app/.cache/huggingface
+RUN if [ -n "$PRELOAD_EMBEDDING_MODEL" ]; then \
+      /app/.venv/bin/python -c "import sys; from sentence_transformers import SentenceTransformer; SentenceTransformer(sys.argv[1])" "$PRELOAD_EMBEDDING_MODEL"; \
+    fi
 
 FROM python:3.12-slim AS runtime
-ENV PATH="/app/.venv/bin:$PATH" PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 TZ=UTC
+ENV PATH="/app/.venv/bin:$PATH" PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 TZ=UTC \
+    HF_HOME=/app/.cache/huggingface
 RUN groupadd --system --gid 10001 app && useradd --system --uid 10001 --gid app --no-create-home app
 WORKDIR /app
 COPY --from=build --chown=app:app /app /app

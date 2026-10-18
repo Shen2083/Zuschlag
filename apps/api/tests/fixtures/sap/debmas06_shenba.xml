@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEBMAS06>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000004712001</DOCNUM>
+      <DOCREL>758</DOCREL>
+      <DIRECT>1</DIRECT>
+      <IDOCTYP>DEBMAS06</IDOCTYP>
+      <MESTYP>DEBMAS</MESTYP>
+      <SNDPOR>SAPS4H</SNDPOR>
+      <SNDPRT>LS</SNDPRT>
+      <SNDPRN>S4HCLNT100</SNDPRN>
+      <RCVPOR>ZUSCHLAG</RCVPOR>
+      <RCVPRT>LS</RCVPRT>
+      <RCVPRN>ZUSCHLAG</RCVPRN>
+      <CREDAT>20261018</CREDAT>
+      <CRETIM>093000</CRETIM>
+    </EDI_DC40>
+    <E1KNA1M SEGMENT="1">
+      <MSGFN>005</MSGFN>
+      <KUNNR>0000100042</KUNNR>
+      <KTOKD>0001</KTOKD>
+      <LAND1>DE</LAND1>
+      <NAME1>Shenba 01A212 GmbH</NAME1>
+      <NAME2>Werk Süd</NAME2>
+      <ORT01>München</ORT01>
+      <PSTLZ>80331</PSTLZ>
+      <REGIO>09</REGIO>
+      <STRAS>Marienplatz 1</STRAS>
+      <SPRAS>D</SPRAS>
+      <LOEVM></LOEVM>
+      <E1KNVVM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <VKORG>1000</VKORG>
+        <VTWEG>10</VTWEG>
+        <SPART>00</SPART>
+        <WAERS>EUR</WAERS>
+        <ZTERM>NT30</ZTERM>
+      </E1KNVVM>
+      <E1KNVVM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <VKORG>1000</VKORG>
+        <VTWEG>20</VTWEG>
+        <SPART>00</SPART>
+        <WAERS>EUR</WAERS>
+        <ZTERM>NT60</ZTERM>
+      </E1KNVVM>
+      <E1KNB1M SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <BUKRS>1000</BUKRS>
+        <AKONT>140000</AKONT>
+      </E1KNB1M>
+    </E1KNA1M>
+  </IDOC>
+</DEBMAS06>

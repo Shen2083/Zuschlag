@@ -104,9 +104,27 @@ class Settings(BaseSettings):
     llm_aws_region: str = "eu-central-1"
     llm_zdr_attested: bool = False
 
-    _split_origins = field_validator("cors_allowed_origins", "trusted_hosts", mode="before")(
-        _split_csv
-    )
+    # --- embeddings ------------------------------------------------------------
+    embedding_provider: Literal[
+        "sentence_transformers", "openai_compatible", "hashing", "disabled"
+    ] = "sentence_transformers"
+    # Local model name/path, or the deployment name on a private endpoint.
+    embedding_model: str = "intfloat/multilingual-e5-large"
+    embedding_device: str | None = None  # e.g. "cpu", "cuda"; None = auto
+    embedding_endpoint_url: str | None = None
+    embedding_api_key: SecretStr | None = None
+    # Set true only when the endpoint is hosted in the EU under a no-retention contract.
+    embedding_endpoint_eu_attested: bool = False
+
+    # --- SAP master-data ingestion -------------------------------------------------
+    sap_idoc_max_bytes: int = Field(default=25 * 1024 * 1024, ge=1024)
+    sap_idoc_max_files: int = Field(default=20, ge=1, le=100)
+    # Order in which E1MAKTM languages are preferred for the primary description.
+    sap_description_languages: Annotated[list[str], NoDecode] = ["DE", "EN"]
+
+    _split_origins = field_validator(
+        "cors_allowed_origins", "trusted_hosts", "sap_description_languages", mode="before"
+    )(_split_csv)
 
     @field_validator("cors_allowed_origins")
     @classmethod
@@ -141,7 +159,23 @@ class Settings(BaseSettings):
         if self.llm_aws_region not in EU_REGIONS[CloudProvider.AWS]:
             raise ValueError(f"LLM_AWS_REGION {self.llm_aws_region!r} is outside the EU")
 
+        if self.embedding_provider == "openai_compatible":
+            url = self.embedding_endpoint_url
+            if not url:
+                raise ValueError("EMBEDDING_ENDPOINT_URL is required for openai_compatible")
+            parts = urlsplit(url)
+            local = parts.hostname in {"localhost", "127.0.0.1"}
+            if parts.scheme != "https" and not (local and not self.is_production):
+                raise ValueError("EMBEDDING_ENDPOINT_URL must use https")
+            if not self.embedding_endpoint_eu_attested:
+                raise ValueError(
+                    "EMBEDDING_ENDPOINT_EU_ATTESTED must be true: catalog data may only be "
+                    "sent to an EU-hosted, no-retention embedding endpoint"
+                )
+
         if self.environment is Environment.PRODUCTION:
+            if self.embedding_provider == "hashing":
+                raise ValueError("EMBEDDING_PROVIDER=hashing is for tests only")
             if self.auth_mode == "dev_headers":
                 raise ValueError("AUTH_MODE=dev_headers is not allowed in production")
             if any(urlsplit(o).scheme != "https" for o in self.cors_allowed_origins):

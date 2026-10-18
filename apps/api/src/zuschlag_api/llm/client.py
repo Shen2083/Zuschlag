@@ -33,12 +33,12 @@ from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from zuschlag_api.audit.service import record_audit
+from zuschlag_api.core.compliance import DATA_RETENTION_HEADER as DATA_RETENTION_HEADER
+from zuschlag_api.core.compliance import MANDATORY_HEADERS
 from zuschlag_api.core.config import EU_REGIONS, CloudProvider
 
 logger = logging.getLogger("zuschlag.llm")
 
-DATA_RETENTION_HEADER = "Data-Retention"
-MANDATORY_HEADERS: Mapping[str, str] = {DATA_RETENTION_HEADER: "false"}
 
 # Models that the provider does not offer under zero data retention.
 # (Anthropic: Claude Fable 5.x requires 30-day retention unless expressly authorised.)

@@ -57,11 +57,19 @@ def test_cors_origins_parsed_from_csv(monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_production_rejects_dev_auth() -> None:
     with pytest.raises(ValidationError, match="dev_headers"):
-        make(environment="production", cors_allowed_origins=["https://app.zuschlag.ai"])
+        make(
+            environment="production",
+            embedding_provider="disabled",
+            cors_allowed_origins=["https://app.zuschlag.ai"],
+        )
 
 
 def test_production_rejects_http_origins_and_placeholders() -> None:
-    base: dict[str, Any] = {"environment": "production", "auth_mode": "oidc"}
+    base: dict[str, Any] = {
+        "environment": "production",
+        "auth_mode": "oidc",
+        "embedding_provider": "disabled",
+    }
     with pytest.raises(ValidationError, match="https"):
         make(**base, cors_allowed_origins=["http://app.zuschlag.ai"])
     with pytest.raises(ValidationError, match="placeholder"):

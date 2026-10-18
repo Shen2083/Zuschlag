@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MATMAS05>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000004711001</DOCNUM>
+      <DOCREL>758</DOCREL>
+      <STATUS>30</STATUS>
+      <DIRECT>1</DIRECT>
+      <OUTMOD>2</OUTMOD>
+      <IDOCTYP>MATMAS05</IDOCTYP>
+      <MESTYP>MATMAS</MESTYP>
+      <SNDPOR>SAPS4H</SNDPOR>
+      <SNDPRT>LS</SNDPRT>
+      <SNDPRN>S4HCLNT100</SNDPRN>
+      <RCVPOR>ZUSCHLAG</RCVPOR>
+      <RCVPRT>LS</RCVPRT>
+      <RCVPRN>ZUSCHLAG</RCVPRN>
+      <CREDAT>20261018</CREDAT>
+      <CRETIM>091500</CRETIM>
+      <SERIAL>20261018091500</SERIAL>
+    </EDI_DC40>
+    <E1MARAM SEGMENT="1">
+      <MSGFN>005</MSGFN>
+      <MATNR>shenai</MATNR>
+      <ERSDA>20261001</ERSDA>
+      <ERNAM>SCHMIDTJ</ERNAM>
+      <MTART>FERT</MTART>
+      <MBRSH>M</MBRSH>
+      <MATKL>RACK-SS</MATKL>
+      <MEINS>PCE</MEINS>
+      <BRGEW>12.500</BRGEW>
+      <NTGEW>10.250</NTGEW>
+      <GEWEI>KGM</GEWEI>
+      <LVORM></LVORM>
+      <E1MAKTM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <SPRAS>E</SPRAS>
+        <MAKTX>Shen AI Product Description</MAKTX>
+        <SPRAS_ISO>EN</SPRAS_ISO>
+      </E1MAKTM>
+      <E1MAKTM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <SPRAS>D</SPRAS>
+        <MAKTX>Shen AI Produktbeschreibung für Gehäuse</MAKTX>
+        <SPRAS_ISO>DE</SPRAS_ISO>
+      </E1MAKTM>
+      <E1MARCM SEGMENT="1">
+        <MSGFN>005</MSGFN>
+        <WERKS>1000</WERKS>
+        <DISMM>PD</DISMM>
+      </E1MARCM>
+    </E1MARAM>
+  </IDOC>
+</MATMAS05>

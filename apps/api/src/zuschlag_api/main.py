@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from zuschlag_api.api.routes import audit, health, rfqs
+from zuschlag_api.api.routes import audit, health, rfqs, sap
 from zuschlag_api.core.config import Settings, get_settings
 from zuschlag_api.core.logging import configure_logging
 from zuschlag_api.core.security import SecurityHeadersMiddleware
@@ -22,6 +22,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         yield
         await get_engine().dispose()
+
+    if settings.embedding_provider == "sentence_transformers":
+        # Fail at startup, not on the first IDoc, if the model runtime is missing.
+        from zuschlag_api.embeddings import embedder_from_settings
+
+        embedder_from_settings(settings)
 
     docs = not settings.is_production
     app = FastAPI(
@@ -55,6 +61,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(rfqs.router)
     app.include_router(audit.router)
+    app.include_router(sap.router)
     return app
 
 

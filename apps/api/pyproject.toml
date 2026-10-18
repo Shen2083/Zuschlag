@@ -7,10 +7,13 @@ requires-python = ">=3.11"
 dependencies = [
     "alembic>=1.14",
     "asyncpg>=0.30",
+    "defusedxml>=0.7.1",
     "fastapi>=0.115",
+    "httpx>=0.28",
     "pgvector>=0.3",
     "pydantic>=2.9",
     "pydantic-settings>=2.7",
+    "python-multipart>=0.0.20",
     "sqlalchemy[asyncio]>=2.0.36",
     "uvicorn[standard]>=0.32",
 ]
@@ -19,6 +22,19 @@ dependencies = [
 llm = [
     "anthropic[bedrock]>=1.15.0",
 ]
+embeddings = [
+    "sentence-transformers>=3.0",
+    "torch>=2.4",
+]
+
+# CPU-only PyTorch on Linux (the API image has no GPU); macOS wheels come from PyPI.
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu", marker = "sys_platform == 'linux'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [build-system]
 requires = ["hatchling"]
@@ -35,6 +51,7 @@ dev = [
     "pytest>=8",
     "pytest-asyncio>=0.24",
     "ruff>=0.8",
+    "types-defusedxml>=0.7.0.20260504",
     "types-jsonschema>=4.26.0.20261006",
 ]
 
@@ -65,7 +82,7 @@ files = ["src", "tests", "alembic"]
 warn_unreachable = true
 
 [[tool.mypy.overrides]]
-module = ["pgvector.*", "asyncpg.*"]
+module = ["pgvector.*", "asyncpg.*", "sentence_transformers.*"]
 ignore_missing_imports = true
 
 [tool.pydantic-mypy]
