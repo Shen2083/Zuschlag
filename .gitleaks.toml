@@ -1,0 +1,15 @@
+# gitleaks configuration: default rules plus a narrow allowlist for
+# documented, non-secret placeholders and throwaway CI credentials.
+title = "zuschlag gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Placeholders and ephemeral CI/test credentials"
+paths = ['''^\.env\.example$''']
+regexes = [
+  '''change-me[-a-z0-9]*''',
+  '''ci-only-[a-z0-9-]+''',
+  '''test-only-[a-z0-9-]+''',
+]

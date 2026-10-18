@@ -1,23 +1,24 @@
 {
-  "name": "zuschlag-ai-prototype",
+  "name": "zuschlag",
   "private": true,
-  "version": "0.1.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+  "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": ">=20.18"
   },
-  "dependencies": {
-    "lucide-react": "^0.263.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css}\"",
+    "infra:up": "docker compose up -d --wait",
+    "infra:down": "docker compose down",
+    "db:migrate": "pnpm --filter @zuschlag/api db:migrate"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.7.0",
-    "autoprefixer": "^10.6.1",
-    "postcss": "^8.5.28",
-    "tailwindcss": "^3.4.19",
-    "vite": "^5.4.21"
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.8"
   }
 }

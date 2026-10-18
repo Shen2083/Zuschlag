@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks (full history)
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
+            git /repo --config /repo/.gitleaks.toml --redact --verbose
+
+  web:
+    name: Web + shared packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm turbo run build --filter=@zuschlag/sap-schema
+      - run: pnpm turbo run lint typecheck test --filter=@zuschlag/sap-schema --filter=@zuschlag/web
+      - run: pnpm turbo run build --filter=@zuschlag/web --filter=@zuschlag/prototype
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+  api:
+    name: API (lint, types, tests on Postgres 16 + pgvector)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.7-pg16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci-only-superuser
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s
+          --health-timeout 3s --health-retries 20
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGPASSWORD: ci-only-superuser
+      ZUSCHLAG_DB_NAME: zuschlag
+      ZUSCHLAG_MIGRATOR_PASSWORD: ci-only-migrator
+      ZUSCHLAG_APP_PASSWORD: ci-only-app
+      MIGRATIONS_DATABASE_URL: postgresql+asyncpg://zuschlag_migrator:ci-only-migrator@localhost:5432/zuschlag
+      TEST_DATABASE_URL: postgresql+asyncpg://zuschlag_app:ci-only-app@localhost:5432/zuschlag
+      TEST_ADMIN_DATABASE_URL: postgresql+asyncpg://postgres:ci-only-superuser@localhost:5432/zuschlag
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.8.17"
+          enable-cache: true
+      - run: uv sync --frozen --all-extras
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - name: Provision roles + extensions (same script as docker compose)
+        run: bash ../../infra/postgres/init/01-roles.sh
+      - name: Migrations (upgrade → downgrade → upgrade, then drift check)
+        run: |
+          uv run alembic upgrade head
+          uv run alembic downgrade base
+          uv run alembic upgrade head
+          uv run alembic check
+      - run: uv run pytest

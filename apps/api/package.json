@@ -1,0 +1,14 @@
+{
+  "name": "@zuschlag/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Thin wrapper so turbo can drive the Python service; the real project file is pyproject.toml.",
+  "scripts": {
+    "dev": "uv run uvicorn zuschlag_api.main:app --reload --port 8000",
+    "lint": "uv run ruff check . && uv run ruff format --check .",
+    "typecheck": "uv run mypy",
+    "test": "uv run pytest",
+    "db:migrate": "uv run alembic upgrade head",
+    "db:revision": "uv run alembic revision --autogenerate -m"
+  }
+}

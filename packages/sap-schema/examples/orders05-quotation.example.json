@@ -1,0 +1,40 @@
+{
+  "EDI_DC40": {
+    "TABNAM": "EDI_DC40",
+    "MANDT": "100",
+    "DIRECT": "2",
+    "IDOCTYP": "ORDERS05",
+    "MESTYP": "ORDERS",
+    "SNDPOR": "ZUSCHLAG",
+    "SNDPRT": "LS",
+    "SNDPRN": "ZUSCHLAG",
+    "RCVPOR": "SAPS4H",
+    "RCVPRT": "LS",
+    "RCVPRN": "S4HCLNT100",
+    "CREDAT": "20261005",
+    "CRETIM": "091400"
+  },
+  "E1EDK01": { "CURCY": "EUR", "BELNR": "AN-2026-1187" },
+  "E1EDK14": [
+    { "QUALF": "008", "ORGID": "1000" },
+    { "QUALF": "007", "ORGID": "10" },
+    { "QUALF": "006", "ORGID": "00" },
+    { "QUALF": "012", "ORGID": "AG" }
+  ],
+  "E1EDKA1": [{ "PARVW": "AG", "PARTN": "300184", "NAME1": "Rechenzentrum Nord GmbH" }],
+  "E1EDK02": [{ "QUALF": "001", "BELNR": "REQ-2026-0412", "DATUM": "20261005" }],
+  "E1EDP01": [
+    {
+      "POSEX": "10",
+      "MENGE": "60",
+      "MENEE": "PCE",
+      "E1EDP19": [
+        { "QUALF": "002", "IDTNR": "PT-CAS-125HD", "KTEXT": "Heavy-duty swivel caster 125 mm" }
+      ],
+      "E1EDP05": [
+        { "KSCHL": "PR00", "BETRG": "38.9000" },
+        { "ALCKZ": "+", "KSCHL": "ZZUS", "KPERC": "22.000" }
+      ]
+    }
+  ]
+}

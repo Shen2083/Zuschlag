@@ -1,0 +1,73 @@
+# Install once:  uvx pre-commit install --install-hooks
+# Run all:       uvx pre-commit run --all-files
+default_install_hook_types: [pre-commit]
+default_stages: [pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: check-toml
+      - id: check-json
+        exclude: (^|/)tsconfig.*\.json$
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: trailing-whitespace
+        args: ["--markdown-linebreak-ext=md"]
+
+  # Secret scanning (staged changes; CI scans full history).
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  # Python: lint + format
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.1
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+        files: ^apps/api/
+      - id: ruff-format
+        files: ^apps/api/
+
+  - repo: local
+    hooks:
+      # Python: strict typing, run in the project's own virtualenv so stubs match.
+      - id: mypy
+        name: mypy (apps/api)
+        entry: uv run --directory apps/api mypy
+        language: system
+        pass_filenames: false
+        files: ^apps/api/.*\.py$
+      - id: web-lint
+        name: eslint (apps/web)
+        entry: pnpm --filter @zuschlag/web lint
+        language: system
+        pass_filenames: false
+        files: ^apps/web/.*\.(ts|tsx|js|mjs)$
+      - id: web-typecheck
+        name: tsc (apps/web)
+        entry: pnpm --filter @zuschlag/web typecheck
+        language: system
+        pass_filenames: false
+        files: ^(apps/web|packages/sap-schema)/.*\.(ts|tsx)$
+      - id: sap-schema-generated
+        name: sap-schema generated types up to date
+        entry: pnpm --filter @zuschlag/sap-schema lint
+        language: system
+        pass_filenames: false
+        files: ^packages/sap-schema/
+      - id: prettier
+        name: prettier
+        entry: pnpm exec prettier --write --ignore-unknown
+        language: system
+        types_or: [ts, tsx, javascript, json, css, yaml, markdown]
+        exclude: ^(apps/api|apps/prototype)/

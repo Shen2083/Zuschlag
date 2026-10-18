@@ -1,0 +1,6 @@
+pnpm-lock.yaml
+apps/api
+apps/prototype
+**/.next
+**/dist
+**/generated
