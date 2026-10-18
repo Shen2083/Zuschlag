@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEBMAS06>
+    <IDOC BEGIN="1">
+        <EDI_DC40 SEGMENT="1">
+            <TABNAM>EDI_DC40</TABNAM>
+            <MANDT>800</MANDT>
+            <DOCNUM>0000000000123456</DOCNUM>
+            <DOCREL>750</DOCREL>
+            <STATUS>30</STATUS>
+            <DIRECT>1</DIRECT>
+            <IDOCTYP>DEBMAS06</IDOCTYP>
+            <MESTYP>DEBMAS</MESTYP>
+            <SNDPOR>SAPERP</SNDPOR>
+            <SNDPRT>LS</SNDPRT>
+            <SNDPRN>CLNT800</SNDPRN>
+            <RCVPOR>RECEIVER_PORT</RCVPOR>
+            <RCVPRT>LS</RCVPRT>
+            <RCVPRN>EXT_SYSTEM</RCVPRN>
+        </EDI_DC40>
+        <E1KNA1M segment="1">
+            <MSGFN>005</MSGFN>
+            <KUNNR>0000100042</KUNNR>
+            <LAND1>DE</LAND1>
+            <NAME1>Shenba 01A212 GmbH</NAME1>
+            <NAME2>IT-Consulting</NAME2>
+            <ORT01>Musterstadt</ORT01>
+            <PSTLZ>12345</PSTLZ>
+            <REGIO>BY</REGIO>
+            <STRAS>Musterstraße 10</STRAS>
+            <TELF1>0891234567</TELF1>
+            <SPRAS>D</SPRAS>
+            <KTOKD>0001</KTOKD>
+            <SORTL>MUSTERFIRMA</SORTL>
+            <E1KNVVM segment="1">
+                <VKORG>1000</VKORG>
+                <VTWEG>10</VTWEG>
+                <SPART>00</SPART>
+                <BZIRK>DE0001</BZIRK>
+                <WAERS>EUR</WAERS>
+                <ZTERM>NT30</ZTERM>
+            </E1KNVVM>
+            <E1KNB1M segment="1">
+                <BUKRS>1000</BUKRS>
+                <AKONT>00140000</AKONT>
+                <ZTERM>NT30</ZTERM>
+            </E1KNB1M>
+        </E1KNA1M>
+    </IDOC>
+</DEBMAS06>

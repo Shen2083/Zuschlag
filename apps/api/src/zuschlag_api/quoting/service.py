@@ -1,13 +1,22 @@
-"""Recalculate a stored quote (POST /quotes/{id}/calculate)."""
+"""Recalculate a stored quote (POST /quotes/{id}/calculate) and manage revisions.
+
+GoBD: an approved quote is frozen (enforced by database triggers, migration
+0005). A later change does not overwrite it: it opens the next revision, and
+the frozen predecessor is preserved as a snapshot with its SHA-256 in the
+append-only `quote_audit_trail` (`quote.revision.created`).
+"""
 
 from __future__ import annotations
 
+import hashlib
+import json
 import uuid
 from collections import defaultdict
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from decimal import Decimal
+from typing import Any
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,6 +40,79 @@ class QuoteNotFoundError(LookupError):
 
 class QuoteLockedError(RuntimeError):
     """The quote was already synced to SAP and can no longer change."""
+
+
+def revision_label(revision: int) -> str:
+    return f"v{revision}"
+
+
+def _str(value: Decimal | None) -> str | None:
+    return None if value is None else str(value)
+
+
+def quote_snapshot(quote: Quote, items: list[QuoteItem]) -> dict[str, Any]:
+    """Everything a revision commits to: prices, quantities, materials, terms."""
+    return {
+        "quote_number": quote.quote_number,
+        "revision": revision_label(quote.revision),
+        "currency": quote.currency,
+        "customer_id": None if quote.customer_id is None else str(quote.customer_id),
+        "margin_pct": str(quote.margin_pct),
+        "material_cost": str(quote.material_cost),
+        "labor_cost": str(quote.labor_cost),
+        "total_cost": str(quote.total_cost),
+        "net_total": str(quote.net_total),
+        "vat_rate": _str(quote.vat_rate),
+        "vat_amount": str(quote.vat_amount),
+        "gross_total": str(quote.gross_total),
+        "payment_terms": quote.payment_terms,
+        "items": [
+            {
+                "id": str(i.id),
+                "parent_item_id": None if i.parent_item_id is None else str(i.parent_item_id),
+                "position": i.position,
+                "kind": i.kind.value,
+                "matnr": i.matnr,
+                "description": i.description,
+                "quantity": str(i.quantity),
+                "uom": i.uom,
+                "unit_cost": _str(i.unit_cost),
+                "unit_price": _str(i.unit_price),
+                "line_total": _str(i.line_total),
+            }
+            for i in items
+        ],
+    }
+
+
+def snapshot_sha256(snapshot: dict[str, Any]) -> str:
+    canonical = json.dumps(snapshot, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+
+async def open_revision(
+    session: AsyncSession, quote: Quote, items: list[QuoteItem], *, actor_id: str, reason: str
+) -> None:
+    """Leave the frozen, approved revision n for an editable revision n + 1."""
+    frozen = quote_snapshot(quote, items)
+    quote.revision += 1
+    quote.status = QuoteStatus.DRAFT
+    session.add(
+        QuoteAuditTrail(
+            quote_id=quote.id,
+            actor_id=actor_id[:128],
+            event="quote.revision.created",
+            details={
+                "revision": revision_label(quote.revision),
+                "supersedes": frozen["revision"],
+                "reason": reason,
+                "frozen_snapshot": frozen,
+                "frozen_snapshot_sha256": snapshot_sha256(frozen),
+            },
+        )
+    )
+    # The quote row must leave `approved` before any of its items change (trigger order).
+    await session.flush()
 
 
 @dataclass(frozen=True, slots=True)
@@ -156,6 +238,18 @@ async def recalculate_quote(
     )
     calc = calculate(line_inputs(items), zuschlag_pct=zuschlag_pct, vat_rate=vat_rate)
 
+    if quote.status is QuoteStatus.APPROVED:
+        unchanged = (
+            quote.margin_pct == calc.zuschlag_pct
+            and quote.vat_rate == calc.vat_rate.value
+            and quote.payment_terms == terms.terms.zterm
+            and quote.net_total == calc.net_amount
+            and quote.gross_total == calc.gross_amount
+        )
+        if unchanged:  # nothing to change: the approved revision stays as it is
+            return Recalculation(quote, calc, terms)
+        await open_revision(session, quote, items, actor_id=actor_id, reason="quote.calculated")
+
     before = {
         "margin_pct": str(quote.margin_pct),
         "net_total": str(quote.net_total),
@@ -172,6 +266,7 @@ async def recalculate_quote(
             actor_id=actor_id[:128],
             event="quote.calculated",
             details={
+                "revision": revision_label(quote.revision),
                 "before": before,
                 "after": {
                     "margin_pct": str(calc.zuschlag_pct),

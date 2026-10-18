@@ -219,9 +219,9 @@ class Settings(BaseSettings):
         if self.sap_outbound_transport == "http":
             if not self.sap_outbound_url:
                 raise ValueError("SAP_OUTBOUND_URL is required for SAP_OUTBOUND_TRANSPORT=http")
-            parts = urlsplit(self.sap_outbound_url)
-            local = parts.hostname in {"localhost", "127.0.0.1"}
-            if parts.scheme != "https" and not (local and not self.is_production):
+            # Plain http only for local development and tests (e.g. the mock SAP in `make demo`).
+            dev = self.environment in {Environment.DEVELOPMENT, Environment.TEST}
+            if urlsplit(self.sap_outbound_url).scheme != "https" and not dev:
                 raise ValueError("SAP_OUTBOUND_URL must use https")
 
         if self.environment is Environment.PRODUCTION:

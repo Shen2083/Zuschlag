@@ -88,6 +88,9 @@ export function IdocDialog({
           toast({
             kind: "success",
             title: t("idoc.sent", { docnum: result.docnum, reference: result.reference }),
+            detail: result.sap_status.length
+              ? result.sap_status.map((s) => `SAP ${s.status}: ${s.text ?? ""}`)
+              : undefined,
           });
           onOpenChange(false);
         },
@@ -185,9 +188,16 @@ export function IdocDialog({
                 className="flex items-center gap-3 rounded-md border border-destructive/40 bg-destructive/5 p-2.5 text-sm"
               >
                 <TriangleAlert className="size-4 shrink-0 text-destructive" aria-hidden />
-                <p className="flex-1">
-                  {stale ? `${t("idoc.stale")} ${send.error.message}` : send.error.message}
-                </p>
+                <div className="flex-1">
+                  <p>{stale ? `${t("idoc.stale")} ${send.error.message}` : send.error.message}</p>
+                  {send.error instanceof ApiError && send.error.reasons.length > 0 && (
+                    <ul className="mt-1 list-disc pl-5 text-xs">
+                      {send.error.reasons.map((r) => (
+                        <li key={r}>{r}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
                 {stale && (
                   <Button
                     size="sm"

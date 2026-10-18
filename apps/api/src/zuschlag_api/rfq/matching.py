@@ -3,7 +3,8 @@
 Three signals, cheapest and most certain first:
 
 1. **Exact SAP match**: a material number cited in the RFQ (or a token in the
-   text) that equals a MATNR. Confidence ~1.0.
+   text) that equals a MATNR (confidence ~1.0), or a requested description that
+   is word for word a material's SAP short text (MAKTX, any language).
 2. **Dense similarity**: pgvector cosine similarity between the query
    embedding and the material embedding (HNSW index).
 3. **Lexical similarity**: pg_trgm `word_similarity` between the search phrase
@@ -67,6 +68,7 @@ class MatchConfig:
     ambiguity_factor: float = 0.9
     exact_cited_confidence: float = 1.0
     exact_token_confidence: float = 0.95
+    exact_text_confidence: float = 0.97
 
 
 @dataclass(frozen=True, slots=True)
@@ -127,6 +129,20 @@ _COLUMNS = """
 _EXACT_SQL = text(
     f"SELECT {_COLUMNS} FROM materials m "  # noqa: S608
     "WHERE m.tenant_id = :tenant AND m.is_active AND upper(m.matnr) = ANY(:tokens)"
+)
+
+# Requested description == SAP short text (MAKTX in any language), case and spacing ignored.
+_NORMALIZED = "regexp_replace(lower(btrim({})), '\\s+', ' ', 'g')"
+_EXACT_TEXT_SQL = text(
+    f"""
+    SELECT {_COLUMNS} FROM materials m
+     WHERE m.tenant_id = :tenant AND m.is_active
+       AND ({_NORMALIZED.format("m.description")} = :t
+            OR EXISTS (SELECT 1 FROM jsonb_each_text(m.descriptions) d
+                        WHERE {_NORMALIZED.format("d.value")} = :t))
+     ORDER BY m.matnr
+     LIMIT 3
+    """  # noqa: S608
 )
 
 _LEXICAL_ONLY_SQL = text(
@@ -207,6 +223,8 @@ class HybridMatcher:
     ) -> MatchResult:
         await self._tune_session()
         exact = await self._exact(description, search_text, kind, unit, material_number)
+        if exact is None:
+            exact = await self._exact_text(description, kind, unit)
         if exact is not None:
             return exact
 
@@ -337,3 +355,20 @@ class HybridMatcher:
             flags = [*flags, "multiple_exact_numbers"]
         others = [self._candidate(r, None, 1.0, base * factor) for r in rows[1:3]]
         return self._result(best.score, "exact", best, [best, *others], flags)
+
+    async def _exact_text(self, description: str, kind: str, unit: str) -> MatchResult | None:
+        """The customer used the SAP short text verbatim (e.g. copied from our catalog)."""
+        normalized = " ".join(description.lower().split())
+        if len(normalized) < 8:  # "Schraube" alone is not an identification
+            return None
+        rows = list(
+            await self._session.execute(_EXACT_TEXT_SQL, {"tenant": self._tenant, "t": normalized})
+        )
+        if not rows:
+            return None
+        factor, flags = self._fit(kind, unit, rows[0].material_type, rows[0].base_uom)
+        score = self.config.exact_text_confidence * factor
+        top = [self._candidate(r, None, 1.0, score) for r in rows]
+        if len(rows) > 1:
+            flags = [*flags, "ambiguous"]  # two materials share the text: a person decides
+        return self._result(score, "exact_text", top[0], top, flags)

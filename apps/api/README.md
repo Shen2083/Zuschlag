@@ -229,3 +229,51 @@ status.
 
 `scripts/seed_demo.py` creates a demo tenant with catalog, customers and three quotes. It reuses the
 test fixtures, so it needs no model or API key.
+
+## Mock SAP, end-to-end test and compliance checks
+
+**`tests/mock_sap`** is a small, independent SAP stand-in. Its master data comes from the
+customer's sample IDocs in `tests/fixtures/sap/provided/` (kept byte for byte, excluded from
+formatters).
+
+| Command | Purpose |
+| --- | --- |
+| `python -m tests.mock_sap push --tenant <uuid>` | SAP → Zuschlag: POST MATMAS05 / DEBMAS06 to the inbound endpoints |
+| `python -m tests.mock_sap serve` | Zuschlag → SAP: ORDERS05 at `/sap/bc/idoc_xml` (see below) |
+
+When it receives an ORDERS05, the mock:
+
+1. Checks the control record: type, partner, client.
+2. Checks the business content against its own master data: sold-to party, materials, quantities,
+   currency, terms.
+3. Answers with an ALEAUD01 audit message: status `06` (received) followed by `53` with the SAP
+   quotation number, or `51` with the reasons.
+
+A re-delivered DOCNUM gets the original answer.
+
+**Zuschlag's side** (`sap/aleaud.py`, `sap/transport.py`):
+
+- The HTTP transport reads the acknowledgement (defusedxml).
+- Status `51` fails the sync with 502, lists the reasons, and leaves the quote unsynced.
+- The statuses are stored in the `sap.idoc.sent` trail entry.
+
+**Matching a verbatim SAP short text.** An RFQ line that repeats a material's MAKTX word for word, in
+any language, is an exact match:
+
+- Method `exact_text`, confidence 0.97; no embeddings are needed.
+- Two materials with the same text are flagged ambiguous and go to review.
+
+**GoBD revisions** (migration 0005):
+
+- Triggers freeze approved and synced quotes and their items. Only the workflow columns may change,
+  and reopening is allowed only as revision + 1.
+- `PATCH` an item or `POST /calculate` with different figures on an approved quote opens the next
+  revision.
+- The trail entry `quote.revision.created` carries the frozen snapshot and its hash.
+
+**Logs** (`core/logging.py`):
+
+- Personal data is masked in every JSON log line: the message, `extra` fields and tracebacks, and
+  uvicorn's access log, which is routed through the same formatter.
+- The engine runs with `hide_parameters=True`, and the masker also removes the row values PostgreSQL
+  and asyncpg echo in error messages.

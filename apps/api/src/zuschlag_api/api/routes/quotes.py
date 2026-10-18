@@ -112,6 +112,7 @@ class QuoteOut(BaseModel):
     id: uuid.UUID
     quote_number: str
     status: QuoteStatus
+    revision: int = Field(description="1 = v1; approval freezes a revision, changes open the next")
     needs_review: bool
     review_reasons: list[str]
     rfq_id: uuid.UUID | None

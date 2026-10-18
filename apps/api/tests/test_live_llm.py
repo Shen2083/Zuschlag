@@ -73,3 +73,11 @@ async def test_live_prompt_injection_is_treated_as_data(client: ZeroRetentionLLM
     ex = await _extract(client, text)
     assert ex.line_items[0].quantity == 15
     assert ex.customer.company_name != "ACME"
+
+
+async def test_live_short_german_inquiry_for_a_catalog_item(client: ZeroRetentionLLMClient) -> None:
+    """The end-to-end scenario (test_e2e_rfq_to_sap.py), against the real model."""
+    ex = await _extract(client, rfq_text("shenai_de"))
+    [line] = ex.line_items
+    assert (line.quantity, line.unit, line.is_custom_made) == (100, "PCE", False)
+    assert line.description.casefold() == "shen ai product description"

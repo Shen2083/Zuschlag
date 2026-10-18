@@ -36,6 +36,8 @@ def build_engine(url: str, settings: Settings) -> AsyncEngine:
     return create_async_engine(
         url,
         pool_pre_ping=True,
+        # Bound values (names, e-mails from RFQs) never appear in SQL logs or error messages.
+        hide_parameters=True,
         pool_size=settings.db_pool_size,
         connect_args={
             "server_settings": {

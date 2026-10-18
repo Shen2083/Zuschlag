@@ -2922,6 +2922,11 @@
           "status": {
             "$ref": "#/components/schemas/QuoteStatus"
           },
+          "revision": {
+            "type": "integer",
+            "title": "Revision",
+            "description": "1 = v1; approval freezes a revision, changes open the next"
+          },
           "needs_review": {
             "type": "boolean",
             "title": "Needs Review"
@@ -3222,6 +3227,7 @@
           "id",
           "quote_number",
           "status",
+          "revision",
           "needs_review",
           "review_reasons",
           "rfq_id",
@@ -3583,6 +3589,11 @@
           "status": {
             "$ref": "#/components/schemas/QuoteStatus"
           },
+          "revision": {
+            "type": "integer",
+            "title": "Revision",
+            "description": "1 = v1; approval freezes a revision, changes open the next"
+          },
           "needs_review": {
             "type": "boolean",
             "title": "Needs Review"
@@ -3749,6 +3760,7 @@
           "id",
           "quote_number",
           "status",
+          "revision",
           "needs_review",
           "review_reasons",
           "rfq_id",
@@ -4237,6 +4249,50 @@
         ],
         "title": "SalesAreaOut"
       },
+      "SapAckStatus": {
+        "properties": {
+          "docnum": {
+            "type": "string",
+            "title": "Docnum"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "06 received and valid · 53 posted · 51 error"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "object_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Object Key",
+            "description": "SAP document created (status 53)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "docnum",
+          "status",
+          "text",
+          "object_key"
+        ],
+        "title": "SapAckStatus"
+      },
       "SapOutboundProfile": {
         "properties": {
           "mandt": {
@@ -4490,6 +4546,14 @@
             "format": "date-time",
             "title": "Sent At"
           },
+          "sap_status": {
+            "items": {
+              "$ref": "#/components/schemas/SapAckStatus"
+            },
+            "type": "array",
+            "title": "Sap Status",
+            "description": "SAP's ALEAUD acknowledgement, if any"
+          },
           "quote": {
             "$ref": "#/components/schemas/QuoteDetail"
           }
@@ -4501,6 +4565,7 @@
           "transport",
           "reference",
           "sent_at",
+          "sap_status",
           "quote"
         ],
         "title": "SendResult"

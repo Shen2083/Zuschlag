@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 from decimal import Decimal
+from pathlib import Path
 
 import pytest
 
@@ -215,3 +216,33 @@ def test_content_hash_ignores_envelope_but_not_data_or_deletion() -> None:
     assert base.content_sha256 == resent.content_sha256
     assert base.content_sha256 != changed.content_sha256
     assert base.content_sha256 != deleted.content_sha256
+
+
+# --------------------------------------------------------------------------- #
+# The customer's own sample IDocs (tests/fixtures/sap/provided, unmodified)
+# --------------------------------------------------------------------------- #
+
+PROVIDED = Path(__file__).parent / "fixtures" / "sap" / "provided"
+
+
+def test_provided_product_idoc() -> None:
+    [m] = parse_matmas05((PROVIDED / "Product xml.txt").read_bytes())
+    assert (m.matnr, m.mtart, m.meins, m.gewei) == ("shenai", "FERT", "PCE", "KG")
+    assert m.descriptions_by_language == {"EN": "Shen AI Product Description"}
+    assert m.valuations == ()  # no E1MBEWM: the material carries no price
+    # 11 characters, longer than SAP's CHAR 10, but only names the receiver (us).
+    assert m.control.rcvprn == "RCVRECEIVER"
+
+
+def test_provided_customer_idoc() -> None:
+    [c] = parse_debmas06((PROVIDED / "Customerxml.txt").read_bytes())
+    assert (c.kunnr, c.name1, c.ort01, c.pstlz, c.land1) == (
+        "0000100042",
+        "Shenba 01A212 GmbH",
+        "Musterstadt",
+        "12345",
+        "DE",
+    )
+    [area] = c.sales_areas
+    assert (area.vkorg, area.waers, area.zterm) == ("1000", "EUR", "NT30")
+    assert not hasattr(c, "telf1")  # the phone number (personal data) is not kept

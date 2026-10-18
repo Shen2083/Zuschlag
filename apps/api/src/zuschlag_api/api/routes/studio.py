@@ -58,6 +58,7 @@ from zuschlag_api.quoting.studio import (
 )
 from zuschlag_api.rfq.pipeline import QuotePipeline
 from zuschlag_api.sap.transport import (
+    SapRejectedError,
     SapTransport,
     TransportError,
     TransportKind,
@@ -454,12 +455,20 @@ class SendRequest(BaseModel):
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
+class SapAckStatus(BaseModel):
+    docnum: str
+    status: str = Field(description="06 received and valid · 53 posted · 51 error")
+    text: str | None
+    object_key: str | None = Field(description="SAP document created (status 53)")
+
+
 class SendResult(BaseModel):
     docnum: str
     sha256: str
     transport: TransportKind
     reference: str
     sent_at: datetime
+    sap_status: list[SapAckStatus] = Field(description="SAP's ALEAUD acknowledgement, if any")
     quote: QuoteDetail
 
 
@@ -532,6 +541,11 @@ async def send_idoc(
         raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
     except ExportBlockedError as exc:
         raise _blocked(exc) from exc
+    except SapRejectedError as exc:
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY,
+            {"message": str(exc), "reasons": exc.reasons},
+        ) from exc
     except TransportError as exc:
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, str(exc)) from exc
     return SendResult(
@@ -540,5 +554,9 @@ async def send_idoc(
         transport=delivery.transport,
         reference=delivery.reference,
         sent_at=delivery.sent_at,
+        sap_status=[
+            SapAckStatus(docnum=s.docnum, status=s.status, text=s.text, object_key=s.object_key)
+            for s in delivery.sap_statuses
+        ],
         quote=await build_detail(db, quote_id, transport),
     )

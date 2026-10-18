@@ -109,7 +109,9 @@ class IdocControl(SapModel):
     cimtyp: str | None = None
     mestyp: Code
     sndprn: Annotated[str, StringConstraints(min_length=1, max_length=10)]
-    rcvprn: Annotated[str, StringConstraints(min_length=1, max_length=10)]
+    # SAP's field is CHAR 10, but middleware (PI/CPI) often stamps longer logical names
+    # for the receiver, i.e. us. It is informational only, so it is not held to SAP's length.
+    rcvprn: Annotated[str, StringConstraints(min_length=1, max_length=30)]
     sndprt: str | None = None
     rcvprt: str | None = None
     credat: Annotated[date | None, BeforeValidator(_sap_date)] = None

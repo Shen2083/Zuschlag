@@ -120,10 +120,13 @@ export function applyItemPatch(quote: QuoteDetail, itemId: string, patch: ItemUp
     }
     return top;
   });
+  // An approved revision is frozen: the edit opens the next one (server: quoting/service.py open_revision).
+  const reopen = quote.status === "approved";
   const next = {
     ...quote,
     items,
-    status: quote.status === "approved" ? ("draft" as const) : quote.status,
+    status: reopen ? ("draft" as const) : quote.status,
+    revision: reopen ? quote.revision + 1 : quote.revision,
   };
   return withTotals(next, totalsFor(next));
 }

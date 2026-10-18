@@ -2,8 +2,8 @@
 # Run all:       uvx pre-commit run --all-files
 default_install_hook_types: [pre-commit]
 default_stages: [pre-commit]
-# Byte-exact interface contracts (CRLF, no final newline) must not be "fixed".
-exclude: ^apps/api/tests/fixtures/sap/quote_as_output\.txt$
+# Byte-exact interface contracts and customer-provided samples must not be "fixed".
+exclude: ^apps/api/tests/fixtures/sap/(quote_as_output\.txt|provided/.*)$
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

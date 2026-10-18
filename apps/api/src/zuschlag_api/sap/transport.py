@@ -9,6 +9,9 @@ Two standard ALE inbound paths are supported:
 * ``http``: the XML is POSTed to an SAP "XML HTTP" port (SICF service
   ``/sap/bc/idoc_xml``) or to middleware such as SAP Integration Suite.
 
+  If SAP answers with an ALEAUD01 acknowledgement, its status records are
+  returned; status 51 (not posted) fails the delivery.
+
 A probe reports whether the target is reachable and how long it took, for the
 connection indicator in the UI.
 """
@@ -27,10 +30,28 @@ import httpx
 from httpx._client import USE_CLIENT_DEFAULT, UseClientDefault
 
 from zuschlag_api.core.config import Settings, get_settings
+from zuschlag_api.sap.aleaud import ERROR, AckStatus, parse_aleaud
+from zuschlag_api.sap.idoc_xml import IdocParseError
 
 
 class TransportError(RuntimeError):
     """The IDoc could not be handed over to SAP."""
+
+
+class SapRejectedError(TransportError):
+    """SAP received the IDoc but did not post it (status 51)."""
+
+    def __init__(self, statuses: list[AckStatus]) -> None:
+        self.statuses = statuses
+        self.reasons = [s.text or s.status for s in statuses if s.status == ERROR]
+        super().__init__(f"SAP rejected the IDoc (status 51): {'; '.join(self.reasons)}")
+
+
+@dataclass(frozen=True, slots=True)
+class Receipt:
+    reference: str
+    # SAP's synchronous acknowledgement, if the port returns one (empty for file ports).
+    statuses: tuple[AckStatus, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -50,7 +71,7 @@ class SapTransport(Protocol):
     @property
     def target(self) -> str: ...
 
-    async def send(self, filename: str, xml: bytes) -> str:
+    async def send(self, filename: str, xml: bytes) -> Receipt:
         """Hand the IDoc over; returns a delivery reference for the audit trail."""
         ...
 
@@ -64,8 +85,8 @@ class FilePortTransport:
         self.directory = directory
         self.target = str(directory)
 
-    async def send(self, filename: str, xml: bytes) -> str:
-        return await asyncio.to_thread(self._write, filename, xml)
+    async def send(self, filename: str, xml: bytes) -> Receipt:
+        return Receipt(await asyncio.to_thread(self._write, filename, xml))
 
     def _write(self, filename: str, xml: bytes) -> str:
         final = self.directory / filename
@@ -116,7 +137,7 @@ class HttpPortTransport:
     def _http(self) -> httpx.AsyncClient:
         return self._client or httpx.AsyncClient(timeout=self._timeout)
 
-    async def send(self, filename: str, xml: bytes) -> str:
+    async def send(self, filename: str, xml: bytes) -> Receipt:
         client = self._http()
         try:
             res = await client.post(
@@ -130,9 +151,17 @@ class HttpPortTransport:
         finally:
             if self._client is None:
                 await client.aclose()
+        statuses: list[AckStatus] = []
+        if "xml" in res.headers.get("content-type", "") and res.content.strip():
+            try:
+                statuses = parse_aleaud(res.content)
+            except IdocParseError as exc:
+                raise TransportError(f"unreadable SAP acknowledgement: {exc}") from exc
+        if any(s.status == ERROR for s in statuses):
+            raise SapRejectedError(statuses)
         if not res.is_success:
             raise TransportError(f"SAP endpoint answered HTTP {res.status_code}")
-        return f"http:{res.status_code}:{filename}"
+        return Receipt(f"http:{res.status_code}:{filename}", tuple(statuses))
 
     async def probe(self) -> Probe:
         client = self._http()

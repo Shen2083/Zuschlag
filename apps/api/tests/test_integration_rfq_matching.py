@@ -177,3 +177,57 @@ async def test_other_tenants_catalog_is_invisible(
         )
     assert r.best is None
     assert r.flags == ["no_candidates"]
+
+
+async def test_verbatim_sap_short_text_is_an_exact_match(
+    catalog_session: tuple[AsyncSession, ConceptEmbedder],
+) -> None:
+    s, emb = catalog_session
+    r = await HybridMatcher(s, emb, CONFIG).match(
+        description="  scharnier   EDELSTAHL, 180° öffnung ",  # case and spacing ignored
+        search_text="hinge stainless",
+        kind="purchased_part",
+        unit="PCE",
+    )
+    assert (r.method, r.status, r.confidence) == ("exact_text", MatchStatus.MATCHED, 0.97)
+    assert r.best is not None
+    assert r.best.matnr == "PT-HNG-SS180"
+    assert emb.queries == []
+
+
+async def test_short_text_shared_by_two_materials_needs_review(
+    catalog_session: tuple[AsyncSession, ConceptEmbedder],
+) -> None:
+    s, emb = catalog_session
+    s.add(
+        Material(
+            matnr="PT-HNG-SS180B",
+            material_type="HAWA",
+            base_uom="PCE",
+            description="Scharnier Edelstahl, 180° Öffnung",
+            descriptions={},
+        )
+    )
+    await s.flush()
+    r = await HybridMatcher(s, emb, CONFIG).match(
+        description="Scharnier Edelstahl, 180° Öffnung",
+        search_text="Scharnier",
+        kind="purchased_part",
+        unit="PCE",
+    )
+    assert r.method == "exact_text"
+    assert "ambiguous" in r.flags
+    assert r.status is MatchStatus.NEEDS_HUMAN_REVIEW
+
+
+async def test_partial_text_is_not_an_exact_text_match(
+    catalog_session: tuple[AsyncSession, ConceptEmbedder],
+) -> None:
+    s, emb = catalog_session
+    r = await HybridMatcher(s, emb, CONFIG).match(
+        description="Scharnier Edelstahl",  # only a prefix of the MAKTX
+        search_text="Scharnier Edelstahl hinge stainless",
+        kind="purchased_part",
+        unit="PCE",
+    )
+    assert r.method == "hybrid"

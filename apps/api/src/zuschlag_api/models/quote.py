@@ -76,6 +76,7 @@ class Quote(UuidPk, TenantScoped, Timestamps, Base):
             ondelete="RESTRICT",
         ),
         CheckConstraint("margin_pct >= 0 AND margin_pct < 1000", name="margin_pct_range"),
+        CheckConstraint("revision >= 1", name="revision_positive"),
     )
 
     rfq_id: Mapped[uuid.UUID | None] = mapped_column(Uuid)
@@ -84,6 +85,8 @@ class Quote(UuidPk, TenantScoped, Timestamps, Base):
     status: Mapped[QuoteStatus] = mapped_column(
         _enum(QuoteStatus, "quote_status"), nullable=False, default=QuoteStatus.DRAFT
     )
+    # Approval freezes a revision (DB triggers, migration 0005); changes open the next one.
+    revision: Mapped[int] = mapped_column(Integer, nullable=False, default=1, server_default="1")
     currency: Mapped[str] = mapped_column(String(3), nullable=False, default="EUR")
     margin_pct: Mapped[Decimal] = mapped_column(Numeric(5, 2), nullable=False, default=0)
     sap_document_number: Mapped[str | None] = mapped_column(String(10))  # VBELN

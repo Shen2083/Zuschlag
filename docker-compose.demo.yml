@@ -1,0 +1,83 @@
+# `make demo`: the app stack plus a mock SAP ERP, with demo-only settings.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.demo.yml --profile app up -d --wait
+#
+# Not for production: hashing embeddings, plain-http SAP port, dev_headers auth.
+
+x-demo-image: &demo-image
+  image: zuschlag-api:demo
+  build:
+    context: .
+    dockerfile: apps/api/Dockerfile
+    target: demo
+
+services:
+  migrate:
+    <<: *demo-image
+    profiles: ["app"]
+    env_file: .env
+    environment:
+      MIGRATIONS_DATABASE_URL: postgresql+asyncpg://zuschlag_migrator:${ZUSCHLAG_MIGRATOR_PASSWORD}@postgres:5432/${ZUSCHLAG_DB_NAME:-zuschlag}
+      EMBEDDING_PROVIDER: hashing
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  mock-sap:
+    <<: *demo-image
+    profiles: ["app"]
+    command: ["python", "-m", "tests.mock_sap", "serve", "--host", "0.0.0.0", "--port", "8090"]
+    ports:
+      - "127.0.0.1:8090:8090"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/sap/master-data', timeout=2)"
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    <<: *demo-image
+    environment:
+      ENVIRONMENT: development
+      EMBEDDING_PROVIDER: hashing # no model download for the demo
+      TRUSTED_HOSTS: localhost,127.0.0.1,api
+      SAP_OUTBOUND_TRANSPORT: http
+      SAP_OUTBOUND_URL: http://mock-sap:8090/sap/bc/idoc_xml?sap-client=800
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      mock-sap:
+        condition: service_healthy
+
+  web:
+    environment:
+      ZUSCHLAG_AUTH_MODE: dev_headers
+      ZUSCHLAG_ENVIRONMENT: development
+      DEV_TENANT_ID: ${DEV_TENANT_ID:-5e1d0c3a-7b1f-4c2e-9a55-0d3f6c8b2a10}
+      DEV_ACTOR_ID: demo.estimator
+    depends_on:
+      api:
+        condition: service_healthy
+
+  demo:
+    <<: *demo-image
+    profiles: ["demo"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://zuschlag_app:${ZUSCHLAG_APP_PASSWORD}@postgres:5432/${ZUSCHLAG_DB_NAME:-zuschlag}
+      ENVIRONMENT: development
+      EMBEDDING_PROVIDER: hashing
+      DEV_TENANT_ID: ${DEV_TENANT_ID:-5e1d0c3a-7b1f-4c2e-9a55-0d3f6c8b2a10}
+      ZUSCHLAG_API_URL: http://api:8000
+      ZUSCHLAG_WEB_URL: http://localhost:3000
+    command: ["python", "scripts/demo.py"]
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: "no"

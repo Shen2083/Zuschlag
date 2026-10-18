@@ -1,2 +1,3 @@
 # Interface contracts are compared byte for byte: never normalise line endings.
 apps/api/tests/fixtures/sap/quote_as_output.txt -text
+apps/api/tests/fixtures/sap/provided/** -text

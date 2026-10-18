@@ -1,0 +1,29 @@
+{
+  "language": "de",
+  "summary": "Angebot für 100 Stück Shen AI Product Description",
+  "customer": {
+    "company_name": null,
+    "contact_name": null,
+    "contact_email": null,
+    "contact_phone": null,
+    "customer_reference": null,
+    "target_delivery_date": null,
+    "delivery_date_text": null
+  },
+  "line_items": [
+    {
+      "position": 1,
+      "description": "Shen AI Product Description",
+      "search_text": "Shen AI Product Description Shen AI Produkt",
+      "quantity": 100,
+      "unit": "PCE",
+      "kind": "finished_good",
+      "is_custom_made": false,
+      "material_number": null,
+      "specs": [],
+      "components": [],
+      "labor": []
+    }
+  ],
+  "open_questions": []
+}

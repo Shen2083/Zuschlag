@@ -1,8 +1,9 @@
 """Human-in-the-loop changes from the Quote Studio: inline BOM edits and approval.
 
 Every change is repriced with the same engine as POST /calculate, written to
-the append-only `quote_audit_trail` with before/after values, and an approved
-quote that is edited falls back to `draft` so it has to be approved again.
+the append-only `quote_audit_trail` with before/after values. An approved
+quote is frozen: editing it opens the next revision (v1 -> v2), which has to be
+approved again.
 """
 
 from __future__ import annotations
@@ -36,6 +37,10 @@ from zuschlag_api.quoting.service import (
     apply_calculation,
     line_inputs,
     load_quote,
+    open_revision,
+    quote_snapshot,
+    revision_label,
+    snapshot_sha256,
 )
 from zuschlag_api.rfq.pricing import material_unit_cost, money, unit_amount
 
@@ -235,6 +240,9 @@ async def edit_item(
     kids = [i for i in items if i.parent_item_id == item.id]
     parent = next((i for i in items if i.id == item.parent_item_id), None)
     before = _snapshot(item)
+    reopened = quote.status is QuoteStatus.APPROVED
+    if reopened:
+        await open_revision(session, quote, items, actor_id=actor_id, reason="item.edited")
 
     if "matnr" in patch.fields:
         await _assign_material(session, item, patch.matnr or None, has_children=bool(kids))
@@ -277,9 +285,6 @@ async def edit_item(
         (i.labor_hours or Decimal(0) for i in items if i.kind is QuoteItemKind.LABOR), Decimal(0)
     ).quantize(Decimal("0.01"))
 
-    reverted = quote.status is QuoteStatus.APPROVED
-    if reverted:
-        quote.status = QuoteStatus.DRAFT
     after = _snapshot(item)
     session.add(
         QuoteAuditTrail(
@@ -288,12 +293,13 @@ async def edit_item(
             event="item.edited",
             details={
                 "item_id": str(item.id),
+                "revision": revision_label(quote.revision),
                 "position": _label(item, items),
                 "changed": sorted(k for k in after if after[k] != before[k]),
                 "before": before,
                 "after": after,
                 "net_total": str(quote.net_total),
-                "approval_revoked": reverted,
+                "approval_revoked": reopened,
             },
         )
     )
@@ -339,12 +345,17 @@ async def approve_quote(
         raise ApprovalBlockedError(reasons)
     previous = quote.status
     quote.status = QuoteStatus.APPROVED
+    frozen = quote_snapshot(quote, items)
     session.add(
         QuoteAuditTrail(
             quote_id=quote.id,
             actor_id=actor_id[:128],
             event="quote.approved",
             details={
+                "revision": revision_label(quote.revision),
+                # What this approval froze; a later revision must reproduce this hash.
+                "snapshot": frozen,
+                "snapshot_sha256": snapshot_sha256(frozen),
                 "previous_status": previous.value,
                 # The AI review notes the approver has seen and accepted.
                 "acknowledged_review_reasons": quote.review_reasons,

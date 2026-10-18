@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MATMAS05>
+  <IDOC BEGIN="1">
+    <EDI_DC40 SEGMENT="1">
+      <TABNAM>EDI_DC40</TABNAM>
+      <MANDT>100</MANDT>
+      <DOCNUM>0000000000012345</DOCNUM>
+      <DOCREL>702</DOCREL>
+      <STATUS>30</STATUS>
+      <DIRECT>1</DIRECT>
+      <OUTMOD>2</OUTMOD>
+      <IDOCTYP>MATMAS05</IDOCTYP>
+      <MESTYP>MATMAS</MESTYP>
+      <SNDPOR>SAPSID</SNDPOR>
+      <SNDPRT>LS</SNDPRT>
+      <SNDPRN>ERPSENDER</SNDPRN>
+      <RCVPOR>PIPORT</RCVPOR>
+      <RCVPRT>LS</RCVPRT>
+      <RCVPRN>RCVRECEIVER</RCVPRN>
+    </EDI_DC40>
+    <E1MARAM SEGMENT="1">
+      <MATNR>shenai</MATNR>
+      <MTART>FERT</MTART>
+      <MBRSH>M</MBRSH>
+      <MATKL>001</MATKL>
+      <MEINS>PCE</MEINS>
+      <BRGEW>1.500</BRGEW>
+      <NTGEW>1.000</NTGEW>
+      <GEWEI>KG</GEWEI>
+      <E1MAKTM SEGMENT="1">
+        <SPRAS>E</SPRAS>
+        <SPRAS_ISO>EN</SPRAS_ISO>
+        <MAKTX>Shen AI Product Description</MAKTX>
+      </E1MAKTM>
+    </E1MARAM>
+  </IDOC>
+</MATMAS05>

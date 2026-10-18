@@ -18,6 +18,37 @@ infra/
 
 pnpm workspaces and Turborepo run the JavaScript packages. `apps/api` is a uv project with a thin `package.json`, so `pnpm dev`, `pnpm test` and the rest of the turbo tasks cover it too.
 
+## Demo in one command
+
+```bash
+make demo
+```
+
+Requires Docker. The command does the following:
+
+1. **Environment.** If there is no `.env`, it creates one with random secrets. An existing `.env` is
+   used as is.
+2. **Stack.** It boots the stack (Postgres, Redis, API, web) plus a **mock SAP ERP**, and runs the
+   migrations.
+3. **Master data.** The mock SAP pushes the customer's sample IDocs
+   (`apps/api/tests/fixtures/sap/provided/`) into Zuschlag.
+4. **Pipeline.** It runs the RFQ pipeline on _"Bitte senden Sie uns ein Angebot für 100 Stück Shen AI
+   Product Description"_.
+5. **URL.** It prints the Quote Studio URL.
+
+**The LLM step.** Without a configured LLM it replays the recorded extraction; with
+`LLM_PROVIDER=bedrock` and ZDR attested it calls the model.
+
+**In the Quote Studio:**
+
+1. Enter the base cost. The sample material has no MBEW price.
+2. Set the Zuschlag.
+3. Approve with `⇧A`.
+4. Sync with `⇧S`. The mock SAP answers with ALEAUD status 06 and 53, and lists what it received at
+   <http://localhost:8090/sap/idocs>.
+
+`make demo-logs` follows the logs and `make demo-down` stops the stack.
+
 ## Quick start
 
 Prerequisites: Node ≥ 20.18 (22 recommended), pnpm 10, Python ≥ 3.11 with [uv](https://docs.astral.sh/uv/), and Docker.
@@ -142,8 +173,47 @@ breaks `pnpm typecheck`.
 The header's connection indicator probes this transport and shows its latency next to the API round
 trip, the system (sender partner / client) and the last IDoc in each direction.
 
+## End-to-end tests, mock SAP and compliance checks
+
+| Check                   | What it proves                                                                                                             | Where                                    |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **End to end**          | SAP master data → RFQ → `shenai` matched > 90 % → 20 % Zuschlag → ORDERS05 compared with `quote_as_output.txt` → SAP 06/53 | `apps/api/tests/test_e2e_rfq_to_sap.py`  |
+| **Mock SAP**            | Pushes MATMAS05/DEBMAS06; receives ORDERS05, validates it against its own master data, answers ALEAUD01 06 → 53 or 51      | `apps/api/tests/mock_sap/`               |
+| **GoBD: frozen quotes** | Approval freezes a revision in the database (triggers); a price change opens v2, v3 … with the frozen snapshot and hash    | `apps/api/tests/test_compliance_gobd.py` |
+| **PII in logs**         | E-mails, phones, IPs, IBANs, search terms and DB error echoes are masked; a full pipeline run leaves no personal data      | `apps/api/tests/test_logging_pii.py`     |
+
+**End-to-end test.**
+
+- **What's real:** everything except the language model. The ingest runs over HTTP, and matching,
+  costing, approval, rendering, XSD validation and delivery to the mock SAP all run against
+  PostgreSQL.
+- **The language model:** its structured output is replayed from a recording.
+  `RUN_LIVE_LLM=1` runs the same RFQ against the real model.
+- **Contract comparison:**
+  - Field by field, for every segment.
+  - Byte layout identical to the contract once values are removed: CRLF, indentation, attributes,
+    element order, and no final newline.
+  - Only the per-document values may differ: DOCNUM, BELNR, the sold-to identity and KTEXT. They come
+    from the provided customer and product files and are asserted against those sources.
+
+**GoBD revisions.**
+
+- An approved quote cannot be changed in place, not even with SQL as the application's database
+  role. Editing it or changing its Zuschlag opens the next revision.
+- `quote_audit_trail` records `quote.revision.created` (`v1 → v2`) with the frozen predecessor's
+  full snapshot. Its SHA-256 equals the hash recorded at approval.
+- A synced quote is final.
+
 ### Known gaps (deliberately not built yet)
 
+- **Customer sample data:**
+  - `Product xml.txt` has no MBEW valuation, so the estimator enters the base cost.
+  - Its `RCVPRN` "RCVRECEIVER" exceeds SAP's 10 characters. It is accepted because it only names the
+    receiver (us).
+  - The quotation's sold-to party is the provided customer `0000100042`, not the contract sample's
+    `0000100000`.
+- **SAP acknowledgements** are read synchronously from the XML-HTTP response (ALEAUD01).
+  Asynchronous ALEAUD IDocs sent later by SAP are not received yet.
 - **RFQ attachments:** the studio lists a stored attachment, but no API endpoint serves files from
   object storage yet, so PDFs cannot be previewed.
 - **Export PDF** uses the browser's print-to-PDF; there is no server-side PDF rendering or archiving.

@@ -853,6 +853,11 @@ export type components = {
             /** Quote Number */
             quote_number: string;
             status: components["schemas"]["QuoteStatus"];
+            /**
+             * Revision
+             * @description 1 = v1; approval freezes a revision, changes open the next
+             */
+            revision: number;
             /** Needs Review */
             needs_review: boolean;
             /** Review Reasons */
@@ -1026,6 +1031,11 @@ export type components = {
             /** Quote Number */
             quote_number: string;
             status: components["schemas"]["QuoteStatus"];
+            /**
+             * Revision
+             * @description 1 = v1; approval freezes a revision, changes open the next
+             */
+            revision: number;
             /** Needs Review */
             needs_review: boolean;
             /** Review Reasons */
@@ -1237,6 +1247,23 @@ export type components = {
             /** Is Active */
             is_active: boolean;
         };
+        /** SapAckStatus */
+        SapAckStatus: {
+            /** Docnum */
+            docnum: string;
+            /**
+             * Status
+             * @description 06 received and valid · 53 posted · 51 error
+             */
+            status: string;
+            /** Text */
+            text: string | null;
+            /**
+             * Object Key
+             * @description SAP document created (status 53)
+             */
+            object_key: string | null;
+        };
         /**
          * SapOutboundProfile
          * @description ALE partner profile of the sending system (stored per tenant).
@@ -1337,6 +1364,11 @@ export type components = {
              * Format: date-time
              */
             sent_at: string;
+            /**
+             * Sap Status
+             * @description SAP's ALEAUD acknowledgement, if any
+             */
+            sap_status: components["schemas"]["SapAckStatus"][];
             quote: components["schemas"]["QuoteDetail"];
         };
         /**

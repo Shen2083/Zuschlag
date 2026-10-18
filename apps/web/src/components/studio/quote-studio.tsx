@@ -199,6 +199,12 @@ function Studio({ quote }: { quote: QuoteDetail }) {
               /
             </span>
             <span className="font-mono">{quote.quote_number}</span>
+            <span
+              className="rounded border px-1 font-mono text-[11px] text-muted-foreground"
+              title={t("studio.revision")}
+            >
+              v{quote.revision}
+            </span>
           </span>
         }
         meta={
@@ -237,6 +243,12 @@ function Studio({ quote }: { quote: QuoteDetail }) {
               </Badge>
             ) : (
               <Blockers quote={quote} />
+            )}
+            {quote.status === "approved" && (
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                <Lock className="size-3" aria-hidden />
+                {t("studio.frozen", { next: `v${quote.revision + 1}` })}
+              </span>
             )}
             <div className="ml-auto flex flex-wrap items-center gap-1.5">
               {!quote.calculated_at && !locked && (

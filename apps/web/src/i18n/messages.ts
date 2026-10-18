@@ -195,6 +195,8 @@ const de = {
     reviewReasons: "Hinweise der KI",
     trail: "Verlauf",
     locked: "An SAP übertragen – keine Änderungen mehr möglich.",
+    revision: "Revision",
+    frozen: "Freigegeben und eingefroren – Änderungen erzeugen Revision {next}",
   },
   idoc: {
     title: "SAP-Payload prüfen",
@@ -475,6 +477,8 @@ const en: Messages = {
     reviewReasons: "AI review notes",
     trail: "History",
     locked: "Synced to SAP – no further changes possible.",
+    revision: "Revision",
+    frozen: "Approved and frozen – changes create revision {next}",
   },
   idoc: {
     title: "Review SAP payload",

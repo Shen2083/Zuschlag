@@ -33,3 +33,8 @@ EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=3s CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2).status == 200 else 1)"
 # --proxy-headers only trusts X-Forwarded-For from the load balancer subnet set in FORWARDED_ALLOW_IPS.
 CMD ["uvicorn", "zuschlag_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-server-header"]
+
+# `make demo` only: the runtime plus the mock SAP, test fixtures and demo scripts.
+FROM runtime AS demo
+COPY --chown=app:app apps/api/tests ./tests
+COPY --chown=app:app apps/api/scripts ./scripts

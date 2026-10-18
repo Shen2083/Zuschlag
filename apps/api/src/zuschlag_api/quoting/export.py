@@ -31,6 +31,7 @@ from zuschlag_api.models import (
     Tenant,
 )
 from zuschlag_api.quoting.service import QuoteLockedError, load_quote
+from zuschlag_api.sap.aleaud import AckStatus
 from zuschlag_api.sap.reqote import (
     ReqoteDocument,
     ReqoteItem,
@@ -201,8 +202,9 @@ async def export_reqote(
     quote, ready = await _ready(session, quote_id, require_approval=False)
     export = _render(quote, ready, await _next_docnum(session))
 
-    quote.last_idoc_docnum = export.docnum
-    quote.exported_at = datetime.now(UTC)
+    if quote.status is not QuoteStatus.SYNCED:  # a synced quote keeps the IDoc it was sent with
+        quote.last_idoc_docnum = export.docnum
+        quote.exported_at = datetime.now(UTC)
     session.add(
         _trail(
             quote,
@@ -258,6 +260,7 @@ class IdocDelivery:
     transport: TransportKind
     reference: str
     sent_at: datetime
+    sap_statuses: tuple[AckStatus, ...]
 
 
 async def send_reqote(
@@ -294,7 +297,7 @@ async def send_reqote(
         )
 
     filename = f"REQOTE_{docnum}.xml"
-    reference = await transport.send(filename, export.xml)
+    receipt = await transport.send(filename, export.xml)
     sent_at = datetime.now(UTC)
     quote.last_idoc_docnum = docnum
     quote.exported_at = sent_at
@@ -309,7 +312,8 @@ async def send_reqote(
                 "receiver": ready.profile.receiver_partner,
                 "transport": transport.kind,
                 "target": transport.target,
-                "reference": reference,
+                "reference": receipt.reference,
+                "sap_status": [s.as_dict() for s in receipt.statuses],
                 "xml_sha256": export.sha256,
             },
         )
@@ -324,4 +328,4 @@ async def send_reqote(
         context={"docnum": docnum, "xml_sha256": export.sha256, "transport": transport.kind},
     )
     await session.flush()
-    return IdocDelivery(export, transport.kind, reference, sent_at)
+    return IdocDelivery(export, transport.kind, receipt.reference, sent_at, receipt.statuses)
