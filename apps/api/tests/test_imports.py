@@ -18,6 +18,8 @@ ENTRY_POINTS = [
     "zuschlag_api.rfq.pipeline",
     "zuschlag_api.api.routes.quotes",
     "zuschlag_api.core.config",
+    "zuschlag_api.quoting.export",
+    "zuschlag_api.sap.reqote",
 ]
 
 

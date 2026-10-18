@@ -6,9 +6,9 @@ import uuid
 from datetime import date
 from decimal import Decimal
 from functools import lru_cache
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from sqlalchemy import select
 
@@ -19,6 +19,10 @@ from zuschlag_api.embeddings import Embedder, EmbeddingError
 from zuschlag_api.llm.client import ComplianceError, LLMOutputError, ZeroRetentionLLMClient
 from zuschlag_api.llm.providers import provider_from_settings
 from zuschlag_api.models import MatchStatus, QuoteItem, QuoteItemKind, QuoteStatus, Sourcing
+from zuschlag_api.quoting.calculation import VatRate
+from zuschlag_api.quoting.export import ExportBlockedError, export_reqote
+from zuschlag_api.quoting.payment_terms import PaymentTermsError
+from zuschlag_api.quoting.service import QuoteLockedError, QuoteNotFoundError, recalculate_quote
 from zuschlag_api.rfq.matching import MatchConfig
 from zuschlag_api.rfq.pipeline import CustomerNotFoundError, PipelineConfig, QuotePipeline
 from zuschlag_api.rfq.pricing import LaborRates
@@ -184,3 +188,156 @@ def _tree(items: list[QuoteItem]) -> list[QuoteItemOut]:
         else:
             nodes[i.parent_item_id].components.append(nodes[i.id])
     return roots
+
+
+# --------------------------------------------------------------------------- #
+# Calculation (Zuschlagskalkulation)
+# --------------------------------------------------------------------------- #
+
+
+class CalculateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    zuschlag_pct: Decimal = Field(ge=0, le=100, description="Zuschlag on Herstellkosten, 0-100 %")
+    vat_rate: Literal[19, 7] = Field(default=19, description="MwSt: 19 % standard or 7 % reduced")
+    payment_terms: str | None = Field(
+        default=None,
+        max_length=4,
+        description="SAP ZTERM, e.g. NT30; default: the customer's agreed terms",
+    )
+    allow_terms_deviation: bool = Field(
+        default=False, description="Accept terms that differ from the customer's agreed ZTERM"
+    )
+
+
+class CalculatedLine(BaseModel):
+    position: int
+    quantity: Decimal
+    unit_cost: Decimal
+    material_cost: Decimal
+    labor_cost: Decimal
+    factory_cost: Decimal
+    zuschlag_pct: Decimal
+    unit_zuschlag: Decimal
+    unit_price: Decimal
+    net_amount: Decimal
+
+
+class PaymentTermsOut(BaseModel):
+    zterm: str
+    net_days: int
+    description_de: str
+    description_en: str
+    agreed: list[str]
+    deviation: bool
+
+
+class CalculationOut(BaseModel):
+    quote_id: uuid.UUID
+    quote_number: str
+    currency: str
+    material_cost: Decimal = Field(description="Materialkosten")
+    labor_cost: Decimal = Field(description="Fertigungslohnkosten")
+    factory_cost: Decimal = Field(description="Herstellkosten")
+    zuschlag_pct: Decimal
+    zuschlag_amount: Decimal
+    net_amount: Decimal = Field(description="Nettobetrag")
+    vat_rate: Decimal
+    vat_amount: Decimal = Field(description="Mehrwertsteuer")
+    gross_amount: Decimal = Field(description="Bruttobetrag")
+    payment_terms: PaymentTermsOut
+    complete: bool
+    missing_price_positions: list[int]
+    lines: list[CalculatedLine]
+
+
+@router.post("/{quote_id}/calculate")
+async def calculate_quote(
+    quote_id: uuid.UUID,
+    body: CalculateRequest,
+    principal: PrincipalDep,
+    db: TenantDb,
+    settings: Annotated[Settings, Depends(get_settings)],
+) -> CalculationOut:
+    """Recalculate Herstellkosten -> Zuschlag -> Netto -> MwSt -> Brutto and
+    validate the payment terms against the customer's ZTERM in SAP."""
+    try:
+        result = await recalculate_quote(
+            db,
+            quote_id,
+            zuschlag_pct=body.zuschlag_pct,
+            vat_rate=VatRate.from_percent(body.vat_rate),
+            payment_terms=body.payment_terms,
+            allow_terms_deviation=body.allow_terms_deviation,
+            default_payment_terms=settings.quote_default_payment_terms,
+            payment_terms_catalog=settings.payment_terms_catalog,
+            actor_id=principal.actor_id,
+        )
+    except QuoteNotFoundError as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, f"quote {exc} not found") from exc
+    except QuoteLockedError as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
+    except PaymentTermsError as exc:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(exc)) from exc
+
+    calc, quote, terms = result.calculation, result.quote, result.terms
+    return CalculationOut(
+        quote_id=quote.id,
+        quote_number=quote.quote_number,
+        currency=quote.currency,
+        material_cost=calc.material_cost,
+        labor_cost=calc.labor_cost,
+        factory_cost=calc.factory_cost,
+        zuschlag_pct=calc.zuschlag_pct,
+        zuschlag_amount=calc.zuschlag_amount,
+        net_amount=calc.net_amount,
+        vat_rate=calc.vat_rate.value,
+        vat_amount=calc.vat_amount,
+        gross_amount=calc.gross_amount,
+        payment_terms=PaymentTermsOut(
+            zterm=terms.terms.zterm,
+            net_days=terms.terms.net_days,
+            description_de=terms.terms.description_de,
+            description_en=terms.terms.description_en,
+            agreed=list(terms.agreed),
+            deviation=terms.deviation,
+        ),
+        complete=calc.complete,
+        missing_price_positions=calc.missing_price_positions,
+        lines=[CalculatedLine.model_validate(line, from_attributes=True) for line in calc.lines],
+    )
+
+
+# --------------------------------------------------------------------------- #
+# Outbound SAP IDoc
+# --------------------------------------------------------------------------- #
+
+
+@router.post(
+    "/{quote_id}/export-sap-idoc",
+    response_class=Response,
+    responses={200: {"content": {"application/xml": {}}, "description": "ORDERS05 / REQOTE IDoc"}},
+)
+async def export_sap_idoc(quote_id: uuid.UUID, principal: PrincipalDep, db: TenantDb) -> Response:
+    """Build the ORDERS05/REQOTE IDoc, validate it against the XSD and return it.
+    422 lists every reason the quote cannot be sent yet."""
+    try:
+        export = await export_reqote(
+            db, quote_id, actor_id=principal.actor_id, ip_sha256=principal.ip_sha256
+        )
+    except QuoteNotFoundError as exc:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, f"quote {exc} not found") from exc
+    except ExportBlockedError as exc:
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT,
+            {"message": "quote not ready for SAP", "reasons": exc.reasons},
+        ) from exc
+    return Response(
+        content=export.xml,
+        media_type="application/xml",
+        headers={
+            "X-IDoc-DOCNUM": export.docnum,
+            "X-Content-SHA256": export.sha256,
+            "Content-Disposition": f'attachment; filename="REQOTE_{export.docnum}.xml"',
+        },
+    )

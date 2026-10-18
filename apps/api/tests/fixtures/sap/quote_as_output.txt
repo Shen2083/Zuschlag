@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ORDERS05>
+    <IDOC BEGIN="1">
+        <EDI_DC40 SEGMENT="1">
+            <TABNAM>EDI_DC40</TABNAM>
+            <MANDT>800</MANDT>
+            <DOCNUM>0000000000987654</DOCNUM>
+            <DOCREL>750</DOCREL>
+            <STATUS>30</STATUS>
+            <DIRECT>1</DIRECT>
+            <IDOCTYP>ORDERS05</IDOCTYP>
+            <MESTYP>REQOTE</MESTYP>
+            <SNDPOR>SAPERP</SNDPOR>
+            <SNDPRT>LS</SNDPRT>
+            <SNDPRN>CLNT800</SNDPRN>
+            <RCVPOR>RECEIVER_PORT</RCVPOR>
+            <RCVPRT>LS</RCVPRT>
+            <RCVPRN>EXT_SYSTEM</RCVPRN>
+        </EDI_DC40>
+        <E1EDK01 segment="1">
+            <ACTION>004</ACTION>
+            <CURCY>EUR</CURCY>
+            <ZTERM>NT30</ZTERM>
+            <BELNR>0045001234</BELNR>
+        </E1EDK01>
+        <E1EDKA1 segment="1">
+            <PARVW>AG</PARVW>
+            <PARTN>0000100000</PARTN>
+            <NAME1>Muster Einkäufer GmbH</NAME1>
+            <ORT01>Musterstadt</ORT01>
+            <PSTLZ>12345</PSTLZ>
+            <LAND1>DE</LAND1>
+        </E1EDKA1>
+        <E1EDKA1 segment="1">
+            <PARVW>LF</PARVW>
+            <PARTN>0000200000</PARTN>
+            <NAME1>Muster Lieferant AG</NAME1>
+        </E1EDKA1>
+        <E1EDP01 segment="1">
+            <POSEX>00010</POSEX>
+            <MENGE>100.000</MENGE>
+            <MENEE>PCE</MENEE>
+            <E1EDP19 segment="1">
+                <QUALF>002</QUALF>
+                <IDNLF>shenai</IDNLF>
+                <KTEXT>Muster-Ersatzteil Premium</KTEXT>
+            </E1EDP19>
+        </E1EDP01>
+    </IDOC>
+</ORDERS05>

@@ -354,3 +354,74 @@ async def test_quotes_and_catalog_are_tenant_isolated(
     assert [i["sourcing"] for i in q["items"]] == ["missing_in_catalog", "missing_in_catalog"]
     assert await _counts(sessionmaker, tenant_b) == (1, 1)
     assert await _counts(sessionmaker, h.tenant) == (1, 1)
+
+
+# --------------------------------------------------------------------------- #
+# Full flow: inquiry text -> quote -> calculation -> SAP REQOTE IDoc
+# --------------------------------------------------------------------------- #
+
+
+async def _enable_outbound(sessionmaker: Sm, tenant: uuid.UUID) -> None:
+    from tests.test_sap_reqote import PROFILE
+    from zuschlag_api.models import Tenant
+
+    async with tenant_session(tenant, sessionmaker=sessionmaker) as s:
+        row = await s.scalar(select(Tenant))
+        assert row is not None
+        row.sap_outbound_profile = PROFILE.model_dump(mode="json")
+
+
+async def test_english_inquiry_to_reqote_idoc(h: Harness, sessionmaker: Sm) -> None:
+    from defusedxml.ElementTree import fromstring
+
+    from zuschlag_api.sap.reqote import reqote_schema
+
+    await _enable_outbound(sessionmaker, h.tenant)
+    h.answer_with("worktable_en")
+    quote = (await h.generate(rfq_text("worktable_en"), customer_id="100099")).json()
+    headers = {"X-Tenant-ID": str(h.tenant)}
+
+    calc = await h.client.post(
+        f"/api/v1/quotes/{quote['id']}/calculate",
+        json={"zuschlag_pct": "22", "vat_rate": 19},
+        headers=headers,
+    )
+    assert calc.status_code == 200, calc.text
+    c = calc.json()
+    assert Decimal(c["factory_cost"]) == Decimal("1280.00")  # 2 x 640.00
+    assert Decimal(c["net_amount"]) == Decimal("1561.60")
+    assert Decimal(c["gross_amount"]) == Decimal("1858.30")  # + 19 % MwSt 296.70
+    assert c["payment_terms"]["zterm"] == "NT30"  # from the customer's KNVV
+
+    res = await h.client.post(f"/api/v1/quotes/{quote['id']}/export-sap-idoc", headers=headers)
+    assert res.status_code == 200, res.text
+    reqote_schema().validate(res.content.decode())
+    idoc = fromstring(res.content).find("IDOC")
+    assert idoc is not None
+    assert idoc.findtext("E1EDK01/BELNR") == quote["quote_number"]
+    assert idoc.findtext("E1EDK01/ZTERM") == "NT30"
+    ag = next(p for p in idoc.findall("E1EDKA1") if p.findtext("PARVW") == "AG")
+    assert (ag.findtext("PARTN"), ag.findtext("NAME1"), ag.findtext("LAND1")) == (
+        "0000100099",
+        "Nordwind Marine AG",
+        "DE",
+    )
+    [p01] = idoc.findall("E1EDP01")
+    assert [p01.findtext(f) for f in ("POSEX", "MENGE", "MENEE")] == ["00010", "2.000", "PCE"]
+    assert p01.findtext("E1EDP19/IDNLF") == "FG-WT-1200"
+    assert p01.findtext("E1EDP19/KTEXT") == "Stainless steel work table 1200 x 700 mm"
+
+
+async def test_custom_build_quote_is_blocked_from_sap_until_material_exists(
+    h: Harness, sessionmaker: Sm
+) -> None:
+    await _enable_outbound(sessionmaker, h.tenant)
+    h.answer_with("rack_de")
+    quote = (await h.generate(rfq_text("rack_de"))).json()
+    headers = {"X-Tenant-ID": str(h.tenant)}
+    await h.client.post(
+        f"/api/v1/quotes/{quote['id']}/calculate", json={"zuschlag_pct": "22"}, headers=headers
+    )
+    res = await h.client.post(f"/api/v1/quotes/{quote['id']}/export-sap-idoc", headers=headers)
+    assert res.status_code == 422
+    assert "Item 00010: no SAP material number" in res.text

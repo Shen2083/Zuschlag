@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ORDERS05 / REQOTE outbound quotation IDoc, as agreed in quote_as_output.txt.
+  Covers the segments and fields Zuschlag.ai sends; field lengths follow the
+  SAP segment definitions (verify against WE60 for your release).
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+
+  <xs:simpleType name="Char">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+      <xs:pattern value="\S(.*\S)?"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Char2"><xs:restriction base="Char"><xs:maxLength value="2"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Char3"><xs:restriction base="Char"><xs:maxLength value="3"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Char10"><xs:restriction base="Char"><xs:maxLength value="10"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Char17"><xs:restriction base="Char"><xs:maxLength value="17"/></xs:restriction></xs:simpleType>
+  <!-- Port names: SAP allows 10 characters (WE21), but the agreed contract uses
+       'RECEIVER_PORT' (13); accept up to 30 so the contract validates. -->
+  <xs:simpleType name="Port"><xs:restriction base="Char"><xs:maxLength value="30"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Char35"><xs:restriction base="Char"><xs:maxLength value="35"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Char70"><xs:restriction base="Char"><xs:maxLength value="70"/></xs:restriction></xs:simpleType>
+  <xs:simpleType name="Digits">
+    <xs:restriction base="xs:string"><xs:pattern value="[0-9]+"/></xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Flag1">
+    <xs:restriction base="xs:string"><xs:enumeration value="1"/></xs:restriction>
+  </xs:simpleType>
+
+  <xs:element name="ORDERS05">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="IDOC" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EDI_DC40" type="EDI_DC40"/>
+              <xs:element name="E1EDK01" type="E1EDK01"/>
+              <xs:element name="E1EDKA1" type="E1EDKA1" minOccurs="2" maxOccurs="unbounded"/>
+              <xs:element name="E1EDP01" type="E1EDP01" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="BEGIN" type="Flag1" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="EDI_DC40">
+    <xs:sequence>
+      <xs:element name="TABNAM"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="EDI_DC40"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="MANDT"><xs:simpleType><xs:restriction base="Digits"><xs:length value="3"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="DOCNUM"><xs:simpleType><xs:restriction base="Digits"><xs:length value="16"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="DOCREL"><xs:simpleType><xs:restriction base="Digits"><xs:maxLength value="4"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="STATUS"><xs:simpleType><xs:restriction base="Digits"><xs:length value="2"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="DIRECT"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="1"/><xs:enumeration value="2"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="IDOCTYP"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="ORDERS05"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="MESTYP"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="REQOTE"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="SNDPOR" type="Port"/>
+      <xs:element name="SNDPRT" type="Char2"/>
+      <xs:element name="SNDPRN" type="Char10"/>
+      <xs:element name="RCVPOR" type="Port"/>
+      <xs:element name="RCVPRT" type="Char2"/>
+      <xs:element name="RCVPRN" type="Char10"/>
+    </xs:sequence>
+    <xs:attribute name="SEGMENT" type="Flag1" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="E1EDK01">
+    <xs:sequence>
+      <xs:element name="ACTION"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="004"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="CURCY"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z]{3}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="ZTERM" type="Char17"/>
+      <xs:element name="BELNR" type="Char35"/>
+    </xs:sequence>
+    <xs:attribute name="segment" type="Flag1" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="E1EDKA1">
+    <xs:sequence>
+      <xs:element name="PARVW"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="AG"/><xs:enumeration value="LF"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="PARTN" type="Char17"/>
+      <xs:element name="NAME1" type="Char35"/>
+      <xs:element name="NAME2" type="Char35" minOccurs="0"/>
+      <xs:element name="STRAS" type="Char35" minOccurs="0"/>
+      <xs:element name="ORT01" type="Char35" minOccurs="0"/>
+      <xs:element name="PSTLZ" type="Char10" minOccurs="0"/>
+      <xs:element name="LAND1" minOccurs="0"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z]{2,3}"/></xs:restriction></xs:simpleType></xs:element>
+    </xs:sequence>
+    <xs:attribute name="segment" type="Flag1" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="E1EDP01">
+    <xs:sequence>
+      <xs:element name="POSEX"><xs:simpleType><xs:restriction base="Digits"><xs:length value="5"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="MENGE"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]{1,11}\.[0-9]{3}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="MENEE"><xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z0-9]{2,3}"/></xs:restriction></xs:simpleType></xs:element>
+      <xs:element name="E1EDP19">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="QUALF"><xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="002"/></xs:restriction></xs:simpleType></xs:element>
+            <xs:element name="IDNLF" type="Char35"/>
+            <xs:element name="KTEXT" type="Char70"/>
+          </xs:sequence>
+          <xs:attribute name="segment" type="Flag1" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="segment" type="Flag1" use="required"/>
+  </xs:complexType>
+</xs:schema>

@@ -25,9 +25,11 @@ uv run alembic upgrade head                # uses MIGRATIONS_DATABASE_URL (schem
 | `sap/master_data.py` | MATMAS05 / DEBMAS06 Pydantic models and parsers |
 | `sap/ingest.py` | Idempotent, order-safe upserts of materials and customers |
 | `embeddings/` | Embedding backends: local sentence-transformers, private OpenAI-compatible endpoint, hashing (tests) |
+| `quoting/` | Zuschlagskalkulation (Herstellkosten -> Netto -> MwSt -> Brutto), payment terms, REQOTE export |
+| `sap/reqote.py`, `sap/xsd/` | ORDERS05/REQOTE outbound IDoc builder and its XSD |
 | `rfq/` | RFQ -> quote pipeline: extraction schema + prompt, hybrid matcher, costing, orchestration |
 | `sap/orders05.py`, `sap/builder.py` | ORDERS05 quotation IDoc, contract-tested against `packages/sap-schema` |
-| `alembic/versions/` | 0001 schema, RLS, audit triggers · 0002 SAP master data · 0003 prices, trigram search, quote BOM |
+| `alembic/versions/` | 0001 schema, RLS, audit triggers · 0002 SAP master data · 0003 prices, trigram search, quote BOM · 0004 VAT/gross, payment terms, IDoc numbering |
 
 ## Writing tenant data
 
@@ -133,3 +135,42 @@ The calibration defaults assume `multilingual-e5-large`. Before going live, re-f
 Tests replay recorded structured outputs for German and English inquiries
 (`tests/fixtures/rfq/`). `RUN_LIVE_LLM=1 uv run pytest tests/test_live_llm.py` runs the same
 checks against the configured model.
+
+## Calculation and SAP quotation export
+
+**`POST /api/v1/quotes/{id}/calculate`** with
+`{"zuschlag_pct": 22, "vat_rate": 19, "payment_terms": "NT30", "allow_terms_deviation": false}`:
+
+| Step | Amount |
+| --- | --- |
+| Materialkosten + Fertigungslohn | Herstellkosten (factory cost) |
+| + Zuschlag (0-100 %, per unit, rounded to 4 decimals, then cents per line) | Nettobetrag |
+| + MwSt 19 % (standard) or 7 % (reduced), on the net total | Bruttobetrag |
+
+Payment terms rules:
+
+- **No terms given:** they default to the customer's agreed `ZTERM` from SAP (KNVV).
+- **Agreed terms on file:** other terms are rejected (422) unless `allow_terms_deviation` is set.
+- **Accepted keys:** `NT<days>` is understood. Any other key must be declared in
+  `PAYMENT_TERMS_CATALOG`, so no quote goes out with terms nobody can explain.
+- **Unpriced lines:** reported in `missing_price_positions`, not guessed.
+
+A quote already synced to SAP cannot be recalculated (409). Every calculation is recorded
+in `quote_audit_trail` with before and after values.
+
+**`POST /api/v1/quotes/{id}/export-sap-idoc`** returns `application/xml`: one ORDERS05 IDoc
+with message type REQOTE, a new `DOCNUM` from `sap_outbound_docnum_seq` (also in the
+`X-IDoc-DOCNUM` header), validated against `sap/xsd/orders05_reqote.xsd`. The byte layout is
+the interface contract `tests/fixtures/sap/quote_as_output.txt`, and tests compare the output
+byte for byte: CRLF, no final newline, `SEGMENT`/`segment` attributes, empty fields omitted.
+`.gitattributes` and pre-commit leave that file untouched. Export is refused (422, with every
+reason listed) when:
+
+- the tenant has no `sap_outbound_profile`,
+- the quote was never calculated,
+- the quote is not linked to an SAP customer, or
+- a line has no confidently matched, priced SAP material. This covers custom builds that still
+  need a FERT material, and `NEEDS_HUMAN_REVIEW` matches.
+
+The tenant's `sap_outbound_profile` (JSON on `tenants`) holds MANDT, DOCREL, the
+sender/receiver ports and partners, and our own vendor number and name for the `LF` partner.

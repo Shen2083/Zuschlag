@@ -120,6 +120,21 @@ class Quote(UuidPk, TenantScoped, Timestamps, Base):
         Numeric(15, 2), nullable=False, default=0, server_default="0"
     )
 
+    # Commercial terms (set by POST /quotes/{id}/calculate)
+    payment_terms: Mapped[str | None] = mapped_column(String(4))  # SAP ZTERM, e.g. NT30
+    vat_rate: Mapped[Decimal | None] = mapped_column(Numeric(4, 2))  # 19.00 | 7.00
+    vat_amount: Mapped[Decimal] = mapped_column(
+        Numeric(15, 2), nullable=False, default=0, server_default="0"
+    )
+    gross_total: Mapped[Decimal] = mapped_column(
+        Numeric(15, 2), nullable=False, default=0, server_default="0"
+    )
+    calculated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    # Last outbound REQOTE IDoc
+    last_idoc_docnum: Mapped[str | None] = mapped_column(CHAR(16))
+    exported_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
     items: Mapped[list[QuoteItem]] = relationship(
         back_populates="quote",
         order_by="(QuoteItem.parent_item_id.nullsfirst(), QuoteItem.position)",

@@ -147,6 +147,10 @@ class Settings(BaseSettings):
         default_factory=lambda: dict(DEFAULT_LABOR_RATES_EUR)
     )
     labor_default_rate_eur: Decimal = Decimal("80")
+    quote_default_payment_terms: str = "NT30"
+    quote_default_vat_rate: Decimal = Decimal("19")
+    # Payment-term keys other than NT<days>, with their net days (JSON object).
+    payment_terms_catalog: dict[str, int] = Field(default_factory=lambda: {"0001": 0})
 
     _split_origins = field_validator(
         "cors_allowed_origins", "trusted_hosts", "sap_description_languages", mode="before"
