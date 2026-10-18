@@ -109,6 +109,28 @@ def line_inputs(items: list[QuoteItem]) -> list[LineInput]:
     return inputs
 
 
+def apply_calculation(quote: Quote, items: list[QuoteItem], calc: Calculation) -> None:
+    """Write line prices and quote totals. Unpriced top-level lines lose stale prices."""
+    by_id = {line.item_id: line for line in calc.lines}
+    for item in items:
+        if item.parent_item_id is not None:
+            continue
+        line = by_id.get(item.id)
+        item.margin_pct = line.zuschlag_pct if line else None
+        item.unit_margin = line.unit_zuschlag if line else None
+        item.unit_price = line.unit_price if line else None
+        item.line_total = line.net_amount if line else None
+
+    quote.margin_pct = calc.zuschlag_pct
+    quote.material_cost = calc.material_cost
+    quote.labor_cost = calc.labor_cost
+    quote.total_cost = calc.factory_cost
+    quote.net_total = calc.net_amount
+    quote.vat_rate = calc.vat_rate.value
+    quote.vat_amount = calc.vat_amount
+    quote.gross_total = calc.gross_amount
+
+
 async def recalculate_quote(
     session: AsyncSession,
     quote_id: uuid.UUID,
@@ -140,24 +162,7 @@ async def recalculate_quote(
         "gross_total": str(quote.gross_total),
         "payment_terms": quote.payment_terms,
     }
-    by_id = {line.item_id: line for line in calc.lines}
-    for item in items:
-        line = by_id.get(item.id)
-        if line is None:
-            continue
-        item.margin_pct = line.zuschlag_pct
-        item.unit_margin = line.unit_zuschlag
-        item.unit_price = line.unit_price
-        item.line_total = line.net_amount
-
-    quote.margin_pct = calc.zuschlag_pct
-    quote.material_cost = calc.material_cost
-    quote.labor_cost = calc.labor_cost
-    quote.total_cost = calc.factory_cost
-    quote.net_total = calc.net_amount
-    quote.vat_rate = calc.vat_rate.value
-    quote.vat_amount = calc.vat_amount
-    quote.gross_total = calc.gross_amount
+    apply_calculation(quote, items, calc)
     quote.payment_terms = terms.terms.zterm
     quote.calculated_at = datetime.now(UTC)
 

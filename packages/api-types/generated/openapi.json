@@ -1,0 +1,4668 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Zuschlag.ai API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Healthz",
+        "description": "Liveness plus the (non-secret) residency/retention posture.",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Healthz Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/readyz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Readyz",
+        "operationId": "readyz_readyz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Readyz Readyz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rfqs": {
+      "post": {
+        "tags": [
+          "rfqs"
+        ],
+        "summary": "Create Rfq",
+        "operationId": "create_rfq_api_v1_rfqs_post",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RfqCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RfqOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "rfqs"
+        ],
+        "summary": "List Rfqs",
+        "description": "Inbound RFQs, newest first, each with the latest quote generated from it.",
+        "operationId": "list_rfqs_api_v1_rfqs_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RfqInboxItem"
+                  },
+                  "title": "Response List Rfqs Api V1 Rfqs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit-logs": {
+      "get": {
+        "tags": [
+          "audit"
+        ],
+        "summary": "List Audit Logs",
+        "operationId": "list_audit_logs_api_v1_audit_logs_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLogOut"
+                  },
+                  "title": "Response List Audit Logs Api V1 Audit Logs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit-logs/verify": {
+      "get": {
+        "tags": [
+          "audit"
+        ],
+        "summary": "Verify Audit Chain",
+        "operationId": "verify_audit_chain_api_v1_audit_logs_verify_get",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Verify Audit Chain Api V1 Audit Logs Verify Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sap/matmas": {
+      "post": {
+        "tags": [
+          "sap"
+        ],
+        "summary": "Ingest Matmas",
+        "description": "Ingest MATMAS05 material-master IDocs (create/update, idempotent).",
+        "operationId": "ingest_matmas_api_v1_sap_matmas_post",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sap/debmas": {
+      "post": {
+        "tags": [
+          "sap"
+        ],
+        "summary": "Ingest Debmas",
+        "description": "Ingest DEBMAS06 customer-master IDocs (create/update, idempotent).",
+        "operationId": "ingest_debmas_api_v1_sap_debmas_post",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngestOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/xml": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sap/status": {
+      "get": {
+        "tags": [
+          "sap"
+        ],
+        "summary": "Sap Status",
+        "description": "State of the SAP link: outbound partner profile, a live probe of the\noutbound transport (with its latency), and the last IDoc in each direction.",
+        "operationId": "sap_status_api_v1_sap_status_get",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SapStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/generate-from-rfq": {
+      "post": {
+        "tags": [
+          "quotes"
+        ],
+        "summary": "Generate From Rfq",
+        "description": "Extract a structured BOM from the inquiry, match it against the SAP\nmaterial master and return a priced draft quote. Items below the confidence\nthreshold are flagged NEEDS_HUMAN_REVIEW and the quote is `needs_review`.",
+        "operationId": "generate_from_rfq_api_v1_quotes_generate_from_rfq_post",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateFromRfq"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/calculate": {
+      "post": {
+        "tags": [
+          "quotes"
+        ],
+        "summary": "Calculate Quote",
+        "description": "Recalculate Herstellkosten -> Zuschlag -> Netto -> MwSt -> Brutto and\nvalidate the payment terms against the customer's ZTERM in SAP.",
+        "operationId": "calculate_quote_api_v1_quotes__quote_id__calculate_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/export-sap-idoc": {
+      "post": {
+        "tags": [
+          "quotes"
+        ],
+        "summary": "Export Sap Idoc",
+        "description": "Build the ORDERS05/REQOTE IDoc, validate it against the XSD and return it.\n422 lists every reason the quote cannot be sent yet.",
+        "operationId": "export_sap_idoc_api_v1_quotes__quote_id__export_sap_idoc_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ORDERS05 / REQOTE IDoc",
+            "content": {
+              "application/xml": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes": {
+      "get": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "List Quotes",
+        "description": "Quotes, newest first. `q` searches quote number, customer and RFQ subject.",
+        "operationId": "list_quotes_api_v1_quotes_get",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/QuoteStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}": {
+      "get": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Get Quote",
+        "description": "Everything the Quote Studio shows: source RFQ, BOM tree with catalog\nwarnings, totals, audit trail, and what still blocks approval and sync.",
+        "operationId": "get_quote_api_v1_quotes__quote_id__get",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/items/{item_id}": {
+      "patch": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Update Item",
+        "description": "Inline edit of one BOM line. Costs roll up to the custom-build parent,\nthe quote is repriced at its current Zuschlag, and an approved quote\nreturns to draft.",
+        "operationId": "update_item_api_v1_quotes__quote_id__items__item_id__patch",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "item_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Item Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ItemUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/approve": {
+      "post": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Approve",
+        "description": "Release the quote. Refused (422, every reason listed) while it is not\ncalculated, a line is unpriced or an SAP match still needs human review.",
+        "operationId": "approve_api_v1_quotes__quote_id__approve_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ApproveRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/reparse": {
+      "post": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Reparse",
+        "description": "Run extraction and matching again on the quote's source RFQ. The result\nis a *new* quote linked to the same RFQ; the old one stays unchanged, as the\naudit trail requires, and records which quote superseded it.",
+        "operationId": "reparse_api_v1_quotes__quote_id__reparse_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuoteDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/sap-idoc/prepare": {
+      "post": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Prepare Idoc",
+        "description": "Reserve a DOCNUM and render the IDoc for review. Nothing is sent.",
+        "operationId": "prepare_idoc_api_v1_quotes__quote_id__sap_idoc_prepare_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdocPreview"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quotes/{quote_id}/sap-idoc/send": {
+      "post": {
+        "tags": [
+          "quote studio"
+        ],
+        "summary": "Send Idoc",
+        "description": "Send the previewed IDoc. 409 if the quote changed since the preview\n(the payload would differ from what was reviewed).",
+        "operationId": "send_idoc_api_v1_quotes__quote_id__sap_idoc_send_post",
+        "parameters": [
+          {
+            "name": "quote_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Quote Id"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/materials": {
+      "get": {
+        "tags": [
+          "master data"
+        ],
+        "summary": "List Materials",
+        "description": "Material master (MATMAS). `q` matches MATNR and DE/EN short texts.",
+        "operationId": "list_materials_api_v1_materials_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 4
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/customers": {
+      "get": {
+        "tags": [
+          "master data"
+        ],
+        "summary": "List Customers",
+        "description": "Customer master (DEBMAS) with sales areas (KNVV: currency, ZTERM).",
+        "operationId": "list_customers_api_v1_customers_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerList"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Get Tenant Settings",
+        "operationId": "get_tenant_settings_api_v1_tenant_get",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantSettings"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenant/sap-outbound-profile": {
+      "put": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Put Sap Outbound Profile",
+        "description": "ALE partner profile used for outbound REQOTE IDocs (EDI_DC40, partner LF).",
+        "operationId": "put_sap_outbound_profile_api_v1_tenant_sap_outbound_profile_put",
+        "parameters": [
+          {
+            "name": "x-tenant-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Tenant-Id"
+            }
+          },
+          {
+            "name": "x-actor-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Actor-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SapOutboundProfile"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantSettings"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AiSettings": {
+        "properties": {
+          "llm_provider": {
+            "type": "string",
+            "title": "Llm Provider"
+          },
+          "llm_model": {
+            "type": "string",
+            "title": "Llm Model"
+          },
+          "llm_region": {
+            "type": "string",
+            "title": "Llm Region"
+          },
+          "zero_data_retention_attested": {
+            "type": "boolean",
+            "title": "Zero Data Retention Attested"
+          },
+          "embedding_provider": {
+            "type": "string",
+            "title": "Embedding Provider"
+          },
+          "embedding_model": {
+            "type": "string",
+            "title": "Embedding Model"
+          }
+        },
+        "type": "object",
+        "required": [
+          "llm_provider",
+          "llm_model",
+          "llm_region",
+          "zero_data_retention_attested",
+          "embedding_provider",
+          "embedding_model"
+        ],
+        "title": "AiSettings"
+      },
+      "ApproveRequest": {
+        "properties": {
+          "comment": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comment"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ApproveRequest"
+      },
+      "AuditLogOut": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          },
+          "timestamp_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp Utc"
+          },
+          "actor_id": {
+            "type": "string",
+            "title": "Actor Id"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "entity_type": {
+            "type": "string",
+            "title": "Entity Type"
+          },
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "ip_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ip Sha256"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context"
+          },
+          "entry_hash": {
+            "type": "string",
+            "title": "Entry Hash"
+          }
+        },
+        "type": "object",
+        "required": [
+          "seq",
+          "timestamp_utc",
+          "actor_id",
+          "action",
+          "entity_type",
+          "entity_id",
+          "ip_sha256",
+          "context",
+          "entry_hash"
+        ],
+        "title": "AuditLogOut"
+      },
+      "CalculateRequest": {
+        "properties": {
+          "zuschlag_pct": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Zuschlag Pct",
+            "description": "Zuschlag on Herstellkosten, 0-100 %"
+          },
+          "vat_rate": {
+            "type": "integer",
+            "enum": [
+              19,
+              7
+            ],
+            "title": "Vat Rate",
+            "description": "MwSt: 19 % standard or 7 % reduced",
+            "default": 19
+          },
+          "payment_terms": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Terms",
+            "description": "SAP ZTERM, e.g. NT30; default: the customer's agreed terms"
+          },
+          "allow_terms_deviation": {
+            "type": "boolean",
+            "title": "Allow Terms Deviation",
+            "description": "Accept terms that differ from the customer's agreed ZTERM",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "zuschlag_pct"
+        ],
+        "title": "CalculateRequest"
+      },
+      "CalculatedLine": {
+        "properties": {
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "quantity": {
+            "type": "string",
+            "title": "Quantity"
+          },
+          "unit_cost": {
+            "type": "string",
+            "title": "Unit Cost"
+          },
+          "material_cost": {
+            "type": "string",
+            "title": "Material Cost"
+          },
+          "labor_cost": {
+            "type": "string",
+            "title": "Labor Cost"
+          },
+          "factory_cost": {
+            "type": "string",
+            "title": "Factory Cost"
+          },
+          "zuschlag_pct": {
+            "type": "string",
+            "title": "Zuschlag Pct"
+          },
+          "unit_zuschlag": {
+            "type": "string",
+            "title": "Unit Zuschlag"
+          },
+          "unit_price": {
+            "type": "string",
+            "title": "Unit Price"
+          },
+          "net_amount": {
+            "type": "string",
+            "title": "Net Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "position",
+          "quantity",
+          "unit_cost",
+          "material_cost",
+          "labor_cost",
+          "factory_cost",
+          "zuschlag_pct",
+          "unit_zuschlag",
+          "unit_price",
+          "net_amount"
+        ],
+        "title": "CalculatedLine"
+      },
+      "CalculationOut": {
+        "properties": {
+          "quote_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Quote Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "material_cost": {
+            "type": "string",
+            "title": "Material Cost",
+            "description": "Materialkosten"
+          },
+          "labor_cost": {
+            "type": "string",
+            "title": "Labor Cost",
+            "description": "Fertigungslohnkosten"
+          },
+          "factory_cost": {
+            "type": "string",
+            "title": "Factory Cost",
+            "description": "Herstellkosten"
+          },
+          "zuschlag_pct": {
+            "type": "string",
+            "title": "Zuschlag Pct"
+          },
+          "zuschlag_amount": {
+            "type": "string",
+            "title": "Zuschlag Amount"
+          },
+          "net_amount": {
+            "type": "string",
+            "title": "Net Amount",
+            "description": "Nettobetrag"
+          },
+          "vat_rate": {
+            "type": "string",
+            "title": "Vat Rate"
+          },
+          "vat_amount": {
+            "type": "string",
+            "title": "Vat Amount",
+            "description": "Mehrwertsteuer"
+          },
+          "gross_amount": {
+            "type": "string",
+            "title": "Gross Amount",
+            "description": "Bruttobetrag"
+          },
+          "payment_terms": {
+            "$ref": "#/components/schemas/PaymentTermsOut"
+          },
+          "complete": {
+            "type": "boolean",
+            "title": "Complete"
+          },
+          "missing_price_positions": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Missing Price Positions"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/CalculatedLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          }
+        },
+        "type": "object",
+        "required": [
+          "quote_id",
+          "quote_number",
+          "currency",
+          "material_cost",
+          "labor_cost",
+          "factory_cost",
+          "zuschlag_pct",
+          "zuschlag_amount",
+          "net_amount",
+          "vat_rate",
+          "vat_amount",
+          "gross_amount",
+          "payment_terms",
+          "complete",
+          "missing_price_positions",
+          "lines"
+        ],
+        "title": "CalculationOut"
+      },
+      "CatalogWarning": {
+        "type": "string",
+        "enum": [
+          "missing_in_catalog",
+          "needs_fert",
+          "deleted",
+          "inactive",
+          "no_price"
+        ],
+        "title": "CatalogWarning"
+      },
+      "CustomerList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "CustomerList"
+      },
+      "CustomerOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "kunnr": {
+            "type": "string",
+            "title": "Kunnr"
+          },
+          "name1": {
+            "type": "string",
+            "title": "Name1"
+          },
+          "name2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name2"
+          },
+          "street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "sales_areas": {
+            "items": {
+              "$ref": "#/components/schemas/SalesAreaOut"
+            },
+            "type": "array",
+            "title": "Sales Areas"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kunnr",
+          "name1",
+          "name2",
+          "street",
+          "postal_code",
+          "city",
+          "country",
+          "language",
+          "is_active",
+          "sales_areas",
+          "updated_at"
+        ],
+        "title": "CustomerOut"
+      },
+      "DocumentOut": {
+        "properties": {
+          "sender": {
+            "type": "string",
+            "title": "Sender"
+          },
+          "docnum": {
+            "type": "string",
+            "title": "Docnum"
+          },
+          "object_key": {
+            "type": "string",
+            "title": "Object Key"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "created",
+              "updated",
+              "unchanged",
+              "stale",
+              "duplicate"
+            ],
+            "title": "Outcome"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sender",
+          "docnum",
+          "object_key",
+          "outcome"
+        ],
+        "title": "DocumentOut"
+      },
+      "GenerateFromRfq": {
+        "properties": {
+          "raw_text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Raw Text",
+            "description": "Inquiry text or e-mail body (German or English)"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id",
+            "description": "Customer UUID or SAP customer number (KUNNR)"
+          },
+          "margin_pct": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMaximum": 1000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Pct",
+            "description": "Override the default Zuschlag"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "raw_text"
+        ],
+        "title": "GenerateFromRfq"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IdocPreview": {
+        "properties": {
+          "docnum": {
+            "type": "string",
+            "title": "Docnum",
+            "description": "IDoc number reserved for this payload"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256",
+            "description": "SHA-256 of `xml`; echo it back to /send"
+          },
+          "xml": {
+            "type": "string",
+            "title": "Xml",
+            "description": "The exact ORDERS05/REQOTE payload (UTF-8, CRLF)"
+          },
+          "receiver": {
+            "type": "string",
+            "title": "Receiver"
+          },
+          "transport": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "file",
+                  "http"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transport"
+          }
+        },
+        "type": "object",
+        "required": [
+          "docnum",
+          "sha256",
+          "xml",
+          "receiver",
+          "transport"
+        ],
+        "title": "IdocPreview"
+      },
+      "IngestOut": {
+        "properties": {
+          "idoc_type": {
+            "type": "string",
+            "title": "Idoc Type"
+          },
+          "idocs": {
+            "type": "integer",
+            "title": "Idocs"
+          },
+          "created": {
+            "type": "integer",
+            "title": "Created"
+          },
+          "updated": {
+            "type": "integer",
+            "title": "Updated"
+          },
+          "unchanged": {
+            "type": "integer",
+            "title": "Unchanged"
+          },
+          "stale": {
+            "type": "integer",
+            "title": "Stale"
+          },
+          "duplicate": {
+            "type": "integer",
+            "title": "Duplicate"
+          },
+          "embedded": {
+            "type": "integer",
+            "title": "Embedded"
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentOut"
+            },
+            "type": "array",
+            "title": "Documents"
+          }
+        },
+        "type": "object",
+        "required": [
+          "idoc_type",
+          "idocs",
+          "created",
+          "updated",
+          "unchanged",
+          "stale",
+          "duplicate",
+          "embedded",
+          "documents"
+        ],
+        "title": "IngestOut"
+      },
+      "ItemUpdate": {
+        "properties": {
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          },
+          "matnr": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 40
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matnr",
+            "description": "SAP material number; null unlinks"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "uom": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9]{2,3}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uom"
+          },
+          "unit_cost": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Cost"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ItemUpdate"
+      },
+      "LinkedQuote": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QuoteStatus"
+          },
+          "net_total": {
+            "type": "string",
+            "title": "Net Total"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "quote_number",
+          "status",
+          "net_total",
+          "currency"
+        ],
+        "title": "LinkedQuote"
+      },
+      "MatchStatus": {
+        "type": "string",
+        "enum": [
+          "MATCHED",
+          "NEEDS_HUMAN_REVIEW",
+          "NOT_APPLICABLE"
+        ],
+        "title": "MatchStatus"
+      },
+      "MaterialList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "MaterialList"
+      },
+      "MaterialOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "matnr": {
+            "type": "string",
+            "title": "Matnr"
+          },
+          "material_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material Type"
+          },
+          "material_group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material Group"
+          },
+          "base_uom": {
+            "type": "string",
+            "title": "Base Uom"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "descriptions": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Descriptions"
+          },
+          "standard_price": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Standard Price"
+          },
+          "price_unit": {
+            "type": "integer",
+            "title": "Price Unit"
+          },
+          "price_currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Currency"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          },
+          "has_embedding": {
+            "type": "boolean",
+            "title": "Has Embedding"
+          },
+          "source_docnum": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Docnum"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "matnr",
+          "material_type",
+          "material_group",
+          "base_uom",
+          "description",
+          "descriptions",
+          "standard_price",
+          "price_unit",
+          "price_currency",
+          "is_active",
+          "has_embedding",
+          "source_docnum",
+          "updated_at"
+        ],
+        "title": "MaterialOut"
+      },
+      "PaymentTermsOut": {
+        "properties": {
+          "zterm": {
+            "type": "string",
+            "title": "Zterm"
+          },
+          "net_days": {
+            "type": "integer",
+            "title": "Net Days"
+          },
+          "description_de": {
+            "type": "string",
+            "title": "Description De"
+          },
+          "description_en": {
+            "type": "string",
+            "title": "Description En"
+          },
+          "agreed": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Agreed"
+          },
+          "deviation": {
+            "type": "boolean",
+            "title": "Deviation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "zterm",
+          "net_days",
+          "description_de",
+          "description_en",
+          "agreed",
+          "deviation"
+        ],
+        "title": "PaymentTermsOut"
+      },
+      "QuoteCustomer": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "kunnr": {
+            "type": "string",
+            "title": "Kunnr"
+          },
+          "name1": {
+            "type": "string",
+            "title": "Name1"
+          },
+          "name2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name2"
+          },
+          "street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Street"
+          },
+          "postal_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postal Code"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country"
+          },
+          "agreed_payment_terms": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Agreed Payment Terms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "kunnr",
+          "name1",
+          "name2",
+          "street",
+          "postal_code",
+          "city",
+          "country",
+          "agreed_payment_terms"
+        ],
+        "title": "QuoteCustomer"
+      },
+      "QuoteDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QuoteStatus"
+          },
+          "needs_review": {
+            "type": "boolean",
+            "title": "Needs Review"
+          },
+          "review_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Review Reasons"
+          },
+          "rfq_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rfq Id"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "customer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Name"
+          },
+          "contact_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Name"
+          },
+          "contact_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Email"
+          },
+          "requested_delivery_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Delivery Date"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "margin_pct": {
+            "type": "string",
+            "title": "Margin Pct"
+          },
+          "material_cost": {
+            "type": "string",
+            "title": "Material Cost"
+          },
+          "labor_hours": {
+            "type": "string",
+            "title": "Labor Hours"
+          },
+          "labor_cost": {
+            "type": "string",
+            "title": "Labor Cost"
+          },
+          "total_cost": {
+            "type": "string",
+            "title": "Total Cost"
+          },
+          "net_total": {
+            "type": "string",
+            "title": "Net Total"
+          },
+          "llm_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Model"
+          },
+          "llm_compliance_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Compliance Hash"
+          },
+          "extraction": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extraction"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteItemOut"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "vat_rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vat Rate"
+          },
+          "vat_amount": {
+            "type": "string",
+            "title": "Vat Amount"
+          },
+          "gross_total": {
+            "type": "string",
+            "title": "Gross Total"
+          },
+          "payment_terms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Terms"
+          },
+          "calculated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calculated At"
+          },
+          "last_idoc_docnum": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Idoc Docnum"
+          },
+          "exported_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exported At"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "rfq": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RfqSourceOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "customer": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QuoteCustomer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trail": {
+            "items": {
+              "$ref": "#/components/schemas/TrailEvent"
+            },
+            "type": "array",
+            "title": "Trail"
+          },
+          "approve_blockers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Approve Blockers",
+            "description": "Why the quote cannot be approved yet"
+          },
+          "export_blockers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Export Blockers",
+            "description": "Why it cannot be synced to SAP yet"
+          },
+          "sap_transport": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "file",
+                  "http"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sap Transport",
+            "description": "How a sync reaches SAP; null = no outbound transport configured"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "quote_number",
+          "status",
+          "needs_review",
+          "review_reasons",
+          "rfq_id",
+          "customer_id",
+          "customer_name",
+          "contact_name",
+          "contact_email",
+          "requested_delivery_date",
+          "language",
+          "currency",
+          "margin_pct",
+          "material_cost",
+          "labor_hours",
+          "labor_cost",
+          "total_cost",
+          "net_total",
+          "llm_model",
+          "llm_compliance_hash",
+          "extraction",
+          "items",
+          "vat_rate",
+          "vat_amount",
+          "gross_total",
+          "payment_terms",
+          "calculated_at",
+          "last_idoc_docnum",
+          "exported_at",
+          "created_at",
+          "updated_at",
+          "rfq",
+          "customer",
+          "trail",
+          "approve_blockers",
+          "export_blockers",
+          "sap_transport"
+        ],
+        "title": "QuoteDetail"
+      },
+      "QuoteItemKind": {
+        "type": "string",
+        "enum": [
+          "finished_good",
+          "semi_finished",
+          "raw_material",
+          "purchased_part",
+          "labor",
+          "service"
+        ],
+        "title": "QuoteItemKind"
+      },
+      "QuoteItemOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "parent_item_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Item Id"
+          },
+          "position": {
+            "type": "integer",
+            "title": "Position"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/QuoteItemKind"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "requested_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Description"
+          },
+          "specs": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Specs"
+          },
+          "quantity": {
+            "type": "string",
+            "title": "Quantity"
+          },
+          "quantity_per_parent": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity Per Parent"
+          },
+          "uom": {
+            "type": "string",
+            "title": "Uom"
+          },
+          "material_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material Id"
+          },
+          "matnr": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Matnr"
+          },
+          "material_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Material Type"
+          },
+          "match_status": {
+            "$ref": "#/components/schemas/MatchStatus"
+          },
+          "match_confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match Confidence"
+          },
+          "match_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Match Method"
+          },
+          "match_candidates": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Match Candidates"
+          },
+          "sourcing": {
+            "$ref": "#/components/schemas/Sourcing"
+          },
+          "unit_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Cost"
+          },
+          "labor_hours": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Labor Hours"
+          },
+          "labor_rate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Labor Rate"
+          },
+          "extended_cost": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extended Cost"
+          },
+          "margin_pct": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Pct"
+          },
+          "unit_margin": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Margin"
+          },
+          "unit_price": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit Price"
+          },
+          "line_total": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Line Total"
+          },
+          "catalog_warning": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CatalogWarning"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteItemOut"
+            },
+            "type": "array",
+            "title": "Components",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "parent_item_id",
+          "position",
+          "kind",
+          "description",
+          "requested_description",
+          "specs",
+          "quantity",
+          "quantity_per_parent",
+          "uom",
+          "material_id",
+          "matnr",
+          "material_type",
+          "match_status",
+          "match_confidence",
+          "match_method",
+          "match_candidates",
+          "sourcing",
+          "unit_cost",
+          "labor_hours",
+          "labor_rate",
+          "extended_cost",
+          "margin_pct",
+          "unit_margin",
+          "unit_price",
+          "line_total"
+        ],
+        "title": "QuoteItemOut"
+      },
+      "QuoteList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "QuoteList"
+      },
+      "QuoteOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QuoteStatus"
+          },
+          "needs_review": {
+            "type": "boolean",
+            "title": "Needs Review"
+          },
+          "review_reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Review Reasons"
+          },
+          "rfq_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rfq Id"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "customer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Name"
+          },
+          "contact_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Name"
+          },
+          "contact_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Email"
+          },
+          "requested_delivery_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Delivery Date"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "margin_pct": {
+            "type": "string",
+            "title": "Margin Pct"
+          },
+          "material_cost": {
+            "type": "string",
+            "title": "Material Cost"
+          },
+          "labor_hours": {
+            "type": "string",
+            "title": "Labor Hours"
+          },
+          "labor_cost": {
+            "type": "string",
+            "title": "Labor Cost"
+          },
+          "total_cost": {
+            "type": "string",
+            "title": "Total Cost"
+          },
+          "net_total": {
+            "type": "string",
+            "title": "Net Total"
+          },
+          "llm_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Model"
+          },
+          "llm_compliance_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Llm Compliance Hash"
+          },
+          "extraction": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Extraction"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/QuoteItemOut"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "quote_number",
+          "status",
+          "needs_review",
+          "review_reasons",
+          "rfq_id",
+          "customer_id",
+          "customer_name",
+          "contact_name",
+          "contact_email",
+          "requested_delivery_date",
+          "language",
+          "currency",
+          "margin_pct",
+          "material_cost",
+          "labor_hours",
+          "labor_cost",
+          "total_cost",
+          "net_total",
+          "llm_model",
+          "llm_compliance_hash",
+          "extraction",
+          "items"
+        ],
+        "title": "QuoteOut"
+      },
+      "QuoteStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "needs_review",
+          "approved",
+          "synced"
+        ],
+        "title": "QuoteStatus"
+      },
+      "QuoteSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "quote_number": {
+            "type": "string",
+            "title": "Quote Number"
+          },
+          "status": {
+            "$ref": "#/components/schemas/QuoteStatus"
+          },
+          "customer_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Name"
+          },
+          "kunnr": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kunnr"
+          },
+          "rfq_subject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rfq Subject"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "margin_pct": {
+            "type": "string",
+            "title": "Margin Pct"
+          },
+          "net_total": {
+            "type": "string",
+            "title": "Net Total"
+          },
+          "gross_total": {
+            "type": "string",
+            "title": "Gross Total"
+          },
+          "items": {
+            "type": "integer",
+            "title": "Items"
+          },
+          "review_items": {
+            "type": "integer",
+            "title": "Review Items"
+          },
+          "requested_delivery_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Delivery Date"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "quote_number",
+          "status",
+          "customer_name",
+          "kunnr",
+          "rfq_subject",
+          "currency",
+          "margin_pct",
+          "net_total",
+          "gross_total",
+          "items",
+          "review_items",
+          "requested_delivery_date",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "QuoteSummary"
+      },
+      "QuotingDefaults": {
+        "properties": {
+          "zuschlag_pct": {
+            "type": "string",
+            "title": "Zuschlag Pct"
+          },
+          "vat_rate": {
+            "type": "string",
+            "title": "Vat Rate"
+          },
+          "payment_terms": {
+            "type": "string",
+            "title": "Payment Terms"
+          },
+          "currency": {
+            "type": "string",
+            "title": "Currency"
+          },
+          "review_threshold": {
+            "type": "number",
+            "title": "Review Threshold"
+          },
+          "labor_rates_eur": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Labor Rates Eur"
+          },
+          "labor_default_rate_eur": {
+            "type": "string",
+            "title": "Labor Default Rate Eur"
+          }
+        },
+        "type": "object",
+        "required": [
+          "zuschlag_pct",
+          "vat_rate",
+          "payment_terms",
+          "currency",
+          "review_threshold",
+          "labor_rates_eur",
+          "labor_default_rate_eur"
+        ],
+        "title": "QuotingDefaults"
+      },
+      "RfqCreate": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/RfqSource",
+            "default": "manual"
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Subject"
+          },
+          "customer_ref": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 35
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Ref"
+          },
+          "body_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "subject"
+        ],
+        "title": "RfqCreate"
+      },
+      "RfqInboxItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/RfqSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RfqStatus"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "customer_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Ref"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          },
+          "preview": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preview",
+            "description": "First 240 characters of the inquiry"
+          },
+          "quote": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LinkedQuote"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Latest quote generated from this RFQ"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "status",
+          "subject",
+          "customer_ref",
+          "received_at",
+          "preview",
+          "quote"
+        ],
+        "title": "RfqInboxItem"
+      },
+      "RfqOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/RfqSource"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RfqStatus"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "customer_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Ref"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "status",
+          "subject",
+          "customer_ref",
+          "received_at"
+        ],
+        "title": "RfqOut"
+      },
+      "RfqSource": {
+        "type": "string",
+        "enum": [
+          "email",
+          "pdf",
+          "manual"
+        ],
+        "title": "RfqSource"
+      },
+      "RfqSourceOut": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "source": {
+            "$ref": "#/components/schemas/RfqSource"
+          },
+          "subject": {
+            "type": "string",
+            "title": "Subject"
+          },
+          "customer_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Ref"
+          },
+          "body_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Body Text"
+          },
+          "attachment_object_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attachment Object Key"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Received At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "subject",
+          "customer_ref",
+          "body_text",
+          "attachment_object_key",
+          "received_at"
+        ],
+        "title": "RfqSourceOut"
+      },
+      "RfqStatus": {
+        "type": "string",
+        "enum": [
+          "received",
+          "parsed",
+          "quoted",
+          "rejected"
+        ],
+        "title": "RfqStatus"
+      },
+      "SalesAreaOut": {
+        "properties": {
+          "sales_org": {
+            "type": "string",
+            "title": "Sales Org"
+          },
+          "distribution_channel": {
+            "type": "string",
+            "title": "Distribution Channel"
+          },
+          "division": {
+            "type": "string",
+            "title": "Division"
+          },
+          "currency": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Currency"
+          },
+          "payment_terms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Payment Terms"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sales_org",
+          "distribution_channel",
+          "division",
+          "currency",
+          "payment_terms",
+          "is_active"
+        ],
+        "title": "SalesAreaOut"
+      },
+      "SapOutboundProfile": {
+        "properties": {
+          "mandt": {
+            "type": "string",
+            "pattern": "^\\d{3}$",
+            "title": "Mandt"
+          },
+          "docrel": {
+            "type": "string",
+            "pattern": "^\\d{1,4}$",
+            "title": "Docrel",
+            "default": "750"
+          },
+          "status": {
+            "type": "string",
+            "pattern": "^\\d{2}$",
+            "title": "Status",
+            "default": "30"
+          },
+          "direct": {
+            "type": "string",
+            "enum": [
+              "1",
+              "2"
+            ],
+            "title": "Direct",
+            "default": "1"
+          },
+          "sender_port": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1,
+            "title": "Sender Port"
+          },
+          "sender_partner_type": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 1,
+            "title": "Sender Partner Type",
+            "default": "LS"
+          },
+          "sender_partner": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 1,
+            "title": "Sender Partner"
+          },
+          "receiver_port": {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1,
+            "title": "Receiver Port"
+          },
+          "receiver_partner_type": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 1,
+            "title": "Receiver Partner Type",
+            "default": "LS"
+          },
+          "receiver_partner": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 1,
+            "title": "Receiver Partner"
+          },
+          "vendor_number": {
+            "type": "string",
+            "maxLength": 17,
+            "minLength": 1,
+            "title": "Vendor Number"
+          },
+          "vendor_name": {
+            "type": "string",
+            "maxLength": 35,
+            "minLength": 1,
+            "title": "Vendor Name"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mandt",
+          "sender_port",
+          "sender_partner",
+          "receiver_port",
+          "receiver_partner",
+          "vendor_number",
+          "vendor_name"
+        ],
+        "title": "SapOutboundProfile",
+        "description": "ALE partner profile of the sending system (stored per tenant)."
+      },
+      "SapStatus": {
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "connected",
+              "unreachable",
+              "not_configured"
+            ],
+            "title": "State"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "system_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System Id"
+          },
+          "client": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client"
+          },
+          "receiver": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Receiver"
+          },
+          "transport": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "file",
+                  "http"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transport"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "last_inbound_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Inbound At"
+          },
+          "last_outbound_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Outbound At"
+          },
+          "checked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Checked At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "state",
+          "detail",
+          "checked_at"
+        ],
+        "title": "SapStatus"
+      },
+      "SendRequest": {
+        "properties": {
+          "docnum": {
+            "type": "string",
+            "pattern": "^\\d{16}$",
+            "title": "Docnum"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "docnum",
+          "sha256"
+        ],
+        "title": "SendRequest"
+      },
+      "SendResult": {
+        "properties": {
+          "docnum": {
+            "type": "string",
+            "title": "Docnum"
+          },
+          "sha256": {
+            "type": "string",
+            "title": "Sha256"
+          },
+          "transport": {
+            "type": "string",
+            "enum": [
+              "file",
+              "http"
+            ],
+            "title": "Transport"
+          },
+          "reference": {
+            "type": "string",
+            "title": "Reference"
+          },
+          "sent_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Sent At"
+          },
+          "quote": {
+            "$ref": "#/components/schemas/QuoteDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "docnum",
+          "sha256",
+          "transport",
+          "reference",
+          "sent_at",
+          "quote"
+        ],
+        "title": "SendResult"
+      },
+      "Sourcing": {
+        "type": "string",
+        "enum": [
+          "catalog",
+          "custom_build",
+          "missing_in_catalog",
+          "internal"
+        ],
+        "title": "Sourcing"
+      },
+      "TenantSettings": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "data_region": {
+            "type": "string",
+            "title": "Data Region"
+          },
+          "sap_client": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sap Client"
+          },
+          "sap_sales_org": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sap Sales Org"
+          },
+          "sap_outbound_profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SapOutboundProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sap_outbound_transport": {
+            "type": "string",
+            "title": "Sap Outbound Transport"
+          },
+          "quoting": {
+            "$ref": "#/components/schemas/QuotingDefaults"
+          },
+          "ai": {
+            "$ref": "#/components/schemas/AiSettings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "data_region",
+          "sap_client",
+          "sap_sales_org",
+          "sap_outbound_profile",
+          "sap_outbound_transport",
+          "quoting",
+          "ai"
+        ],
+        "title": "TenantSettings"
+      },
+      "TrailEvent": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "timestamp_utc": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp Utc"
+          },
+          "actor_id": {
+            "type": "string",
+            "title": "Actor Id"
+          },
+          "event": {
+            "type": "string",
+            "title": "Event"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "timestamp_utc",
+          "actor_id",
+          "event",
+          "details"
+        ],
+        "title": "TrailEvent"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

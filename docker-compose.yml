@@ -139,6 +139,10 @@ services:
       dockerfile: apps/web/Dockerfile
     environment:
       API_INTERNAL_URL: http://api:8000
+      ZUSCHLAG_AUTH_MODE: ${AUTH_MODE:-dev_headers}
+      ZUSCHLAG_ENVIRONMENT: ${ENVIRONMENT:-development}
+      DEV_TENANT_ID: ${DEV_TENANT_ID:-}
+      DEV_ACTOR_ID: ${DEV_ACTOR_ID:-dev-user}
     depends_on:
       - api
     ports:

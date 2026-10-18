@@ -1,0 +1,20 @@
+{
+  "name": "@zuschlag/api-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript types for the Zuschlag.ai API, generated from its OpenAPI document.",
+  "type": "module",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "lint": "node scripts/generate.mjs --check",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.9.1",
+    "typescript": "^5.9.3"
+  }
+}

@@ -149,7 +149,10 @@ class QuotePipeline:
         customer_ref: str | None = None,
         margin_pct: Decimal | None = None,
         received_on: date | None = None,
+        rfq: Rfq | None = None,
     ) -> Quote:
+        """Run the pipeline on `raw_text`. Pass `rfq` to re-parse a stored inquiry:
+        the new quote is linked to the same RFQ instead of creating another one."""
         s = self.session
         tenant_id = _tenant(s)
         received_on = received_on or datetime.now(UTC).date()
@@ -158,9 +161,10 @@ class QuotePipeline:
 
         customer = await resolve_customer(s, customer_ref) if customer_ref else None
 
-        rfq = Rfq(source=RfqSource.MANUAL, subject="(processing)", body_text=raw_text)
-        s.add(rfq)
-        await s.flush()
+        if rfq is None:
+            rfq = Rfq(source=RfqSource.MANUAL, subject="(processing)", body_text=raw_text)
+            s.add(rfq)
+            await s.flush()
 
         extracted = await extract_rfq(
             self.llm,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import uuid
+from collections.abc import Mapping
 from datetime import date
 from decimal import Decimal
 from functools import lru_cache
@@ -18,11 +19,19 @@ from zuschlag_api.core.config import Settings, get_settings
 from zuschlag_api.embeddings import Embedder, EmbeddingError
 from zuschlag_api.llm.client import ComplianceError, LLMOutputError, ZeroRetentionLLMClient
 from zuschlag_api.llm.providers import provider_from_settings
-from zuschlag_api.models import MatchStatus, QuoteItem, QuoteItemKind, QuoteStatus, Sourcing
+from zuschlag_api.models import (
+    MatchStatus,
+    Quote,
+    QuoteItem,
+    QuoteItemKind,
+    QuoteStatus,
+    Sourcing,
+)
 from zuschlag_api.quoting.calculation import VatRate
 from zuschlag_api.quoting.export import ExportBlockedError, export_reqote
 from zuschlag_api.quoting.payment_terms import PaymentTermsError
 from zuschlag_api.quoting.service import QuoteLockedError, QuoteNotFoundError, recalculate_quote
+from zuschlag_api.quoting.studio import CatalogWarning
 from zuschlag_api.rfq.matching import MatchConfig
 from zuschlag_api.rfq.pipeline import CustomerNotFoundError, PipelineConfig, QuotePipeline
 from zuschlag_api.rfq.pricing import LaborRates
@@ -70,13 +79,16 @@ class QuoteItemOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: uuid.UUID
+    parent_item_id: uuid.UUID | None
     position: int
     kind: QuoteItemKind
     description: str
+    requested_description: str | None
     specs: list[dict[str, Any]]
     quantity: Decimal
     quantity_per_parent: Decimal | None
     uom: str
+    material_id: uuid.UUID | None
     matnr: str | None
     material_type: str | None
     match_status: MatchStatus
@@ -92,6 +104,7 @@ class QuoteItemOut(BaseModel):
     unit_margin: Decimal | None
     unit_price: Decimal | None
     line_total: Decimal | None
+    catalog_warning: CatalogWarning | None = None
     components: list[QuoteItemOut] = []
 
 
@@ -170,17 +183,29 @@ async def generate_from_rfq(
             .order_by(QuoteItem.parent_item_id.nulls_first(), QuoteItem.position)
         )
     )
-    # Column attributes only: touching the `items` relationship would lazy-load (no IO here).
-    scalar_fields = QuoteOut.model_fields.keys() - {"items", "needs_review"}
-    return QuoteOut(
-        **{f: getattr(quote, f) for f in scalar_fields},
-        needs_review=quote.status is QuoteStatus.NEEDS_REVIEW,
-        items=_tree(items),
-    )
+    return QuoteOut(**quote_fields(QuoteOut, quote), items=item_tree(items))
 
 
-def _tree(items: list[QuoteItem]) -> list[QuoteItemOut]:
-    nodes = {i.id: QuoteItemOut.model_validate(i) for i in items}
+def quote_fields(model: type[BaseModel], quote: Quote) -> dict[str, Any]:
+    """Scalar columns of `quote` that `model` declares.
+
+    Column attributes only: touching the `items` relationship would lazy-load (no IO here)."""
+    columns = set(Quote.__table__.columns.keys())
+    out = {f: getattr(quote, f) for f in model.model_fields if f in columns}
+    out["needs_review"] = quote.status is QuoteStatus.NEEDS_REVIEW
+    return out
+
+
+def item_tree(
+    items: list[QuoteItem], warnings: Mapping[uuid.UUID, CatalogWarning] | None = None
+) -> list[QuoteItemOut]:
+    warnings = warnings or {}
+    nodes = {
+        i.id: QuoteItemOut.model_validate(i).model_copy(
+            update={"catalog_warning": warnings.get(i.id)}
+        )
+        for i in items
+    }
     roots: list[QuoteItemOut] = []
     for i in items:
         if i.parent_item_id is None:

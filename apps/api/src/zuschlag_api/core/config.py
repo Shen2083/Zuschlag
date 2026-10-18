@@ -11,6 +11,7 @@ from __future__ import annotations
 from decimal import Decimal
 from enum import StrEnum
 from functools import lru_cache
+from pathlib import Path
 from typing import Annotated, Literal
 from urllib.parse import urlsplit
 
@@ -129,6 +130,16 @@ class Settings(BaseSettings):
     # Company-code currency of the valuation prices (MBEW carries no currency).
     sap_valuation_currency: str = "EUR"
 
+    # --- SAP outbound (REQOTE quotations) ---------------------------------------
+    # file: write IDoc XML into a directory read by an SAP file port (WE21 "File").
+    # http: POST it to an SAP "XML HTTP" port / integration middleware.
+    sap_outbound_transport: Literal["disabled", "file", "http"] = "disabled"
+    sap_outbound_dir: Path | None = None
+    sap_outbound_url: str | None = None
+    sap_outbound_username: str | None = None
+    sap_outbound_password: SecretStr | None = None
+    sap_outbound_timeout_s: float = Field(default=10.0, gt=0, le=120)
+
     # --- RFQ -> quote pipeline ---------------------------------------------------
     rfq_max_chars: int = Field(default=50_000, ge=100)
     # Matches below this confidence are flagged NEEDS_HUMAN_REVIEW.
@@ -202,6 +213,16 @@ class Settings(BaseSettings):
                     "EMBEDDING_ENDPOINT_EU_ATTESTED must be true: catalog data may only be "
                     "sent to an EU-hosted, no-retention embedding endpoint"
                 )
+
+        if self.sap_outbound_transport == "file" and self.sap_outbound_dir is None:
+            raise ValueError("SAP_OUTBOUND_DIR is required for SAP_OUTBOUND_TRANSPORT=file")
+        if self.sap_outbound_transport == "http":
+            if not self.sap_outbound_url:
+                raise ValueError("SAP_OUTBOUND_URL is required for SAP_OUTBOUND_TRANSPORT=http")
+            parts = urlsplit(self.sap_outbound_url)
+            local = parts.hostname in {"localhost", "127.0.0.1"}
+            if parts.scheme != "https" and not (local and not self.is_production):
+                raise ValueError("SAP_OUTBOUND_URL must use https")
 
         if self.environment is Environment.PRODUCTION:
             if self.embedding_provider == "hashing":

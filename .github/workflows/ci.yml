@@ -37,7 +37,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
       - run: pnpm turbo run build --filter=@zuschlag/sap-schema
-      - run: pnpm turbo run lint typecheck test --filter=@zuschlag/sap-schema --filter=@zuschlag/web
+      # lint of api-types fails when generated/schema.ts is stale against openapi.json
+      - run: pnpm turbo run lint typecheck test --filter=@zuschlag/sap-schema --filter=@zuschlag/api-types --filter=@zuschlag/web
       - run: pnpm turbo run build --filter=@zuschlag/web --filter=@zuschlag/prototype
         env:
           NEXT_TELEMETRY_DISABLED: "1"
@@ -79,6 +80,8 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ruff format --check .
       - run: uv run mypy
+      - name: OpenAPI document is current (source of the web app's TypeScript types)
+        run: uv run python scripts/export_openapi.py --check
       - name: Provision roles + extensions (same script as docker compose)
         run: bash ../../infra/postgres/init/01-roles.sh
       - name: Migrations (upgrade → downgrade → upgrade, then drift check)

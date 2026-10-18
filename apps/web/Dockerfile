@@ -10,9 +10,11 @@ WORKDIR /repo
 COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./
 COPY apps/web/package.json apps/web/
 COPY packages/sap-schema/package.json packages/sap-schema/
+COPY packages/api-types/package.json packages/api-types/
 RUN --mount=type=cache,id=pnpm,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile --filter @zuschlag/web...
 COPY packages/sap-schema packages/sap-schema
+COPY packages/api-types packages/api-types
 COPY apps/web apps/web
 RUN pnpm --filter @zuschlag/sap-schema build && pnpm --filter @zuschlag/web build
 

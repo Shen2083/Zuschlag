@@ -11,7 +11,7 @@ from zuschlag_api.api.deps import TenantDb
 from zuschlag_api.audit.service import audit_chain_breaks
 from zuschlag_api.models import AuditLog
 
-router = APIRouter(prefix="/v1/audit-logs", tags=["audit"])
+router = APIRouter(prefix="/api/v1/audit-logs", tags=["audit"])
 
 
 class AuditLogOut(BaseModel):

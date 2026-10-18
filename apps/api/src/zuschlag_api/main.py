@@ -7,7 +7,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from zuschlag_api.api.routes import audit, health, quotes, rfqs, sap
+from zuschlag_api.api.routes import audit, catalog, health, quotes, rfqs, sap, studio, tenant
 from zuschlag_api.core.config import Settings, get_settings
 from zuschlag_api.core.logging import configure_logging
 from zuschlag_api.core.security import SecurityHeadersMiddleware
@@ -63,6 +63,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(audit.router)
     app.include_router(sap.router)
     app.include_router(quotes.router)
+    app.include_router(studio.router)
+    app.include_router(catalog.router)
+    app.include_router(tenant.router)
     return app
 
 

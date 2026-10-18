@@ -15,7 +15,8 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css}\"",
     "infra:up": "docker compose up -d --wait",
     "infra:down": "docker compose down",
-    "db:migrate": "pnpm --filter @zuschlag/api db:migrate"
+    "db:migrate": "pnpm --filter @zuschlag/api db:migrate",
+    "api-types": "(cd apps/api && uv run python scripts/export_openapi.py) && pnpm --filter @zuschlag/api-types generate"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

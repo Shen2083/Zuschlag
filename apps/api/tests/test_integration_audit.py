@@ -125,10 +125,12 @@ async def test_api_create_rfq_is_audited_with_pseudonymised_ip(tenant_a: uuid.UU
     transport = httpx.ASGITransport(app=create_app(), client=("198.51.100.23", 50000))
     headers = {"X-Tenant-ID": str(tenant_a), "X-Actor-ID": "julia.schmidt"}
     async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as c:
-        created = await c.post("/v1/rfqs", json={"subject": "15 Edelstahl-Racks"}, headers=headers)
+        created = await c.post(
+            "/api/v1/rfqs", json={"subject": "15 Edelstahl-Racks"}, headers=headers
+        )
         assert created.status_code == 201, created.text
-        logs = (await c.get("/v1/audit-logs", headers=headers)).json()
-        verify = (await c.get("/v1/audit-logs/verify", headers=headers)).json()
+        logs = (await c.get("/api/v1/audit-logs", headers=headers)).json()
+        verify = (await c.get("/api/v1/audit-logs/verify", headers=headers)).json()
 
     entry = next(e for e in logs if e["entity_id"] == created.json()["id"])
     assert entry["action"] == "rfq.created"

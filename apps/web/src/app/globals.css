@@ -25,11 +25,15 @@
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.279 0.041 260.031);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted-foreground: oklch(0.446 0.043 257.281);
   --accent: oklch(0.47 0.12 245);
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.577 0.245 27.325);
-  --success: oklch(0.6 0.13 163);
+  --success: oklch(0.52 0.13 163);
+  --success-foreground: oklch(0.4 0.1 163);
+  /* AI review / catalog warnings: amber fill, dark amber text (WCAG AA on white) */
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.45 0.11 55);
 
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
@@ -61,6 +65,9 @@
   --accent-foreground: oklch(0.984 0.003 247.858);
   --destructive: oklch(0.704 0.191 22.216);
   --success: oklch(0.7 0.13 163);
+  --success-foreground: oklch(0.82 0.12 163);
+  --warning: oklch(0.769 0.188 70.08);
+  --warning-foreground: oklch(0.86 0.15 85);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.828 0.189 84.429);
@@ -93,6 +100,9 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -114,5 +124,35 @@
     font-feature-settings:
       "tnum" 1,
       "cv11" 1;
+  }
+}
+
+/* Highlighted RFQ entities */
+mark[data-entity] {
+  border-radius: 2px;
+  padding: 0 1px;
+  color: inherit;
+  box-shadow: inset 0 -2px 0 currentColor;
+}
+mark[data-entity="party"] {
+  background: oklch(0.47 0.12 245 / 14%);
+}
+mark[data-entity="item"] {
+  background: oklch(0.769 0.188 70.08 / 28%);
+}
+mark[data-entity="spec"] {
+  background: oklch(0.52 0.13 163 / 16%);
+}
+mark[data-entity="date"] {
+  background: oklch(0.6 0.2 300 / 14%);
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm 14mm;
+  }
+  body {
+    background: white;
   }
 }

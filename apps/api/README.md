@@ -174,3 +174,58 @@ reason listed) when:
 
 The tenant's `sap_outbound_profile` (JSON on `tenants`) holds MANDT, DOCREL, the
 sender/receiver ports and partners, and our own vendor number and name for the `LF` partner.
+
+## Quote Studio endpoints
+
+These endpoints serve the web app. Request and response types are exported to
+`packages/api-types` (`uv run python scripts/export_openapi.py`; CI checks the file is current).
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/v1/quotes?status&q&limit&offset` | Quote list with item and review counts |
+| `GET /api/v1/quotes/{id}` | Studio detail (see below) |
+| `PATCH /api/v1/quotes/{id}/items/{item_id}` | Inline edit (see below) |
+| `POST /api/v1/quotes/{id}/approve` | Approve the quote (see below) |
+| `POST /api/v1/quotes/{id}/reparse` | Re-run extraction and matching (see below) |
+| `POST /api/v1/quotes/{id}/sap-idoc/prepare` | Reserve a DOCNUM and render the IDoc for review. Nothing is sent. |
+| `POST /api/v1/quotes/{id}/sap-idoc/send` | Send exactly the previewed IDoc (see below) |
+| `GET /api/v1/sap/status` | Partner profile, a live probe of the outbound transport with latency, last inbound/outbound IDoc |
+| `GET /api/v1/materials`, `GET /api/v1/customers` | Mirrored MATMAS / DEBMAS with search |
+| `GET /api/v1/rfqs` | Inbox with the latest quote per RFQ |
+| `GET /api/v1/tenant` | Tenant settings |
+| `PUT /api/v1/tenant/sap-outbound-profile` | Set the ALE partner profile (audited) |
+
+**Quote detail** (`GET /api/v1/quotes/{id}`) returns:
+
+- the source RFQ text and the customer with its agreed ZTERMs,
+- the BOM tree with a `catalog_warning` per line,
+- the `quote_audit_trail`,
+- `approve_blockers` and `export_blockers`.
+
+**Inline edit** (`PATCH .../items/{item_id}`) changes `matnr` (looked up in MATMAS, which supplies the
+price and MAKTX), `description`, `quantity`, `uom` or `unit_cost`.
+
+- Component costs roll up to the custom-build parent, and the quote is repriced at its Zuschlag.
+- An approved quote returns to `draft`.
+- A synced quote returns 409.
+
+**Approve** (`POST .../approve`) returns 422 with every reason while the quote is uncalculated, a line
+is unpriced, or a match needs human review. It records the AI review notes the approver accepted.
+
+**Re-parse** (`POST .../reparse`) re-runs extraction and matching on the stored RFQ text. The result is
+a new quote; the old one gets a `quote.superseded` trail entry.
+
+**Send** (`POST .../sap-idoc/send` with `{docnum, sha256}`) works like this:
+
+1. The IDoc is rebuilt from the current quote. If it differs from the reviewed bytes, the endpoint
+   returns 409.
+2. Otherwise the IDoc is handed to `SAP_OUTBOUND_TRANSPORT`:
+   - `file`: an atomic write into an SAP file-port directory.
+   - `http`: a POST to an XML-HTTP port.
+3. The quote is marked `synced`.
+
+The older `POST .../export-sap-idoc` still returns the XML for download without changing the quote's
+status.
+
+`scripts/seed_demo.py` creates a demo tenant with catalog, customers and three quotes. It reuses the
+test fixtures, so it needs no model or API key.

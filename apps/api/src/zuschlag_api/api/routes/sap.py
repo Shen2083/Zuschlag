@@ -8,16 +8,20 @@ for accepted payloads, including pure re-deliveries, so SAP does not retry.
 from __future__ import annotations
 
 import hashlib
+from datetime import UTC, datetime
 from functools import lru_cache
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
+from sqlalchemy import func, select
 from starlette.datastructures import UploadFile
 
 from zuschlag_api.api.deps import PrincipalDep, TenantDb
 from zuschlag_api.core.config import Settings, get_settings
+from zuschlag_api.db.session import TENANT_KEY
 from zuschlag_api.embeddings import Embedder, EmbeddingError, embedder_from_settings
+from zuschlag_api.models import Quote, SapIdocReceipt, Tenant
 from zuschlag_api.sap.idoc_xml import IdocParseError
 from zuschlag_api.sap.ingest import (
     IdocConflictError,
@@ -26,6 +30,8 @@ from zuschlag_api.sap.ingest import (
     ingest_materials,
 )
 from zuschlag_api.sap.master_data import IdocValidationError, parse_debmas06, parse_matmas05
+from zuschlag_api.sap.reqote import SapOutboundProfile
+from zuschlag_api.sap.transport import SapTransport, TransportKind, get_sap_transport
 
 router = APIRouter(prefix="/api/v1/sap", tags=["sap"])
 
@@ -210,3 +216,56 @@ async def ingest_debmas(
     except IdocConflictError as exc:
         raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
     return IngestOut.from_result(result)
+
+
+# --------------------------------------------------------------------------- #
+# Connection status (header indicator)
+# --------------------------------------------------------------------------- #
+
+
+class SapStatus(BaseModel):
+    state: Literal["connected", "unreachable", "not_configured"]
+    detail: str
+    system_id: str | None = None
+    client: str | None = None
+    receiver: str | None = None
+    transport: TransportKind | None = None
+    latency_ms: float | None = None
+    last_inbound_at: datetime | None = None
+    last_outbound_at: datetime | None = None
+    checked_at: datetime
+
+
+@router.get("/status")
+async def sap_status(
+    db: TenantDb, transport: Annotated[SapTransport | None, Depends(get_sap_transport)]
+) -> SapStatus:
+    """State of the SAP link: outbound partner profile, a live probe of the
+    outbound transport (with its latency), and the last IDoc in each direction."""
+    tenant = await db.scalar(select(Tenant).where(Tenant.tenant_id == db.info[TENANT_KEY]))
+    profile = (
+        SapOutboundProfile.model_validate(tenant.sap_outbound_profile)
+        if tenant and tenant.sap_outbound_profile
+        else None
+    )
+    last_in = await db.scalar(select(func.max(SapIdocReceipt.received_at)))
+    last_out = await db.scalar(select(func.max(Quote.exported_at)))
+    common: dict[str, Any] = {
+        "system_id": profile.sender_partner if profile else None,
+        "client": profile.mandt if profile else (tenant.sap_client if tenant else None),
+        "receiver": profile.receiver_partner if profile else None,
+        "transport": transport.kind if transport else None,
+        "last_inbound_at": last_in,
+        "last_outbound_at": last_out,
+        "checked_at": datetime.now(UTC),
+    }
+    if profile is None or transport is None:
+        missing = "partner profile" if profile is None else "outbound transport"
+        return SapStatus(state="not_configured", detail=f"no SAP {missing}", **common)
+    probe = await transport.probe()
+    return SapStatus(
+        state="connected" if probe.reachable else "unreachable",
+        detail=probe.detail,
+        latency_ms=round(probe.latency_ms, 1) if probe.latency_ms is not None else None,
+        **common,
+    )

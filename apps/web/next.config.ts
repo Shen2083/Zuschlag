@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
-  transpilePackages: ["@zuschlag/sap-schema"],
+  transpilePackages: ["@zuschlag/sap-schema", "@zuschlag/api-types"],
   // Content-Security-Policy is set per request (with a nonce) in src/middleware.ts.
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

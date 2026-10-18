@@ -4,16 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Factory } from "lucide-react";
 
+import { Kbd } from "@/components/ui/input";
+import { useI18n } from "@/i18n";
 import { NAV_ITEMS } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { t } = useI18n();
 
   return (
-    <aside className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:flex">
-      <div className="flex h-14 items-center gap-2.5 border-b border-sidebar-border px-5">
-        <div className="flex size-8 items-center justify-center rounded-md bg-sidebar-accent">
+    <aside className="hidden w-60 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:flex print:hidden">
+      <div className="flex h-12 items-center gap-2.5 border-b border-sidebar-border px-4">
+        <div className="flex size-7 items-center justify-center rounded-md bg-sidebar-accent">
           <Factory className="size-4 text-sidebar-primary" aria-hidden />
         </div>
         <span className="text-sm font-semibold tracking-tight text-white">
@@ -21,17 +24,17 @@ export function AppSidebar() {
         </span>
       </div>
 
-      <nav aria-label="Main" className="flex-1 space-y-0.5 p-3">
-        {NAV_ITEMS.map(({ slug, label, icon: Icon }) => {
-          const href = `/${slug}`;
-          const active = pathname === href;
+      <nav aria-label={t("nav.main")} className="flex-1 space-y-0.5 p-2">
+        {NAV_ITEMS.map(({ href, label, icon: Icon, key }) => {
+          const active = pathname === href || pathname.startsWith(`${href}/`);
           return (
             <Link
-              key={slug || "dashboard"}
+              key={href}
               href={href}
               aria-current={active ? "page" : undefined}
+              aria-keyshortcuts={`g ${key}`}
               className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                "group flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] transition-colors focus-visible:ring-2 focus-visible:ring-sidebar-primary focus-visible:outline-none",
                 active
                   ? "bg-sidebar-accent font-medium text-sidebar-accent-foreground"
                   : "hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground",
@@ -41,14 +44,17 @@ export function AppSidebar() {
                 className={cn("size-4", active ? "text-sidebar-primary" : "opacity-70")}
                 aria-hidden
               />
-              {label}
+              <span className="flex-1 truncate">{t(label)}</span>
+              <Kbd className="hidden border-sidebar-border bg-transparent text-[10px] text-sidebar-foreground opacity-60 group-hover:inline-flex">
+                g {key}
+              </Kbd>
             </Link>
           );
         })}
       </nav>
 
-      <p className="border-t border-sidebar-border px-5 py-4 text-xs opacity-60">
-        Hosted in the EU · GoBD audit trail
+      <p className="border-t border-sidebar-border px-4 py-3 text-[11px] opacity-60">
+        {t("app.tagline")}
       </p>
     </aside>
   );
