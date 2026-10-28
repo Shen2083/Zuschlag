@@ -3,6 +3,12 @@
  * `Messages` type makes a missing translation a compile error).
  */
 const de = {
+  demo: {
+    title: "Demo:",
+    body: "Echte Oberfläche, Daten nur in diesem Browser simuliert. Keine KI-Aufrufe für neue Anfragen (lokale Erkennung), SAP ist simuliert, nichts wird gesendet.",
+    reset: "Demo zurücksetzen",
+    source: "Quellcode",
+  },
   app: { tagline: "EU-gehostet · GoBD-Audit-Trail", skip: "Zum Inhalt springen" },
   nav: {
     main: "Hauptnavigation",
@@ -91,6 +97,7 @@ const de = {
     body: "Anfragetext",
     customer: "Kunde (KUNNR oder leer für automatische Zuordnung)",
     generate: "Angebot mit KI erstellen",
+    example: "z. B.: Bitte senden Sie uns ein Angebot für 100 Stück Shen AI Product Description",
     generating: "KI analysiert…",
     sources: { email: "E-Mail", pdf: "PDF", manual: "Manuell" },
   },
@@ -285,6 +292,12 @@ type Widen<T> = { [K in keyof T]: T[K] extends string ? string : Widen<T[K]> };
 export type Messages = Widen<typeof de>;
 
 const en: Messages = {
+  demo: {
+    title: "Demo:",
+    body: "Real interface, data simulated in this browser only. No AI calls for new inquiries (local parsing), SAP is simulated, nothing is sent.",
+    reset: "Reset demo",
+    source: "Source code",
+  },
   app: { tagline: "EU-hosted · GoBD audit trail", skip: "Skip to content" },
   nav: {
     main: "Main navigation",
@@ -373,6 +386,7 @@ const en: Messages = {
     body: "Inquiry text",
     customer: "Customer (KUNNR, or empty to match automatically)",
     generate: "Generate quote with AI",
+    example: "e.g. Please quote 100 pieces Shen AI Product Description",
     generating: "AI is analysing…",
     sources: { email: "E-mail", pdf: "PDF", manual: "Manual" },
   },

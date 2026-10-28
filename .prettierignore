@@ -3,4 +3,5 @@ apps/api
 apps/prototype
 **/.next
 **/dist
+**/out
 **/generated

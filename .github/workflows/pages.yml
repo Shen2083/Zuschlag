@@ -24,12 +24,22 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile --filter @zuschlag/prototype
+      - run: pnpm install --frozen-lockfile --filter "@zuschlag/web..." --filter @zuschlag/prototype
+      # The Quote Studio as a static demo (API simulated in the browser, see
+      # apps/web/src/lib/demo), served at https://<user>.github.io/Zuschlag/
+      - run: pnpm --filter @zuschlag/sap-schema build
+      - run: pnpm --filter @zuschlag/web build:demo
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+      # The first clickable prototype stays available at /Zuschlag/prototype/
       - run: pnpm --filter @zuschlag/prototype build
+      - run: |
+          cp -r apps/prototype/dist apps/web/out/prototype
+          touch apps/web/out/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/prototype/dist
+          path: apps/web/out
 
   deploy:
     needs: build

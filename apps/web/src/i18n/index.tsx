@@ -1,7 +1,8 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
+import { DEMO } from "@/lib/demo/config";
 import type { Locale } from "@/lib/format";
 import { MESSAGES, type Messages } from "@/i18n/messages";
 
@@ -29,7 +30,20 @@ const I18nContext = createContext<{ locale: Locale; t: Translate }>({
   t: translate("de"),
 });
 
-export function I18nProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
+export function I18nProvider({
+  locale: initial,
+  children,
+}: {
+  locale: Locale;
+  children: React.ReactNode;
+}) {
+  const [locale, setLocale] = useState(initial);
+  // The static demo is rendered without a request, so it reads the cookie in the browser.
+  useEffect(() => {
+    if (!DEMO) return;
+    const chosen = /(?:^|; )locale=(de|en)/.exec(document.cookie)?.[1] as Locale | undefined;
+    if (chosen && chosen !== initial) setLocale(chosen);
+  }, [initial]);
   const value = useMemo(() => ({ locale, t: translate(locale) }), [locale]);
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }

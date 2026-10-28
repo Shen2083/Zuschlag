@@ -1,11 +1,11 @@
 /**
- * The backend-for-frontend proxy (src/app/api/zuschlag/[...path]/route.ts):
+ * The backend-for-frontend proxy (src/app/api/zuschlag/[...path]/route.server.ts):
  * path allowlist, CSRF check and server-side tenant injection.
  */
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { GET, PATCH } from "@/app/api/zuschlag/[...path]/route";
+import { GET, PATCH } from "@/app/api/zuschlag/[...path]/route.server";
 
 const upstream = vi.fn();
 

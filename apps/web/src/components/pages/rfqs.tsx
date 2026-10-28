@@ -32,7 +32,7 @@ export function RfqsPage() {
     col.accessor("subject", {
       header: t("rfqs.subject"),
       cell: (c) => (
-        <div className="max-w-xl min-w-0">
+        <div className="max-w-md min-w-0">
           <p className="truncate font-medium">{c.getValue()}</p>
           {c.row.original.preview && (
             <p className="truncate text-[11px] text-muted-foreground">{c.row.original.preview}</p>
@@ -57,7 +57,7 @@ export function RfqsPage() {
       cell: (c) => {
         const q = c.row.original.quote;
         return q ? (
-          <span className="flex items-center gap-2">
+          <span className="flex items-center gap-2 whitespace-nowrap">
             <span className="font-mono">{q.quote_number}</span>
             <QuoteStatusBadge status={q.status} />
             <span className="ml-auto tabular-nums">
@@ -131,6 +131,7 @@ function NewRfq() {
         required
         rows={12}
         value={text}
+        placeholder={t("rfqs.example")}
         onChange={(e) => setText(e.target.value)}
         className="font-mono text-xs"
       />

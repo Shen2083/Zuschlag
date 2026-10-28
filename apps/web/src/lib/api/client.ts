@@ -6,7 +6,16 @@
 import createClient from "openapi-fetch";
 import type { ApiErrorBody, paths } from "@zuschlag/api-types";
 
-export const api = createClient<paths>({ baseUrl: "/api/zuschlag" });
+import { DEMO } from "@/lib/demo/config";
+
+// The static demo (GitHub Pages) answers every request in the browser; the
+// simulation is loaded only there.
+const demoFetch = async (request: Request) => (await import("@/lib/demo/api")).handle(request);
+
+export const api = createClient<paths>({
+  baseUrl: "/api/zuschlag",
+  ...(DEMO ? { fetch: demoFetch } : {}),
+});
 
 export class ApiError extends Error {
   constructor(

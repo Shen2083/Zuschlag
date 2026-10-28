@@ -42,6 +42,10 @@ jobs:
       - run: pnpm turbo run build --filter=@zuschlag/web --filter=@zuschlag/prototype
         env:
           NEXT_TELEMETRY_DISABLED: "1"
+      # The GitHub Pages demo is a static export of the same app.
+      - run: pnpm --filter @zuschlag/web build:demo
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
 
   api:
     name: API (lint, types, tests on Postgres 16 + pgvector)

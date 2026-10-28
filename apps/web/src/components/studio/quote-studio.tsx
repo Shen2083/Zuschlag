@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useI18n } from "@/i18n";
+import { BASE_PATH } from "@/lib/demo/config";
 import { ApiError } from "@/lib/api/client";
 import { useApprove, useCalculate, useQuote, useUpdateItem } from "@/lib/api/queries";
 import { Dec } from "@/lib/decimal";
@@ -184,7 +185,10 @@ function Studio({ quote }: { quote: QuoteDetail }) {
     },
     { combo: "shift+a", handler: doApprove },
     { combo: "shift+s", handler: doSync },
-    { combo: "shift+p", handler: () => window.open(printHref, "_blank", "noopener") },
+    {
+      combo: "shift+p",
+      handler: () => window.open(`${BASE_PATH}${printHref}`, "_blank", "noopener"),
+    },
   ]);
 
   return (
@@ -264,7 +268,12 @@ function Studio({ quote }: { quote: QuoteDetail }) {
                 </Button>
               )}
               <Button asChild size="sm" variant="outline" className="h-7">
-                <a href={printHref} target="_blank" rel="noopener" aria-keyshortcuts="Shift+P">
+                <a
+                  href={`${BASE_PATH}${printHref}`}
+                  target="_blank"
+                  rel="noopener"
+                  aria-keyshortcuts="Shift+P"
+                >
                   <FileDown aria-hidden />
                   {t("studio.exportPdf")}
                 </a>

@@ -1,0 +1,2109 @@
+{
+  "tenant": {
+    "name": "Muster Lieferant AG",
+    "data_region": "eu-central-1",
+    "sap_client": "800",
+    "sap_sales_org": "1000",
+    "sap_outbound_profile": {
+      "mandt": "800",
+      "docrel": "750",
+      "status": "30",
+      "direct": "1",
+      "sender_port": "SAPERP",
+      "sender_partner_type": "LS",
+      "sender_partner": "CLNT800",
+      "receiver_port": "RECEIVER_PORT",
+      "receiver_partner_type": "LS",
+      "receiver_partner": "EXT_SYSTEM",
+      "vendor_number": "0000200000",
+      "vendor_name": "Muster Lieferant AG"
+    },
+    "sap_outbound_transport": "disabled",
+    "quoting": {
+      "zuschlag_pct": "22",
+      "vat_rate": "19",
+      "payment_terms": "NT30",
+      "currency": "EUR",
+      "review_threshold": 0.75,
+      "labor_rates_eur": {
+        "cutting": "85",
+        "bending": "85",
+        "welding": "92",
+        "machining": "95",
+        "assembly": "68",
+        "surface_treatment": "55",
+        "quality_inspection": "75"
+      },
+      "labor_default_rate_eur": "80"
+    },
+    "ai": {
+      "llm_provider": "disabled",
+      "llm_model": "anthropic.claude-opus-5-5",
+      "llm_region": "eu-central-1",
+      "zero_data_retention_attested": false,
+      "embedding_provider": "hashing",
+      "embedding_model": "intfloat/multilingual-e5-large"
+    }
+  },
+  "materials": [
+    {
+      "id": "f4368ccb-fd4a-42a9-af3a-5fb8a82fd0a8",
+      "matnr": "FG-RACK-42U",
+      "material_type": "FERT",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Serverschrank 42 HE, Stahlblech lackiert",
+      "descriptions": {
+        "DE": "Serverschrank 42 HE, Stahlblech lackiert"
+      },
+      "standard_price": "1180.0000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+      "matnr": "FG-WT-1200",
+      "material_type": "FERT",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
+      "descriptions": {
+        "DE": "Edelstahl-Arbeitstisch 1200 x 700 mm"
+      },
+      "standard_price": "640.0000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+      "matnr": "PT-CAS-125HD",
+      "material_type": "HAWA",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+      "descriptions": {
+        "DE": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse"
+      },
+      "standard_price": "389.0000",
+      "price_unit": 10,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "57dccb27-1eb5-4384-bc38-1cecce199b0b",
+      "matnr": "PT-FAN-EC120",
+      "material_type": "HAWA",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "EC-Axiallüfter 120 mm, 230 V",
+      "descriptions": {
+        "DE": "EC-Axiallüfter 120 mm, 230 V"
+      },
+      "standard_price": "27.8000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+      "matnr": "PT-HNG-SS180",
+      "material_type": "HAWA",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Scharnier Edelstahl, 180° Öffnung",
+      "descriptions": {
+        "DE": "Scharnier Edelstahl, 180° Öffnung"
+      },
+      "standard_price": "12.4000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+      "matnr": "RM-1430-SH20",
+      "material_type": "ROH",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+      "descriptions": {
+        "DE": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000"
+      },
+      "standard_price": "148.5000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+      "matnr": "RM-1430-TQ40",
+      "material_type": "ROH",
+      "material_group": null,
+      "base_uom": "PCE",
+      "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+      "descriptions": {
+        "DE": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m"
+      },
+      "standard_price": "96.2000",
+      "price_unit": 1,
+      "price_currency": "EUR",
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "81c22d69-9645-494f-936c-73ee01c17dce",
+      "matnr": "RM-SEAL-EPDM",
+      "material_type": "ROH",
+      "material_group": null,
+      "base_uom": "MTR",
+      "description": "EPDM-Dichtprofil 10 x 8 mm",
+      "descriptions": {
+        "DE": "EPDM-Dichtprofil 10 x 8 mm"
+      },
+      "standard_price": null,
+      "price_unit": 1,
+      "price_currency": null,
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": null,
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+      "matnr": "shenai",
+      "material_type": "FERT",
+      "material_group": "001",
+      "base_uom": "PCE",
+      "description": "Shen AI Product Description",
+      "descriptions": {
+        "EN": "Shen AI Product Description"
+      },
+      "standard_price": null,
+      "price_unit": 1,
+      "price_currency": null,
+      "is_active": true,
+      "has_embedding": true,
+      "source_docnum": 12345,
+      "updated_at": "2026-10-28T20:35:33.644143Z"
+    }
+  ],
+  "customers": [
+    {
+      "id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+      "kunnr": "0000100042",
+      "name1": "Shenba 01A212 GmbH",
+      "name2": "IT-Consulting",
+      "street": "Musterstraße 10",
+      "postal_code": "12345",
+      "city": "Musterstadt",
+      "country": "DE",
+      "language": "DE",
+      "is_active": true,
+      "sales_areas": [
+        {
+          "sales_org": "1000",
+          "distribution_channel": "10",
+          "division": "00",
+          "currency": "EUR",
+          "payment_terms": "NT30",
+          "is_active": true
+        }
+      ],
+      "updated_at": "2026-10-28T20:35:33.704522Z"
+    },
+    {
+      "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "kunnr": "0000100077",
+      "name1": "Rechenzentrum Nord GmbH",
+      "name2": null,
+      "street": "Hafenstraße 12",
+      "postal_code": "20457",
+      "city": "Hamburg",
+      "country": "DE",
+      "language": null,
+      "is_active": true,
+      "sales_areas": [
+        {
+          "sales_org": "1000",
+          "distribution_channel": "10",
+          "division": "00",
+          "currency": "EUR",
+          "payment_terms": "NT30",
+          "is_active": true
+        }
+      ],
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    },
+    {
+      "id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+      "kunnr": "0000100099",
+      "name1": "Nordwind Marine AG",
+      "name2": null,
+      "street": "Am Kai 3",
+      "postal_code": "24103",
+      "city": "Kiel",
+      "country": "DE",
+      "language": null,
+      "is_active": true,
+      "sales_areas": [
+        {
+          "sales_org": "1000",
+          "distribution_channel": "10",
+          "division": "00",
+          "currency": "EUR",
+          "payment_terms": "NT14",
+          "is_active": true
+        }
+      ],
+      "updated_at": "2026-10-28T20:35:33.154439Z"
+    }
+  ],
+  "rfqs": [
+    {
+      "id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+      "source": "email",
+      "status": "quoted",
+      "subject": "Angebot für 100 Stück Shen AI Product Description",
+      "customer_ref": null,
+      "received_at": "2026-10-28T20:35:34.099441Z",
+      "preview": "Bitte senden Sie uns ein Angebot für 100 Stück Shen AI Product Description\n",
+      "quote": {
+        "id": "a25681be-6790-4fe4-9a39-71808090efb6",
+        "quote_number": "AN-20261028-2D3755",
+        "status": "needs_review",
+        "net_total": "0.00",
+        "currency": "EUR"
+      }
+    },
+    {
+      "id": "74e2c296-411d-418c-b9b9-882abdda2873",
+      "source": "email",
+      "status": "quoted",
+      "subject": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
+      "customer_ref": null,
+      "received_at": "2026-10-28T20:35:34.021595Z",
+      "preview": "Betreff: Anfrage Serverschränke Halle B\n\nSehr geehrte Damen und Herren,\n\nwir benötigen ein Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftungsschlitzen und Schwerlastrollen. Belastung mindestens 250 kg pro Rack.\nAbmessungen ca. 60",
+      "quote": {
+        "id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
+        "quote_number": "AN-20261028-D4A432",
+        "status": "needs_review",
+        "net_total": "42300.45",
+        "currency": "EUR"
+      }
+    },
+    {
+      "id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+      "source": "email",
+      "status": "quoted",
+      "subject": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
+      "customer_ref": null,
+      "received_at": "2026-10-28T20:35:33.965426Z",
+      "preview": "Hallo zusammen,\n\nbitte um Preis für:\n- 40 Stück PT-CAS-125HD (Schwerlastrollen mit Bremse)\n- 50 kg Lochblech 1.4301, 1,5 mm, Rundloch R5T8\n\nLieferung bis 15.12.2026 an Werk Süd.\n\nGruß\nAnja Krüger, Einkauf\nBrenner Lebensmitteltechnik\n",
+      "quote": {
+        "id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
+        "quote_number": "AN-20261028-494432",
+        "status": "needs_review",
+        "net_total": "1898.32",
+        "currency": "EUR"
+      }
+    },
+    {
+      "id": "295f432f-e2df-4545-8983-bcff0ff18148",
+      "source": "email",
+      "status": "quoted",
+      "subject": "Quote for 2 stainless steel work tables 1200 x 700 mm",
+      "customer_ref": null,
+      "received_at": "2026-10-28T20:35:33.752421Z",
+      "preview": "Hi, could you quote 2 stainless steel work tables, 1200 x 700 mm, delivered within 3 weeks?\nThanks, Tom Hansen (Nordwind Marine AG)\n",
+      "quote": {
+        "id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
+        "quote_number": "AN-20261028-B51840",
+        "status": "draft",
+        "net_total": "1561.60",
+        "currency": "EUR"
+      }
+    }
+  ],
+  "quotes": [
+    {
+      "id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
+      "quote_number": "AN-20261028-B51840",
+      "status": "draft",
+      "revision": 1,
+      "needs_review": false,
+      "review_reasons": [],
+      "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
+      "customer_id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+      "customer_name": "Nordwind Marine AG",
+      "contact_name": "Tom Hansen",
+      "contact_email": null,
+      "requested_delivery_date": "2026-11-08",
+      "language": "en",
+      "currency": "EUR",
+      "margin_pct": "22.00",
+      "material_cost": "1280.00",
+      "labor_hours": "0.00",
+      "labor_cost": "0.00",
+      "total_cost": "1280.00",
+      "net_total": "1561.60",
+      "llm_model": "anthropic.claude-opus-5-5",
+      "llm_compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87",
+      "extraction": {
+        "summary": "Quote for 2 stainless steel work tables 1200 x 700 mm",
+        "customer": {
+          "company_name": "Nordwind Marine AG",
+          "contact_name": "Tom Hansen",
+          "contact_email": null,
+          "contact_phone": null,
+          "customer_reference": null,
+          "delivery_date_text": "within 3 weeks",
+          "target_delivery_date": "2026-11-08"
+        },
+        "language": "en",
+        "line_items": [
+          {
+            "kind": "finished_good",
+            "unit": "PCE",
+            "labor": [],
+            "specs": [
+              {
+                "name": "Dimensions",
+                "unit": "mm",
+                "value": "1200 x 700",
+                "constraint": "exact"
+              }
+            ],
+            "position": 1,
+            "quantity": 2.0,
+            "components": [],
+            "description": "Stainless steel work table 1200 x 700 mm",
+            "search_text": "Edelstahl-Arbeitstisch 1200 x 700 mm stainless steel work table",
+            "is_custom_made": false,
+            "material_number": null
+          }
+        ],
+        "open_questions": []
+      },
+      "items": [
+        {
+          "id": "274dc3c2-d6da-47e6-8266-5c4fd86fa840",
+          "parent_item_id": null,
+          "position": 10,
+          "kind": "finished_good",
+          "description": "Stainless steel work table 1200 x 700 mm",
+          "requested_description": "Stainless steel work table 1200 x 700 mm",
+          "specs": [
+            {
+              "name": "Dimensions",
+              "unit": "mm",
+              "value": "1200 x 700",
+              "constraint": "exact"
+            }
+          ],
+          "quantity": "2.000",
+          "quantity_per_parent": null,
+          "uom": "PCE",
+          "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+          "matnr": "FG-WT-1200",
+          "material_type": "FERT",
+          "match_status": "MATCHED",
+          "match_confidence": "1.00",
+          "match_method": "hybrid",
+          "match_candidates": [
+            {
+              "flags": [],
+              "matnr": "FG-WT-1200",
+              "score": 0.9982,
+              "base_uom": "PCE",
+              "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
+              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_type": "FERT",
+              "dense_similarity": 0.9969,
+              "lexical_similarity": 0.6
+            },
+            {
+              "flags": [],
+              "matnr": "RM-1430-TQ40",
+              "score": 0.4094,
+              "base_uom": "PCE",
+              "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_type": "ROH",
+              "dense_similarity": 0.6312,
+              "lexical_similarity": 0.2286
+            },
+            {
+              "flags": [],
+              "matnr": "RM-1430-SH20",
+              "score": 0.3734,
+              "base_uom": "PCE",
+              "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "material_type": "ROH",
+              "dense_similarity": 0.4984,
+              "lexical_similarity": 0.2754
+            }
+          ],
+          "sourcing": "catalog",
+          "unit_cost": "640.0000",
+          "labor_hours": null,
+          "labor_rate": null,
+          "extended_cost": "1280.00",
+          "margin_pct": "22.00",
+          "unit_margin": "140.8000",
+          "unit_price": "780.8000",
+          "line_total": "1561.60",
+          "catalog_warning": null,
+          "components": []
+        }
+      ],
+      "vat_rate": null,
+      "vat_amount": "0.00",
+      "gross_total": "0.00",
+      "payment_terms": null,
+      "calculated_at": null,
+      "last_idoc_docnum": null,
+      "exported_at": null,
+      "created_at": "2026-10-28T20:35:33.752421Z",
+      "updated_at": "2026-10-28T20:35:33.752421Z",
+      "rfq": {
+        "id": "295f432f-e2df-4545-8983-bcff0ff18148",
+        "source": "email",
+        "subject": "Quote for 2 stainless steel work tables 1200 x 700 mm",
+        "customer_ref": null,
+        "body_text": "Hi, could you quote 2 stainless steel work tables, 1200 x 700 mm, delivered within 3 weeks?\nThanks, Tom Hansen (Nordwind Marine AG)\n",
+        "attachment_object_key": null,
+        "received_at": "2026-10-28T20:35:33.752421Z"
+      },
+      "customer": {
+        "id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+        "kunnr": "0000100099",
+        "name1": "Nordwind Marine AG",
+        "name2": null,
+        "street": "Am Kai 3",
+        "postal_code": "24103",
+        "city": "Kiel",
+        "country": "DE",
+        "agreed_payment_terms": ["NT14"]
+      },
+      "trail": [
+        {
+          "id": 2652,
+          "timestamp_utc": "2026-10-28T20:35:33.875188Z",
+          "actor_id": "julia.schmidt",
+          "event": "rfq.received",
+          "details": {
+            "chars": 132,
+            "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
+            "text_sha256": "7b26c88bbc41a44d51d2fde8d7177a723eb4a3649db4ec0f3123b4637ff1a49d",
+            "customer_ref": "100099"
+          }
+        },
+        {
+          "id": 2653,
+          "timestamp_utc": "2026-10-28T20:35:33.875395Z",
+          "actor_id": "ai:anthropic.claude-opus-5-5",
+          "event": "ai.extraction",
+          "details": {
+            "model": "anthropic.claude-opus-5-5",
+            "language": "en",
+            "components": 0,
+            "line_items": 1,
+            "customer_match": null,
+            "compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87"
+          }
+        },
+        {
+          "id": 2654,
+          "timestamp_utc": "2026-10-28T20:35:33.932899Z",
+          "actor_id": "system:matcher",
+          "event": "ai.matching",
+          "details": {
+            "items": [
+              {
+                "flags": [],
+                "matnr": "FG-WT-1200",
+                "method": "hybrid",
+                "status": "MATCHED",
+                "position": "10",
+                "confidence": 1.0,
+                "description": "Stainless steel work table 1200 x 700 mm"
+              }
+            ]
+          }
+        },
+        {
+          "id": 2655,
+          "timestamp_utc": "2026-10-28T20:35:33.932992Z",
+          "actor_id": "system:costing",
+          "event": "quote.priced",
+          "details": {
+            "currency": "EUR",
+            "net_total": "1561.60",
+            "labor_cost": "0.00",
+            "margin_pct": "22",
+            "total_cost": "1280.00",
+            "labor_hours": "0.00",
+            "material_cost": "1280.00"
+          }
+        },
+        {
+          "id": 2656,
+          "timestamp_utc": "2026-10-28T20:35:33.933016Z",
+          "actor_id": "julia.schmidt",
+          "event": "quote.created",
+          "details": {
+            "status": "draft",
+            "review_reasons": []
+          }
+        }
+      ],
+      "approve_blockers": ["quote has not been calculated (Zuschlag, VAT and payment terms)"],
+      "export_blockers": [
+        "quote is draft; it must be approved before ERP sync",
+        "quote has not been calculated (no payment terms); call /calculate first"
+      ],
+      "sap_transport": null
+    },
+    {
+      "id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
+      "quote_number": "AN-20261028-494432",
+      "status": "needs_review",
+      "revision": 1,
+      "needs_review": true,
+      "review_reasons": [
+        "Item 20 'Lochblech 1.4301, 1,5 mm, Rundloch R5T8': not found in SAP catalog (missing material)",
+        "Item 20: no price available"
+      ],
+      "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+      "customer_id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "customer_name": "Brenner Lebensmitteltechnik",
+      "contact_name": "Anja Krüger",
+      "contact_email": null,
+      "requested_delivery_date": "2026-12-15",
+      "language": "de",
+      "currency": "EUR",
+      "margin_pct": "22.00",
+      "material_cost": "1556.00",
+      "labor_hours": "0.00",
+      "labor_cost": "0.00",
+      "total_cost": "1556.00",
+      "net_total": "1898.32",
+      "llm_model": "anthropic.claude-opus-5-5",
+      "llm_compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5",
+      "extraction": {
+        "summary": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
+        "customer": {
+          "company_name": "Brenner Lebensmitteltechnik",
+          "contact_name": "Anja Krüger",
+          "contact_email": null,
+          "contact_phone": null,
+          "customer_reference": null,
+          "delivery_date_text": "bis 15.12.2026",
+          "target_delivery_date": "2026-12-15"
+        },
+        "language": "de",
+        "line_items": [
+          {
+            "kind": "purchased_part",
+            "unit": "PCE",
+            "labor": [],
+            "specs": [],
+            "position": 1,
+            "quantity": 40.0,
+            "components": [],
+            "description": "Schwerlastrollen mit Bremse PT-CAS-125HD",
+            "search_text": "Schwerlastrolle Bremse heavy-duty castor brake",
+            "is_custom_made": false,
+            "material_number": "PT-CAS-125HD"
+          },
+          {
+            "kind": "raw_material",
+            "unit": "KGM",
+            "labor": [],
+            "specs": [
+              {
+                "name": "Lochung",
+                "unit": null,
+                "value": "R5T8",
+                "constraint": "exact"
+              }
+            ],
+            "position": 2,
+            "quantity": 50.0,
+            "components": [],
+            "description": "Lochblech 1.4301, 1,5 mm, Rundloch R5T8",
+            "search_text": "Lochblech 1.4301 1,5 mm R5T8 perforated stainless sheet",
+            "is_custom_made": false,
+            "material_number": null
+          }
+        ],
+        "open_questions": []
+      },
+      "items": [
+        {
+          "id": "eeb09130-7def-4c41-9356-d3642ca0fcbc",
+          "parent_item_id": null,
+          "position": 10,
+          "kind": "purchased_part",
+          "description": "Schwerlastrollen mit Bremse PT-CAS-125HD",
+          "requested_description": "Schwerlastrollen mit Bremse PT-CAS-125HD",
+          "specs": [],
+          "quantity": "40.000",
+          "quantity_per_parent": null,
+          "uom": "PCE",
+          "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+          "matnr": "PT-CAS-125HD",
+          "material_type": "HAWA",
+          "match_status": "MATCHED",
+          "match_confidence": "1.00",
+          "match_method": "exact",
+          "match_candidates": [
+            {
+              "flags": [],
+              "matnr": "PT-CAS-125HD",
+              "score": 1.0,
+              "base_uom": "PCE",
+              "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+              "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+              "material_type": "HAWA",
+              "dense_similarity": null,
+              "lexical_similarity": 1.0
+            }
+          ],
+          "sourcing": "catalog",
+          "unit_cost": "38.9000",
+          "labor_hours": null,
+          "labor_rate": null,
+          "extended_cost": "1556.00",
+          "margin_pct": "22.00",
+          "unit_margin": "8.5580",
+          "unit_price": "47.4580",
+          "line_total": "1898.32",
+          "catalog_warning": null,
+          "components": []
+        },
+        {
+          "id": "a8174b59-7dfc-4d2f-965f-ad84cea834b9",
+          "parent_item_id": null,
+          "position": 20,
+          "kind": "raw_material",
+          "description": "Lochblech 1.4301, 1,5 mm, Rundloch R5T8",
+          "requested_description": "Lochblech 1.4301, 1,5 mm, Rundloch R5T8",
+          "specs": [
+            {
+              "name": "Lochung",
+              "unit": null,
+              "value": "R5T8",
+              "constraint": "exact"
+            }
+          ],
+          "quantity": "50.000",
+          "quantity_per_parent": null,
+          "uom": "KGM",
+          "material_id": null,
+          "matnr": null,
+          "material_type": null,
+          "match_status": "NEEDS_HUMAN_REVIEW",
+          "match_confidence": "0.51",
+          "match_method": "hybrid",
+          "match_candidates": [
+            {
+              "flags": ["uom_mismatch"],
+              "matnr": "RM-1430-SH20",
+              "score": 0.5121,
+              "base_uom": "PCE",
+              "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "material_type": "ROH",
+              "dense_similarity": 0.7039,
+              "lexical_similarity": 0.2459
+            },
+            {
+              "flags": [],
+              "matnr": "RM-1430-TQ40",
+              "score": 0.3979,
+              "base_uom": "PCE",
+              "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_type": "ROH",
+              "dense_similarity": 0.5949,
+              "lexical_similarity": 0.1774
+            },
+            {
+              "flags": [],
+              "matnr": "FG-WT-1200",
+              "score": 0.2271,
+              "base_uom": "PCE",
+              "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
+              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_type": "FERT",
+              "dense_similarity": 0.4687,
+              "lexical_similarity": 0.0882
+            }
+          ],
+          "sourcing": "missing_in_catalog",
+          "unit_cost": null,
+          "labor_hours": null,
+          "labor_rate": null,
+          "extended_cost": null,
+          "margin_pct": null,
+          "unit_margin": null,
+          "unit_price": null,
+          "line_total": null,
+          "catalog_warning": "missing_in_catalog",
+          "components": []
+        }
+      ],
+      "vat_rate": null,
+      "vat_amount": "0.00",
+      "gross_total": "0.00",
+      "payment_terms": null,
+      "calculated_at": null,
+      "last_idoc_docnum": null,
+      "exported_at": null,
+      "created_at": "2026-10-28T20:35:33.965426Z",
+      "updated_at": "2026-10-28T20:35:33.965426Z",
+      "rfq": {
+        "id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+        "source": "email",
+        "subject": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
+        "customer_ref": null,
+        "body_text": "Hallo zusammen,\n\nbitte um Preis für:\n- 40 Stück PT-CAS-125HD (Schwerlastrollen mit Bremse)\n- 50 kg Lochblech 1.4301, 1,5 mm, Rundloch R5T8\n\nLieferung bis 15.12.2026 an Werk Süd.\n\nGruß\nAnja Krüger, Einkauf\nBrenner Lebensmitteltechnik\n",
+        "attachment_object_key": null,
+        "received_at": "2026-10-28T20:35:33.965426Z"
+      },
+      "customer": {
+        "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+        "kunnr": "0000100077",
+        "name1": "Rechenzentrum Nord GmbH",
+        "name2": null,
+        "street": "Hafenstraße 12",
+        "postal_code": "20457",
+        "city": "Hamburg",
+        "country": "DE",
+        "agreed_payment_terms": ["NT30"]
+      },
+      "trail": [
+        {
+          "id": 2657,
+          "timestamp_utc": "2026-10-28T20:35:33.983213Z",
+          "actor_id": "julia.schmidt",
+          "event": "rfq.received",
+          "details": {
+            "chars": 233,
+            "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+            "text_sha256": "760857ffca71c0cf7c5a450087a84b7d303db0b9d9ff8420de05274f0ef73ca7",
+            "customer_ref": "100077"
+          }
+        },
+        {
+          "id": 2658,
+          "timestamp_utc": "2026-10-28T20:35:33.983248Z",
+          "actor_id": "ai:anthropic.claude-opus-5-5",
+          "event": "ai.extraction",
+          "details": {
+            "model": "anthropic.claude-opus-5-5",
+            "language": "de",
+            "components": 0,
+            "line_items": 2,
+            "customer_match": null,
+            "compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5"
+          }
+        },
+        {
+          "id": 2659,
+          "timestamp_utc": "2026-10-28T20:35:34.002966Z",
+          "actor_id": "system:matcher",
+          "event": "ai.matching",
+          "details": {
+            "items": [
+              {
+                "flags": [],
+                "matnr": "PT-CAS-125HD",
+                "method": "exact",
+                "status": "MATCHED",
+                "position": "10",
+                "confidence": 1.0,
+                "description": "Schwerlastrollen mit Bremse PT-CAS-125HD"
+              },
+              {
+                "flags": ["uom_mismatch"],
+                "matnr": null,
+                "method": "hybrid",
+                "status": "NEEDS_HUMAN_REVIEW",
+                "position": "20",
+                "confidence": 0.51,
+                "description": "Lochblech 1.4301, 1,5 mm, Rundloch R5T8"
+              }
+            ]
+          }
+        },
+        {
+          "id": 2660,
+          "timestamp_utc": "2026-10-28T20:35:34.003009Z",
+          "actor_id": "system:costing",
+          "event": "quote.priced",
+          "details": {
+            "currency": "EUR",
+            "net_total": "1898.32",
+            "labor_cost": "0.00",
+            "margin_pct": "22",
+            "total_cost": "1556.00",
+            "labor_hours": "0.00",
+            "material_cost": "1556.00"
+          }
+        },
+        {
+          "id": 2661,
+          "timestamp_utc": "2026-10-28T20:35:34.003018Z",
+          "actor_id": "julia.schmidt",
+          "event": "quote.created",
+          "details": {
+            "status": "needs_review",
+            "review_reasons": [
+              "Item 20 'Lochblech 1.4301, 1,5 mm, Rundloch R5T8': not found in SAP catalog (missing material)",
+              "Item 20: no price available"
+            ]
+          }
+        }
+      ],
+      "approve_blockers": [
+        "quote has not been calculated (Zuschlag, VAT and payment terms)",
+        "Item 00020: SAP match needs human review",
+        "Item 00020: not priced"
+      ],
+      "export_blockers": [
+        "quote is needs_review; it must be approved before ERP sync",
+        "quote has not been calculated (no payment terms); call /calculate first",
+        "Item 00020: no SAP material number (custom build or missing in catalog)"
+      ],
+      "sap_transport": null
+    },
+    {
+      "id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
+      "quote_number": "AN-20261028-D4A432",
+      "status": "needs_review",
+      "revision": 1,
+      "needs_review": true,
+      "review_reasons": [
+        "Item 10: AI-proposed BOM and labor for custom build must be confirmed; a new SAP material (FERT) is needed before ERP sync",
+        "Open question: Oberfläche (geschliffen K240 oder gebürstet)?"
+      ],
+      "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
+      "customer_id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "customer_name": "Rechenzentrum Nord GmbH",
+      "contact_name": "Markus Weber",
+      "contact_email": "m.weber@rz-nord.de",
+      "requested_delivery_date": "2026-11-27",
+      "language": "de",
+      "currency": "EUR",
+      "margin_pct": "22.00",
+      "material_cost": "22215.00",
+      "labor_hours": "150.00",
+      "labor_cost": "12457.50",
+      "total_cost": "34672.50",
+      "net_total": "42300.45",
+      "llm_model": "anthropic.claude-opus-5-5",
+      "llm_compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0",
+      "extraction": {
+        "summary": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
+        "customer": {
+          "company_name": "Rechenzentrum Nord GmbH",
+          "contact_name": "Markus Weber",
+          "contact_email": "m.weber@rz-nord.de",
+          "contact_phone": "+49 40 123456-0",
+          "customer_reference": null,
+          "delivery_date_text": "bis KW 48",
+          "target_delivery_date": "2026-11-27"
+        },
+        "language": "de",
+        "line_items": [
+          {
+            "kind": "finished_good",
+            "unit": "PCE",
+            "labor": [
+              {
+                "note": "Laserzuschnitt",
+                "operation": "cutting",
+                "hours_per_unit": 1.5
+              },
+              {
+                "note": null,
+                "operation": "bending",
+                "hours_per_unit": 1.5
+              },
+              {
+                "note": "WIG-Schweißen Rahmen",
+                "operation": "welding",
+                "hours_per_unit": 4.0
+              },
+              {
+                "note": null,
+                "operation": "assembly",
+                "hours_per_unit": 2.5
+              },
+              {
+                "note": "Belastungsprüfung 250 kg",
+                "operation": "quality_inspection",
+                "hours_per_unit": 0.5
+              }
+            ],
+            "specs": [
+              {
+                "name": "Werkstoff",
+                "unit": null,
+                "value": "Edelstahl",
+                "constraint": "exact"
+              },
+              {
+                "name": "Belastbarkeit",
+                "unit": "kg",
+                "value": "250",
+                "constraint": "min"
+              },
+              {
+                "name": "Abmessungen (B x T x H)",
+                "unit": "mm",
+                "value": "600 x 1000 x 2000",
+                "constraint": "approx"
+              },
+              {
+                "name": "Höheneinheiten",
+                "unit": "HE",
+                "value": "42",
+                "constraint": "exact"
+              },
+              {
+                "name": "Türen",
+                "unit": null,
+                "value": "vorne und hinten abschließbar",
+                "constraint": "exact"
+              }
+            ],
+            "position": 1,
+            "quantity": 15.0,
+            "components": [
+              {
+                "kind": "raw_material",
+                "unit": "PCE",
+                "specs": [
+                  {
+                    "name": "Werkstoff",
+                    "unit": null,
+                    "value": "1.4301",
+                    "constraint": "exact"
+                  }
+                ],
+                "description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000",
+                "search_text": "Edelstahlblech 1.4301 2 mm stainless steel sheet",
+                "quantity_per_unit": 6.0
+              },
+              {
+                "kind": "raw_material",
+                "unit": "PCE",
+                "specs": [],
+                "description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m",
+                "search_text": "Vierkantrohr Edelstahl 1.4301 40x40x3 stainless square tube",
+                "quantity_per_unit": 4.0
+              },
+              {
+                "kind": "purchased_part",
+                "unit": "PCE",
+                "specs": [
+                  {
+                    "name": "Tragkraft je Rolle",
+                    "unit": "kg",
+                    "value": "150",
+                    "constraint": "min"
+                  }
+                ],
+                "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+                "search_text": "Schwerlastrolle 125 mm 150 kg Bremse heavy-duty castor brake",
+                "quantity_per_unit": 4.0
+              },
+              {
+                "kind": "purchased_part",
+                "unit": "PCE",
+                "specs": [],
+                "description": "Scharnier Edelstahl 180°",
+                "search_text": "Scharnier Edelstahl 180 stainless hinge",
+                "quantity_per_unit": 4.0
+              }
+            ],
+            "description": "Edelstahl-Server-Rack nach Maß mit Belüftungsschlitzen und Schwerlastrollen",
+            "search_text": "Serverschrank Edelstahl 42 HE stainless steel server rack",
+            "is_custom_made": true,
+            "material_number": null
+          }
+        ],
+        "open_questions": ["Oberfläche (geschliffen K240 oder gebürstet)?"]
+      },
+      "items": [
+        {
+          "id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+          "parent_item_id": null,
+          "position": 10,
+          "kind": "finished_good",
+          "description": "Edelstahl-Server-Rack nach Maß mit Belüftungsschlitzen und Schwerlastrollen",
+          "requested_description": "Edelstahl-Server-Rack nach Maß mit Belüftungsschlitzen und Schwerlastrollen",
+          "specs": [
+            {
+              "name": "Werkstoff",
+              "unit": null,
+              "value": "Edelstahl",
+              "constraint": "exact"
+            },
+            {
+              "name": "Belastbarkeit",
+              "unit": "kg",
+              "value": "250",
+              "constraint": "min"
+            },
+            {
+              "name": "Abmessungen (B x T x H)",
+              "unit": "mm",
+              "value": "600 x 1000 x 2000",
+              "constraint": "approx"
+            },
+            {
+              "name": "Höheneinheiten",
+              "unit": "HE",
+              "value": "42",
+              "constraint": "exact"
+            },
+            {
+              "name": "Türen",
+              "unit": null,
+              "value": "vorne und hinten abschließbar",
+              "constraint": "exact"
+            }
+          ],
+          "quantity": "15.000",
+          "quantity_per_parent": null,
+          "uom": "PCE",
+          "material_id": null,
+          "matnr": null,
+          "material_type": null,
+          "match_status": "NOT_APPLICABLE",
+          "match_confidence": null,
+          "match_method": null,
+          "match_candidates": [
+            {
+              "matnr": "FG-RACK-42U",
+              "score": 0.737,
+              "base_uom": "PCE",
+              "description": "Serverschrank 42 HE, Stahlblech lackiert",
+              "material_id": "f4368ccb-fd4a-42a9-af3a-5fb8a82fd0a8",
+              "material_type": "FERT",
+              "dense_similarity": 0.5883,
+              "lexical_similarity": 0.58
+            },
+            {
+              "matnr": "RM-1430-TQ40",
+              "score": 0.334,
+              "base_uom": "PCE",
+              "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_type": "ROH",
+              "dense_similarity": 0.4949,
+              "lexical_similarity": 0.22
+            },
+            {
+              "matnr": "FG-WT-1200",
+              "score": 0.321,
+              "base_uom": "PCE",
+              "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
+              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_type": "FERT",
+              "dense_similarity": 0.3905,
+              "lexical_similarity": 0.2083
+            }
+          ],
+          "sourcing": "custom_build",
+          "unit_cost": "2311.5000",
+          "labor_hours": null,
+          "labor_rate": null,
+          "extended_cost": "34672.50",
+          "margin_pct": "22.00",
+          "unit_margin": "508.5300",
+          "unit_price": "2820.0300",
+          "line_total": "42300.45",
+          "catalog_warning": "needs_fert",
+          "components": [
+            {
+              "id": "49a388a6-b085-4f46-8625-53b39429a2aa",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 1,
+              "kind": "raw_material",
+              "description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000",
+              "requested_description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000",
+              "specs": [
+                {
+                  "name": "Werkstoff",
+                  "unit": null,
+                  "value": "1.4301",
+                  "constraint": "exact"
+                }
+              ],
+              "quantity": "90.000",
+              "quantity_per_parent": "6.000",
+              "uom": "PCE",
+              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "matnr": "RM-1430-SH20",
+              "material_type": "ROH",
+              "match_status": "MATCHED",
+              "match_confidence": "0.98",
+              "match_method": "hybrid",
+              "match_candidates": [
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-SH20",
+                  "score": 0.9817,
+                  "base_uom": "PCE",
+                  "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.9962,
+                  "lexical_similarity": 0.58
+                },
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-TQ40",
+                  "score": 0.591,
+                  "base_uom": "PCE",
+                  "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.6312,
+                  "lexical_similarity": 0.3654
+                },
+                {
+                  "flags": [],
+                  "matnr": "FG-WT-1200",
+                  "score": 0.3672,
+                  "base_uom": "PCE",
+                  "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
+                  "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+                  "material_type": "FERT",
+                  "dense_similarity": 0.4979,
+                  "lexical_similarity": 0.2667
+                }
+              ],
+              "sourcing": "catalog",
+              "unit_cost": "148.5000",
+              "labor_hours": null,
+              "labor_rate": null,
+              "extended_cost": "13365.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "06fd3158-3e4a-47ca-a3e3-1018067dcabd",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 2,
+              "kind": "raw_material",
+              "description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m",
+              "requested_description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m",
+              "specs": [],
+              "quantity": "60.000",
+              "quantity_per_parent": "4.000",
+              "uom": "PCE",
+              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "matnr": "RM-1430-TQ40",
+              "material_type": "ROH",
+              "match_status": "MATCHED",
+              "match_confidence": "0.96",
+              "match_method": "hybrid",
+              "match_candidates": [
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-TQ40",
+                  "score": 0.9571,
+                  "base_uom": "PCE",
+                  "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.9904,
+                  "lexical_similarity": 0.5536
+                },
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-SH20",
+                  "score": 0.4781,
+                  "base_uom": "PCE",
+                  "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.5861,
+                  "lexical_similarity": 0.2581
+                },
+                {
+                  "flags": [],
+                  "matnr": "PT-HNG-SS180",
+                  "score": 0.3737,
+                  "base_uom": "PCE",
+                  "description": "Scharnier Edelstahl, 180° Öffnung",
+                  "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+                  "material_type": "HAWA",
+                  "dense_similarity": 0.5855,
+                  "lexical_similarity": 0.2105
+                }
+              ],
+              "sourcing": "catalog",
+              "unit_cost": "96.2000",
+              "labor_hours": null,
+              "labor_rate": null,
+              "extended_cost": "5772.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "ce00c857-1a9e-4286-925b-de376a962ba1",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 3,
+              "kind": "purchased_part",
+              "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+              "requested_description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+              "specs": [
+                {
+                  "name": "Tragkraft je Rolle",
+                  "unit": "kg",
+                  "value": "150",
+                  "constraint": "min"
+                }
+              ],
+              "quantity": "60.000",
+              "quantity_per_parent": "4.000",
+              "uom": "PCE",
+              "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+              "matnr": "PT-CAS-125HD",
+              "material_type": "HAWA",
+              "match_status": "MATCHED",
+              "match_confidence": "0.97",
+              "match_method": "exact_text",
+              "match_candidates": [
+                {
+                  "flags": [],
+                  "matnr": "PT-CAS-125HD",
+                  "score": 0.97,
+                  "base_uom": "PCE",
+                  "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
+                  "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+                  "material_type": "HAWA",
+                  "dense_similarity": null,
+                  "lexical_similarity": 1.0
+                }
+              ],
+              "sourcing": "catalog",
+              "unit_cost": "38.9000",
+              "labor_hours": null,
+              "labor_rate": null,
+              "extended_cost": "2334.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "e458afc9-eb7c-45e6-9f01-467b577d0d9f",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 4,
+              "kind": "purchased_part",
+              "description": "Scharnier Edelstahl 180°",
+              "requested_description": "Scharnier Edelstahl 180°",
+              "specs": [],
+              "quantity": "60.000",
+              "quantity_per_parent": "4.000",
+              "uom": "PCE",
+              "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+              "matnr": "PT-HNG-SS180",
+              "material_type": "HAWA",
+              "match_status": "MATCHED",
+              "match_confidence": "1.00",
+              "match_method": "hybrid",
+              "match_candidates": [
+                {
+                  "flags": [],
+                  "matnr": "PT-HNG-SS180",
+                  "score": 0.9978,
+                  "base_uom": "PCE",
+                  "description": "Scharnier Edelstahl, 180° Öffnung",
+                  "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+                  "material_type": "HAWA",
+                  "dense_similarity": 0.9963,
+                  "lexical_similarity": 0.6316
+                },
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-TQ40",
+                  "score": 0.53,
+                  "base_uom": "PCE",
+                  "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
+                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.6308,
+                  "lexical_similarity": 0.2895
+                },
+                {
+                  "flags": [],
+                  "matnr": "RM-1430-SH20",
+                  "score": 0.4098,
+                  "base_uom": "PCE",
+                  "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
+                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_type": "ROH",
+                  "dense_similarity": 0.4975,
+                  "lexical_similarity": 0.2391
+                }
+              ],
+              "sourcing": "catalog",
+              "unit_cost": "12.4000",
+              "labor_hours": null,
+              "labor_rate": null,
+              "extended_cost": "744.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "5bccc5ec-1c52-40f7-9f90-0407d7321402",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 5,
+              "kind": "labor",
+              "description": "Cutting: Laserzuschnitt",
+              "requested_description": null,
+              "specs": [],
+              "quantity": "22.500",
+              "quantity_per_parent": "1.500",
+              "uom": "HUR",
+              "material_id": null,
+              "matnr": null,
+              "material_type": null,
+              "match_status": "NOT_APPLICABLE",
+              "match_confidence": null,
+              "match_method": null,
+              "match_candidates": [],
+              "sourcing": "internal",
+              "unit_cost": "85.0000",
+              "labor_hours": "22.50",
+              "labor_rate": "85.00",
+              "extended_cost": "1912.50",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "31431168-f21d-47b9-ba87-e44deabac282",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 6,
+              "kind": "labor",
+              "description": "Bending",
+              "requested_description": null,
+              "specs": [],
+              "quantity": "22.500",
+              "quantity_per_parent": "1.500",
+              "uom": "HUR",
+              "material_id": null,
+              "matnr": null,
+              "material_type": null,
+              "match_status": "NOT_APPLICABLE",
+              "match_confidence": null,
+              "match_method": null,
+              "match_candidates": [],
+              "sourcing": "internal",
+              "unit_cost": "85.0000",
+              "labor_hours": "22.50",
+              "labor_rate": "85.00",
+              "extended_cost": "1912.50",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "7874dfde-e9bf-4a18-a997-4b4dce63c49d",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 7,
+              "kind": "labor",
+              "description": "Welding: WIG-Schweißen Rahmen",
+              "requested_description": null,
+              "specs": [],
+              "quantity": "60.000",
+              "quantity_per_parent": "4.000",
+              "uom": "HUR",
+              "material_id": null,
+              "matnr": null,
+              "material_type": null,
+              "match_status": "NOT_APPLICABLE",
+              "match_confidence": null,
+              "match_method": null,
+              "match_candidates": [],
+              "sourcing": "internal",
+              "unit_cost": "92.0000",
+              "labor_hours": "60.00",
+              "labor_rate": "92.00",
+              "extended_cost": "5520.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "163174db-6cc5-4fb1-8c2d-0233df10ee26",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 8,
+              "kind": "labor",
+              "description": "Assembly",
+              "requested_description": null,
+              "specs": [],
+              "quantity": "37.500",
+              "quantity_per_parent": "2.500",
+              "uom": "HUR",
+              "material_id": null,
+              "matnr": null,
+              "material_type": null,
+              "match_status": "NOT_APPLICABLE",
+              "match_confidence": null,
+              "match_method": null,
+              "match_candidates": [],
+              "sourcing": "internal",
+              "unit_cost": "68.0000",
+              "labor_hours": "37.50",
+              "labor_rate": "68.00",
+              "extended_cost": "2550.00",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            },
+            {
+              "id": "456b8c21-baf0-474b-baaf-eaeca385af2d",
+              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "position": 9,
+              "kind": "labor",
+              "description": "Quality Inspection: Belastungsprüfung 250 kg",
+              "requested_description": null,
+              "specs": [],
+              "quantity": "7.500",
+              "quantity_per_parent": "0.500",
+              "uom": "HUR",
+              "material_id": null,
+              "matnr": null,
+              "material_type": null,
+              "match_status": "NOT_APPLICABLE",
+              "match_confidence": null,
+              "match_method": null,
+              "match_candidates": [],
+              "sourcing": "internal",
+              "unit_cost": "75.0000",
+              "labor_hours": "7.50",
+              "labor_rate": "75.00",
+              "extended_cost": "562.50",
+              "margin_pct": null,
+              "unit_margin": null,
+              "unit_price": null,
+              "line_total": null,
+              "catalog_warning": null,
+              "components": []
+            }
+          ]
+        }
+      ],
+      "vat_rate": null,
+      "vat_amount": "0.00",
+      "gross_total": "0.00",
+      "payment_terms": null,
+      "calculated_at": null,
+      "last_idoc_docnum": null,
+      "exported_at": null,
+      "created_at": "2026-10-28T20:35:34.021595Z",
+      "updated_at": "2026-10-28T20:35:34.021595Z",
+      "rfq": {
+        "id": "74e2c296-411d-418c-b9b9-882abdda2873",
+        "source": "email",
+        "subject": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
+        "customer_ref": null,
+        "body_text": "Betreff: Anfrage Serverschränke Halle B\n\nSehr geehrte Damen und Herren,\n\nwir benötigen ein Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftungsschlitzen und Schwerlastrollen. Belastung mindestens 250 kg pro Rack.\nAbmessungen ca. 600 x 1000 x 2000 mm (B x T x H), 19 Zoll, 42 HE. Türen vorne und hinten abschließbar.\n\nLiefertermin: bis KW 48.\n\nMit freundlichen Grüßen\nMarkus Weber\nLeiter IT-Infrastruktur\nRechenzentrum Nord GmbH\nm.weber@rz-nord.de\nTel. +49 40 123456-0\n",
+        "attachment_object_key": null,
+        "received_at": "2026-10-28T20:35:34.021595Z"
+      },
+      "customer": {
+        "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+        "kunnr": "0000100077",
+        "name1": "Rechenzentrum Nord GmbH",
+        "name2": null,
+        "street": "Hafenstraße 12",
+        "postal_code": "20457",
+        "city": "Hamburg",
+        "country": "DE",
+        "agreed_payment_terms": ["NT30"]
+      },
+      "trail": [
+        {
+          "id": 2662,
+          "timestamp_utc": "2026-10-28T20:35:34.044360Z",
+          "actor_id": "julia.schmidt",
+          "event": "rfq.received",
+          "details": {
+            "chars": 477,
+            "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
+            "text_sha256": "11271651e639a48d8bff0640c11058869fe3de7240636e384473b7bd015c2258",
+            "customer_ref": null
+          }
+        },
+        {
+          "id": 2663,
+          "timestamp_utc": "2026-10-28T20:35:34.044454Z",
+          "actor_id": "ai:anthropic.claude-opus-5-5",
+          "event": "ai.extraction",
+          "details": {
+            "model": "anthropic.claude-opus-5-5",
+            "language": "de",
+            "components": 4,
+            "line_items": 1,
+            "customer_match": {
+              "kunnr": "0000100077",
+              "similarity": 1.0
+            },
+            "compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0"
+          }
+        },
+        {
+          "id": 2664,
+          "timestamp_utc": "2026-10-28T20:35:34.068425Z",
+          "actor_id": "system:matcher",
+          "event": "ai.matching",
+          "details": {
+            "items": [
+              {
+                "flags": [],
+                "matnr": "FG-RACK-42U",
+                "method": "hybrid",
+                "status": "NEEDS_HUMAN_REVIEW",
+                "position": "10",
+                "confidence": 0.74,
+                "description": "Edelstahl-Server-Rack nach Maß mit Belüftungsschlitzen und Schwerlastrollen"
+              },
+              {
+                "flags": [],
+                "matnr": "RM-1430-SH20",
+                "method": "hybrid",
+                "status": "MATCHED",
+                "position": "10.1",
+                "confidence": 0.98,
+                "description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000"
+              },
+              {
+                "flags": [],
+                "matnr": "RM-1430-TQ40",
+                "method": "hybrid",
+                "status": "MATCHED",
+                "position": "10.2",
+                "confidence": 0.96,
+                "description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m"
+              },
+              {
+                "flags": [],
+                "matnr": "PT-CAS-125HD",
+                "method": "exact_text",
+                "status": "MATCHED",
+                "position": "10.3",
+                "confidence": 0.97,
+                "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse"
+              },
+              {
+                "flags": [],
+                "matnr": "PT-HNG-SS180",
+                "method": "hybrid",
+                "status": "MATCHED",
+                "position": "10.4",
+                "confidence": 1.0,
+                "description": "Scharnier Edelstahl 180°"
+              }
+            ]
+          }
+        },
+        {
+          "id": 2665,
+          "timestamp_utc": "2026-10-28T20:35:34.068624Z",
+          "actor_id": "system:costing",
+          "event": "quote.priced",
+          "details": {
+            "currency": "EUR",
+            "net_total": "42300.45",
+            "labor_cost": "12457.50",
+            "margin_pct": "22",
+            "total_cost": "34672.50",
+            "labor_hours": "150.00",
+            "material_cost": "22215.00"
+          }
+        },
+        {
+          "id": 2666,
+          "timestamp_utc": "2026-10-28T20:35:34.068635Z",
+          "actor_id": "julia.schmidt",
+          "event": "quote.created",
+          "details": {
+            "status": "needs_review",
+            "review_reasons": [
+              "Item 10: AI-proposed BOM and labor for custom build must be confirmed; a new SAP material (FERT) is needed before ERP sync",
+              "Open question: Oberfläche (geschliffen K240 oder gebürstet)?"
+            ]
+          }
+        }
+      ],
+      "approve_blockers": ["quote has not been calculated (Zuschlag, VAT and payment terms)"],
+      "export_blockers": [
+        "quote is needs_review; it must be approved before ERP sync",
+        "quote has not been calculated (no payment terms); call /calculate first",
+        "Item 00010: no SAP material number (custom build or missing in catalog)"
+      ],
+      "sap_transport": null
+    },
+    {
+      "id": "a25681be-6790-4fe4-9a39-71808090efb6",
+      "quote_number": "AN-20261028-2D3755",
+      "status": "needs_review",
+      "revision": 1,
+      "needs_review": true,
+      "review_reasons": ["Item 10: no price available"],
+      "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+      "customer_id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+      "customer_name": "Shenba 01A212 GmbH",
+      "contact_name": null,
+      "contact_email": null,
+      "requested_delivery_date": null,
+      "language": "de",
+      "currency": "EUR",
+      "margin_pct": "22.00",
+      "material_cost": "0.00",
+      "labor_hours": "0.00",
+      "labor_cost": "0.00",
+      "total_cost": "0.00",
+      "net_total": "0.00",
+      "llm_model": "anthropic.claude-opus-5-5",
+      "llm_compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715",
+      "extraction": {
+        "summary": "Angebot für 100 Stück Shen AI Product Description",
+        "customer": {
+          "company_name": null,
+          "contact_name": null,
+          "contact_email": null,
+          "contact_phone": null,
+          "customer_reference": null,
+          "delivery_date_text": null,
+          "target_delivery_date": null
+        },
+        "language": "de",
+        "line_items": [
+          {
+            "kind": "finished_good",
+            "unit": "PCE",
+            "labor": [],
+            "specs": [],
+            "position": 1,
+            "quantity": 100.0,
+            "components": [],
+            "description": "Shen AI Product Description",
+            "search_text": "Shen AI Product Description Shen AI Produkt",
+            "is_custom_made": false,
+            "material_number": null
+          }
+        ],
+        "open_questions": []
+      },
+      "items": [
+        {
+          "id": "abcf182f-6138-4108-af6b-aba8a5c3e253",
+          "parent_item_id": null,
+          "position": 10,
+          "kind": "finished_good",
+          "description": "Shen AI Product Description",
+          "requested_description": "Shen AI Product Description",
+          "specs": [],
+          "quantity": "100.000",
+          "quantity_per_parent": null,
+          "uom": "PCE",
+          "material_id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+          "matnr": "shenai",
+          "material_type": "FERT",
+          "match_status": "MATCHED",
+          "match_confidence": "0.97",
+          "match_method": "exact_text",
+          "match_candidates": [
+            {
+              "flags": [],
+              "matnr": "shenai",
+              "score": 0.97,
+              "base_uom": "PCE",
+              "description": "Shen AI Product Description",
+              "material_id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+              "material_type": "FERT",
+              "dense_similarity": null,
+              "lexical_similarity": 1.0
+            }
+          ],
+          "sourcing": "catalog",
+          "unit_cost": null,
+          "labor_hours": null,
+          "labor_rate": null,
+          "extended_cost": null,
+          "margin_pct": null,
+          "unit_margin": null,
+          "unit_price": null,
+          "line_total": null,
+          "catalog_warning": "no_price",
+          "components": []
+        }
+      ],
+      "vat_rate": null,
+      "vat_amount": "0.00",
+      "gross_total": "0.00",
+      "payment_terms": null,
+      "calculated_at": null,
+      "last_idoc_docnum": null,
+      "exported_at": null,
+      "created_at": "2026-10-28T20:35:34.099441Z",
+      "updated_at": "2026-10-28T20:35:34.099441Z",
+      "rfq": {
+        "id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+        "source": "email",
+        "subject": "Angebot für 100 Stück Shen AI Product Description",
+        "customer_ref": null,
+        "body_text": "Bitte senden Sie uns ein Angebot für 100 Stück Shen AI Product Description\n",
+        "attachment_object_key": null,
+        "received_at": "2026-10-28T20:35:34.099441Z"
+      },
+      "customer": {
+        "id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+        "kunnr": "0000100042",
+        "name1": "Shenba 01A212 GmbH",
+        "name2": "IT-Consulting",
+        "street": "Musterstraße 10",
+        "postal_code": "12345",
+        "city": "Musterstadt",
+        "country": "DE",
+        "agreed_payment_terms": ["NT30"]
+      },
+      "trail": [
+        {
+          "id": 2667,
+          "timestamp_utc": "2026-10-28T20:35:34.114002Z",
+          "actor_id": "julia.schmidt",
+          "event": "rfq.received",
+          "details": {
+            "chars": 75,
+            "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+            "text_sha256": "4531d541fa9958fa69c684e4ba7ea1f81490faca750c78a1e99691d3081f5eb6",
+            "customer_ref": "100042"
+          }
+        },
+        {
+          "id": 2668,
+          "timestamp_utc": "2026-10-28T20:35:34.114052Z",
+          "actor_id": "ai:anthropic.claude-opus-5-5",
+          "event": "ai.extraction",
+          "details": {
+            "model": "anthropic.claude-opus-5-5",
+            "language": "de",
+            "components": 0,
+            "line_items": 1,
+            "customer_match": null,
+            "compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715"
+          }
+        },
+        {
+          "id": 2669,
+          "timestamp_utc": "2026-10-28T20:35:34.121484Z",
+          "actor_id": "system:matcher",
+          "event": "ai.matching",
+          "details": {
+            "items": [
+              {
+                "flags": [],
+                "matnr": "shenai",
+                "method": "exact_text",
+                "status": "MATCHED",
+                "position": "10",
+                "confidence": 0.97,
+                "description": "Shen AI Product Description"
+              }
+            ]
+          }
+        },
+        {
+          "id": 2670,
+          "timestamp_utc": "2026-10-28T20:35:34.121519Z",
+          "actor_id": "system:costing",
+          "event": "quote.priced",
+          "details": {
+            "currency": "EUR",
+            "net_total": "0.00",
+            "labor_cost": "0.00",
+            "margin_pct": "22",
+            "total_cost": "0.00",
+            "labor_hours": "0.00",
+            "material_cost": "0.00"
+          }
+        },
+        {
+          "id": 2671,
+          "timestamp_utc": "2026-10-28T20:35:34.121527Z",
+          "actor_id": "julia.schmidt",
+          "event": "quote.created",
+          "details": {
+            "status": "needs_review",
+            "review_reasons": ["Item 10: no price available"]
+          }
+        }
+      ],
+      "approve_blockers": [
+        "quote has not been calculated (Zuschlag, VAT and payment terms)",
+        "Item 00010: not priced"
+      ],
+      "export_blockers": [
+        "quote is needs_review; it must be approved before ERP sync",
+        "quote has not been calculated (no payment terms); call /calculate first",
+        "Item 00010: not priced"
+      ],
+      "sap_transport": null
+    }
+  ],
+  "audit_logs": [
+    {
+      "seq": 10,
+      "timestamp_utc": "2026-10-28T20:35:34.117665Z",
+      "actor_id": "julia.schmidt",
+      "action": "quote.generated_from_rfq",
+      "entity_type": "quote",
+      "entity_id": "a25681be-6790-4fe4-9a39-71808090efb6",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "items": 1,
+        "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+        "status": "needs_review",
+        "llm_compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715"
+      },
+      "entry_hash": "e4c996046f813ecd6566d85c0f8f02fcd2afb2747cec1bb862b4818d74872b5f"
+    },
+    {
+      "seq": 9,
+      "timestamp_utc": "2026-10-28T20:35:34.104184Z",
+      "actor_id": "julia.schmidt",
+      "action": "llm.completion",
+      "entity_type": "llm_call",
+      "entity_id": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715",
+      "ip_sha256": null,
+      "context": {
+        "model": "anthropic.claude-opus-5-5",
+        "region": "eu-central-1",
+        "provider": "fake",
+        "input_tokens": 18,
+        "output_tokens": 136,
+        "prompt_sha256": "a7445883dfc9380148898f97b94cc7ef968f8bd7d5134511de89dcc21bf5e118",
+        "data_retention": false,
+        "response_sha256": "0088d106281dc508922378ac335c4a80d81844d1e58049cf9158ee54d1123e4e"
+      },
+      "entry_hash": "1470fcaf8f3b0e620fef3a05454af7c98960dfa88e85c36d0e5d436d9e93c900"
+    },
+    {
+      "seq": 8,
+      "timestamp_utc": "2026-10-28T20:35:34.064476Z",
+      "actor_id": "julia.schmidt",
+      "action": "quote.generated_from_rfq",
+      "entity_type": "quote",
+      "entity_id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "items": 1,
+        "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
+        "status": "needs_review",
+        "llm_compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0"
+      },
+      "entry_hash": "b8097e0e8d0ef42d40395693a8e3afb750be512f997799df020687583692864d"
+    },
+    {
+      "seq": 7,
+      "timestamp_utc": "2026-10-28T20:35:34.025353Z",
+      "actor_id": "julia.schmidt",
+      "action": "llm.completion",
+      "entity_type": "llm_call",
+      "entity_id": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0",
+      "ip_sha256": null,
+      "context": {
+        "model": "anthropic.claude-opus-5-5",
+        "region": "eu-central-1",
+        "provider": "fake",
+        "input_tokens": 75,
+        "output_tokens": 609,
+        "prompt_sha256": "64403ec4453d251fc7ac7afce157f692425b3243a1be532e50a81c33e975088d",
+        "data_retention": false,
+        "response_sha256": "fc5e6d4488140064eba5940f7ef264f6a781a11bbf3da4add69f548bb4ca86cf"
+      },
+      "entry_hash": "28dcee1e503c8a5ad5059275c358f38f785981934ae534688dc07d259578400f"
+    },
+    {
+      "seq": 6,
+      "timestamp_utc": "2026-10-28T20:35:33.998608Z",
+      "actor_id": "julia.schmidt",
+      "action": "quote.generated_from_rfq",
+      "entity_type": "quote",
+      "entity_id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "items": 2,
+        "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+        "status": "needs_review",
+        "llm_compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5"
+      },
+      "entry_hash": "50c95d350e4e21001dbc4fdfaaec214e8f8e34d5e8ddaeb851de1465d45f4750"
+    },
+    {
+      "seq": 5,
+      "timestamp_utc": "2026-10-28T20:35:33.971186Z",
+      "actor_id": "julia.schmidt",
+      "action": "llm.completion",
+      "entity_type": "llm_call",
+      "entity_id": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5",
+      "ip_sha256": null,
+      "context": {
+        "model": "anthropic.claude-opus-5-5",
+        "region": "eu-central-1",
+        "provider": "fake",
+        "input_tokens": 39,
+        "output_tokens": 249,
+        "prompt_sha256": "d6820f40cf63ba83c7006a21cc56457db147ceb19308759df0c70195c9376283",
+        "data_retention": false,
+        "response_sha256": "af2a986b615dd4d2c2a292e6f92ea311421b1eb21a0c8f137047af01413a79f4"
+      },
+      "entry_hash": "696ae44a778bbbc8d70dedaa0bbb0a52dcfb7c8028bb39997e3fe8a4726ece2c"
+    },
+    {
+      "seq": 4,
+      "timestamp_utc": "2026-10-28T20:35:33.927177Z",
+      "actor_id": "julia.schmidt",
+      "action": "quote.generated_from_rfq",
+      "entity_type": "quote",
+      "entity_id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "items": 1,
+        "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
+        "status": "draft",
+        "llm_compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87"
+      },
+      "entry_hash": "57cbbbd256dde4374ce9f7f3035010f9200aab9f7aa918878187456bc3c27594"
+    },
+    {
+      "seq": 3,
+      "timestamp_utc": "2026-10-28T20:35:33.768255Z",
+      "actor_id": "julia.schmidt",
+      "action": "llm.completion",
+      "entity_type": "llm_call",
+      "entity_id": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87",
+      "ip_sha256": null,
+      "context": {
+        "model": "anthropic.claude-opus-5-5",
+        "region": "eu-central-1",
+        "provider": "fake",
+        "input_tokens": 28,
+        "output_tokens": 174,
+        "prompt_sha256": "6a805f79c2d853da441c397d7a2e4e3d7c8653c0d8f332c8e93806cb6aa00c0a",
+        "data_retention": false,
+        "response_sha256": "270a9c31ce34a2ebd4d85debf30997b0ea1e583a1576aaba67a497df51d2c585"
+      },
+      "entry_hash": "e2db7cfec1137db660cc03c444c72275d4d304683a6fcf8488c4feacafefc914"
+    },
+    {
+      "seq": 2,
+      "timestamp_utc": "2026-10-28T20:35:33.724492Z",
+      "actor_id": "sap:mock",
+      "action": "sap.debmas06.ingested",
+      "entity_type": "sap_idoc_payload",
+      "entity_id": "38aceb2659e39ad57008e027fbd2f1d803c64b73d842aee1793b83a0aea03e3c",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "idocs": 1,
+        "stale": 0,
+        "created": 1,
+        "senders": ["CLNT800"],
+        "updated": 0,
+        "embedded": 0,
+        "duplicate": 0,
+        "idoc_type": "DEBMAS06",
+        "unchanged": 0,
+        "docnum_last": "0000000000123456",
+        "docnum_first": "0000000000123456"
+      },
+      "entry_hash": "e5f35b3605dc3af66a87a03fe625c590ba1f26c5fe40bb91258e49bbcee9a93d"
+    },
+    {
+      "seq": 1,
+      "timestamp_utc": "2026-10-28T20:35:33.682150Z",
+      "actor_id": "sap:mock",
+      "action": "sap.matmas05.ingested",
+      "entity_type": "sap_idoc_payload",
+      "entity_id": "01795ce43b9abcf414481e1a5baecace09c4bbcf5b5db06d7654bc5cd1a6bdc2",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "idocs": 1,
+        "stale": 0,
+        "created": 1,
+        "senders": ["ERPSENDER"],
+        "updated": 0,
+        "embedded": 1,
+        "duplicate": 0,
+        "idoc_type": "MATMAS05",
+        "unchanged": 0,
+        "docnum_last": "0000000000012345",
+        "docnum_first": "0000000000012345"
+      },
+      "entry_hash": "6948fa9f945e497ee17f40044fd28232a97fce806db6f13dcf4f2b8fc935ec6d"
+    }
+  ]
+}

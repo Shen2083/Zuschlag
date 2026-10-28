@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 
 import { AppSidebar } from "@/components/app-sidebar";
+import { DemoBanner } from "@/components/demo-banner";
 import { Providers } from "@/components/providers";
+import { DEMO } from "@/lib/demo/config";
 import type { Locale } from "@/lib/format";
 import "./globals.css";
 
@@ -14,9 +16,10 @@ export const metadata: Metadata = {
 
 // Fonts come from the local system stack: no requests to third-party font CDNs.
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const locale: Locale = (await cookies()).get("locale")?.value === "en" ? "en" : "de";
-  // Per-request CSP nonce (src/middleware.ts), for styles that libraries inject at runtime.
-  const nonce = (await headers()).get("x-nonce") ?? undefined;
+  // The static demo has no request: German by default, switched in the browser.
+  const locale: Locale = !DEMO && (await cookies()).get("locale")?.value === "en" ? "en" : "de";
+  // Per-request CSP nonce (src/middleware.server.ts), for styles that libraries inject at runtime.
+  const nonce = DEMO ? undefined : ((await headers()).get("x-nonce") ?? undefined);
   return (
     <html lang={locale}>
       <body className="font-sans text-[13px]">
@@ -27,14 +30,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           >
             {locale === "de" ? "Zum Inhalt springen" : "Skip to content"}
           </a>
-          <div className="flex h-dvh overflow-hidden print:block print:h-auto print:overflow-visible">
-            <AppSidebar />
-            <main
-              id="main"
-              className="flex min-w-0 flex-1 flex-col overflow-hidden print:overflow-visible"
-            >
-              {children}
-            </main>
+          <div className="flex h-dvh flex-col overflow-hidden print:block print:h-auto print:overflow-visible">
+            {DEMO && <DemoBanner />}
+            <div className="flex min-h-0 flex-1 overflow-hidden print:block print:overflow-visible">
+              <AppSidebar />
+              <main
+                id="main"
+                className="flex min-w-0 flex-1 flex-col overflow-hidden print:overflow-visible"
+              >
+                {children}
+              </main>
+            </div>
           </div>
         </Providers>
       </body>
