@@ -73,7 +73,7 @@ export function CustomersPage() {
 
   return (
     <>
-      <PageHeader title={t("customers.title")} />
+      <PageHeader title={t("customers.title")} documentTitle={t("customers.title")} />
       <Toolbar>
         <SearchInput value={q} onChange={setQ} placeholder={t("common.search")} />
         <span className="ml-auto text-xs text-muted-foreground">

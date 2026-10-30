@@ -18,6 +18,7 @@ import json
 import os
 import sys
 import uuid
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -132,6 +133,20 @@ async def main() -> None:
             res.raise_for_status()
             quote_ids.append(res.json()["id"])
 
+        # The showcase quote (the customer's own sample): Product xml.txt carries no MBEW
+        # price, so the estimator enters the base cost and applies 20 % Zuschlag, as in
+        # test_e2e_rfq_to_sap.py. Visitors start from a priced quote ready for approval.
+        showcase = quote_ids[-1]
+        line = (await get(f"/api/v1/quotes/{showcase}"))["items"][0]
+        patched = await api.patch(
+            f"/api/v1/quotes/{showcase}/items/{line['id']}", json={"unit_cost": "12.50"}
+        )
+        patched.raise_for_status()
+        calculated = await api.post(
+            f"/api/v1/quotes/{showcase}/calculate", json={"zuschlag_pct": "20"}
+        )
+        calculated.raise_for_status()
+
         async with tenant_session(tenant) as s:  # the samples arrived by e-mail
             for rfq in await s.scalars(select(Rfq)):
                 rfq.source = RfqSource.EMAIL
@@ -143,6 +158,8 @@ async def main() -> None:
             "rfqs": await get("/api/v1/rfqs"),
             "quotes": [await get(f"/api/v1/quotes/{q}") for q in quote_ids],
             "audit_logs": await get("/api/v1/audit-logs", limit=500),
+            # The demo shifts its dates by (today - captured_at) so they never go stale.
+            "captured_at": datetime.now(UTC).isoformat(),
         }
     TARGET.parent.mkdir(parents=True, exist_ok=True)
     TARGET.write_text(json.dumps(seed, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

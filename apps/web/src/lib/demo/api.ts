@@ -32,12 +32,14 @@ import type {
 import { Dec } from "@/lib/decimal";
 import { QUOTE_ID_POOL } from "@/lib/demo/ids";
 import { renderReqote, sha256Hex, type OutboundProfile } from "@/lib/demo/reqote";
+import { bestMatch, matchStatus, parseLines, type CatalogEntry } from "@/lib/demo/rfq-parser";
 import seed from "@/lib/demo/seed.json";
 import { calculate, lineInputs, priceLine, type VatPercent } from "@/lib/pricing";
 import { clampPct, totalsFor, vatOf, withTotals } from "@/lib/quote-math";
 
-const STORAGE_KEY = "zuschlag-demo-v1";
-const ACTOR = "demo.estimator";
+const STORAGE_KEY = "zuschlag-demo-v2";
+// The estimator who worked on the captured data; the demo visitor plays her.
+const ACTOR = "julia.schmidt";
 export const DEMO_MODEL = "demo-simulation (kein KI-Aufruf)";
 
 type Profile = NonNullable<TenantSettings["sap_outbound_profile"]>;
@@ -51,7 +53,7 @@ interface ChainEntry {
 }
 
 interface State {
-  version: 1;
+  version: 2;
   tenant: TenantSettings;
   materials: MaterialOut[];
   customers: CustomerOut[];
@@ -77,8 +79,30 @@ const now = () => new Date().toISOString();
 
 // ------------------------------------------------------------------ state
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}(T[\d:.]+(Z|[+-]\d{2}:\d{2})?)?$/;
+
+/** Move every date of the captured data forward by `days`, so the demo never looks stale. */
+function shiftDates<T>(value: T, days: number): T {
+  if (!days) return value;
+  const shift = (v: unknown): unknown => {
+    if (typeof v === "string" && ISO_DATE.test(v)) {
+      const d = new Date(v.length === 10 ? `${v}T12:00:00Z` : v);
+      d.setUTCDate(d.getUTCDate() + days);
+      return v.length === 10 ? d.toISOString().slice(0, 10) : d.toISOString();
+    }
+    if (Array.isArray(v)) return v.map(shift);
+    if (v && typeof v === "object") {
+      return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, shift(x)]));
+    }
+    return v;
+  };
+  return shift(value) as T;
+}
+
 function initialState(): State {
-  const s = clone(seed) as unknown as {
+  const captured = new Date((seed as { captured_at?: string }).captured_at ?? Date.now());
+  const days = Math.max(0, Math.floor((Date.now() - captured.getTime()) / 86_400_000));
+  const s = shiftDates(clone(seed), days) as unknown as {
     tenant: TenantSettings;
     materials: MaterialOut[];
     customers: CustomerOut[];
@@ -93,8 +117,18 @@ function initialState(): State {
       status: s.rfqs.find((r) => r.id === q.rfq!.id)?.status ?? "quoted",
     }));
   const trailMax = Math.max(0, ...s.quotes.flatMap((q) => q.trail.map((t) => t.id)));
+  // What the demo really runs on, instead of the capture machine's test configuration.
+  s.tenant.sap_outbound_transport = "http · Demo-SAP (simuliert)";
+  s.tenant.ai = {
+    llm_provider: "Demo",
+    llm_model: "keine KI-Aufrufe – lokale Erkennung im Browser",
+    llm_region: "Browser",
+    zero_data_retention_attested: true, // nothing leaves the browser
+    embedding_provider: "Demo",
+    embedding_model: "Trigramm-Abgleich im Browser",
+  };
   return {
-    version: 1,
+    version: 2,
     tenant: s.tenant,
     materials: s.materials,
     customers: s.customers,
@@ -114,7 +148,7 @@ function load(): State {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     const parsed = raw ? (JSON.parse(raw) as State) : null;
-    memory = parsed?.version === 1 ? parsed : initialState();
+    memory = parsed?.version === 2 ? parsed : initialState();
   } catch {
     memory = initialState();
   }
@@ -812,22 +846,6 @@ async function reparse(state: State, quoteId: string): Promise<QuoteDetail> {
 
 // ---------------------------------------- simulated extraction + matching
 
-const UNITS: Record<string, string> = {
-  stück: "PCE",
-  stk: "PCE",
-  st: "PCE",
-  pcs: "PCE",
-  pieces: "PCE",
-  piece: "PCE",
-  units: "PCE",
-  x: "PCE",
-  kg: "KGM",
-  m: "MTR",
-  meter: "MTR",
-  m2: "MTK",
-  h: "HUR",
-  std: "HUR",
-};
 const KIND_BY_TYPE: Record<string, Item["kind"]> = {
   FERT: "finished_good",
   HALB: "semi_finished",
@@ -836,62 +854,9 @@ const KIND_BY_TYPE: Record<string, Item["kind"]> = {
   DIEN: "service",
 };
 
-function words(text: string): Set<string> {
-  return new Set(
-    text
-      .toLowerCase()
-      .split(/[^\p{L}\p{N}.]+/u)
-      .filter((w) => w.length > 1),
-  );
-}
-
-function similarity(a: string, b: string): number {
-  const x = words(a);
-  const y = words(b);
-  const common = [...x].filter((w) => y.has(w)).length;
-  return x.size && y.size ? common / Math.min(x.size, y.size) : 0;
-}
-
-interface SimMatch {
-  material: MaterialOut | null;
-  confidence: number;
-  method: string;
-}
-
-function match(state: State, description: string, text: string): SimMatch {
-  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
-  const wanted = norm(description);
-  for (const m of state.materials.filter((x) => x.is_active)) {
-    const texts = [m.description ?? "", ...Object.values(m.descriptions as Record<string, string>)];
-    if (texts.some((t) => norm(t) === wanted))
-      return { material: m, confidence: 0.97, method: "exact_text" };
-  }
-  const tokens = new Set(
-    (text.match(/[A-Za-z0-9][A-Za-z0-9._/-]{3,39}/g) ?? []).map((t) => t.toUpperCase()),
-  );
-  const cited = state.materials.find(
-    (m) => m.is_active && tokens.has(m.matnr.toUpperCase()) && /\d/.test(m.matnr),
-  );
-  if (cited) return { material: cited, confidence: 0.95, method: "exact" };
-  let best: SimMatch = { material: null, confidence: 0, method: "none" };
-  for (const m of state.materials.filter((x) => x.is_active)) {
-    const score = Math.max(
-      similarity(description, m.description ?? ""),
-      ...Object.values(m.descriptions as Record<string, string>).map((t) =>
-        similarity(description, t),
-      ),
-    );
-    if (score > best.confidence)
-      best = { material: m, confidence: Math.min(0.89, score), method: "lexical" };
-  }
-  return best;
-}
-
 function simulatePipeline(state: State, rfq: RfqRow, customerRef: string | null): QuoteDetail {
   const text = rfq.body_text ?? "";
-  const lineRe =
-    /(\d+(?:[.,]\d+)?)\s*(stück|stk\.?|st\.|pcs\.?|pieces?|units|x|kg|m2|m|h|std\.?)\s+([^\n;]+)/gi;
-  const found = [...text.matchAll(lineRe)];
+  const found = parseLines(text);
   if (!found.length) {
     throw new HttpError(
       502,
@@ -909,15 +874,17 @@ function simulatePipeline(state: State, rfq: RfqRow, customerRef: string | null)
   if (customerRef && !customer) throw new HttpError(404, `customer ${customerRef} not found`);
 
   const reasons: string[] = [];
-  const items: Item[] = found.map((m, index) => {
-    const quantity = Dec.from(m[1]!.replace(",", ".")).quantize(3);
-    const unit = UNITS[m[2]!.toLowerCase().replace(".", "")] ?? "PCE";
-    const description = m[3]!.trim().replace(/[.,!?]+$/, "");
+  const items: Item[] = found.map((line, index) => {
+    const quantity = Dec.from(line.quantity).quantize(3);
+    const unit = line.unit;
+    const description = line.description;
     const position = (index + 1) * 10;
-    const hit = match(state, description, description);
-    const linked = hit.material && hit.confidence >= 0.6 ? hit.material : null;
-    const status: Item["match_status"] =
-      linked && hit.confidence >= 0.75 ? "MATCHED" : "NEEDS_HUMAN_REVIEW";
+    const hit = bestMatch(
+      description,
+      state.materials as unknown as (MaterialOut & CatalogEntry)[],
+    );
+    const linked = hit.material as MaterialOut | null;
+    const status: Item["match_status"] = matchStatus(hit);
     if (!linked)
       reasons.push(
         `Item ${position} '${description.slice(0, 60)}': not found in SAP catalog (missing material)`,
@@ -1316,7 +1283,7 @@ async function verifyChain(state: State) {
   return { intact: breaks.length === 0, breaks };
 }
 
-function saveProfile(state: State, body: Record<string, string>): TenantSettings {
+async function saveProfile(state: State, body: Record<string, string>): Promise<TenantSettings> {
   const errors: Array<{ loc: string[]; msg: string; type: string }> = [];
   const required = [
     "mandt",
@@ -1347,6 +1314,9 @@ function saveProfile(state: State, body: Record<string, string>): TenantSettings
     receiver_partner_type: "LS",
     ...body,
   } as Profile;
+  await audit(state, "tenant.sap_outbound_profile.updated", "tenant", "demo", {
+    receiver_partner: body.receiver_partner ?? null,
+  });
   return state.tenant;
 }
 
@@ -1431,7 +1401,7 @@ export async function handle(request: Request): Promise<Response> {
       result = await verifyChain(state);
     else if (method === "GET" && path === "/api/v1/tenant") result = state.tenant;
     else if (method === "PUT" && path === "/api/v1/tenant/sap-outbound-profile")
-      result = saveProfile(state, body ?? {});
+      result = await saveProfile(state, body ?? {});
     else if (method === "GET" && path === "/api/v1/sap/status") result = sapStatus(state);
     else {
       write = false;

@@ -8,6 +8,7 @@ import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/toast";
+import { useServerText } from "@/lib/server-messages";
 import { useI18n, useSetLocale } from "@/i18n";
 import { useSaveSapProfile, useTenant } from "@/lib/api/queries";
 import { formatMoney, formatPercent, type Locale } from "@/lib/format";
@@ -27,12 +28,13 @@ const FIELDS = [
 
 export function SettingsPage() {
   const { t, locale } = useI18n();
+  const tr = useServerText();
   const setLocale = useSetLocale();
   const { data, error } = useTenant();
 
   return (
     <>
-      <PageHeader title={t("settings.title")} />
+      <PageHeader title={t("settings.title")} documentTitle={t("settings.title")} />
       <div className="min-h-0 flex-1 overflow-auto p-4">
         <div className="grid max-w-5xl gap-4 lg:grid-cols-2">
           <Panel title={t("settings.language")}>
@@ -60,7 +62,7 @@ export function SettingsPage() {
 
           {error && (
             <p role="alert" className="text-destructive">
-              {error.message}
+              {tr(error.message)}
             </p>
           )}
           {data && (

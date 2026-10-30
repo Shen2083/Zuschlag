@@ -6,6 +6,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { useI18n } from "@/i18n";
 import { useSapStatus } from "@/lib/api/queries";
 import { formatDateTime, formatNumber } from "@/lib/format";
+import { DEMO } from "@/lib/demo/config";
 import { cn } from "@/lib/utils";
 
 const DOT = {
@@ -59,7 +60,10 @@ export function SapStatusIndicator() {
             />
           </span>
           <span className="font-medium">
-            {t("sap.label")}: {label}
+            <span className="sm:hidden">{DEMO ? t("sap.demoShort") : t("sap.label")}</span>
+            <span className="hidden sm:inline">
+              {DEMO ? t("sap.demoLabel") : `${t("sap.label")}: ${label}`}
+            </span>
           </span>
           {data?.system_id && (
             <span
@@ -70,7 +74,13 @@ export function SapStatusIndicator() {
               {data.client && <span aria-label={t("sap.client")}> / {data.client}</span>}
             </span>
           )}
-          <span className="hidden border-l pl-2 font-mono text-muted-foreground tabular-nums 2xl:inline">
+          {/* The demo has no real link to measure: no latency figures there. */}
+          <span
+            className={cn(
+              "hidden border-l pl-2 font-mono text-muted-foreground tabular-nums",
+              !DEMO && "2xl:inline",
+            )}
+          >
             {t("sap.latency")} {ms(data?.latency_ms)}
             <span>
               {" "}

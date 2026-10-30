@@ -67,7 +67,7 @@ export function GlobalShortcuts() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-7 items-center gap-1.5 rounded-md border bg-card px-2 text-xs text-muted-foreground hover:text-foreground"
+        className="hidden h-7 items-center gap-1.5 rounded-md border bg-card px-2 text-xs text-muted-foreground hover:text-foreground sm:flex"
         aria-label={t("shortcuts.open")}
         aria-keyshortcuts="?"
       >

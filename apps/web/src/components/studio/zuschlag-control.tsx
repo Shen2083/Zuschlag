@@ -72,7 +72,7 @@ export function ZuschlagControl({
     <section aria-labelledby={`${id}-title`} className="border-t bg-card px-4 py-3">
       <div className="grid gap-x-8 gap-y-3 lg:grid-cols-[minmax(260px,1fr)_minmax(300px,380px)]">
         <div className="space-y-3">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <h2
               id={`${id}-title`}
               className="text-xs font-semibold tracking-wide text-muted-foreground uppercase"

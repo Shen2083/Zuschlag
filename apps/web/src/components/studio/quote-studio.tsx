@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useI18n } from "@/i18n";
+import { useServerText } from "@/lib/server-messages";
 import { BASE_PATH } from "@/lib/demo/config";
 import { ApiError } from "@/lib/api/client";
 import { useApprove, useCalculate, useQuote, useUpdateItem } from "@/lib/api/queries";
@@ -28,6 +29,7 @@ import { clampPct, totalsFor, vatOf, withTotals } from "@/lib/quote-math";
 
 export function QuoteStudio({ id }: { id: string }) {
   const { t } = useI18n();
+  const tr = useServerText();
   const { data: quote, error, isLoading, refetch } = useQuote(id);
 
   if (isLoading) {
@@ -46,7 +48,12 @@ export function QuoteStudio({ id }: { id: string }) {
       <>
         <PageHeader title={t("quotes.title")} />
         <div role="alert" className="m-6 rounded-md border border-destructive/40 p-4">
-          <p className="font-medium text-destructive">{error?.message ?? t("common.error")}</p>
+          <p className="font-medium text-destructive">
+            {error ? tr(error.message) : t("common.error")}
+          </p>
+          <Link href="/quotes" className="mt-2 inline-block text-sm text-accent underline">
+            {t("quotes.back")}
+          </Link>
           <Button className="mt-3" size="sm" variant="outline" onClick={() => void refetch()}>
             {t("common.retry")}
           </Button>
@@ -70,6 +77,7 @@ function initialTerms(quote: QuoteDetail): TermsState {
 
 function Studio({ quote }: { quote: QuoteDetail }) {
   const { t, locale } = useI18n();
+  const tr = useServerText();
   const toast = useToast();
   const locked = quote.status === "synced";
 
@@ -194,12 +202,16 @@ function Studio({ quote }: { quote: QuoteDetail }) {
   return (
     <>
       <PageHeader
+        documentTitle={`${quote.quote_number} · ${t("quotes.title")}`}
         title={
           <span className="flex items-center gap-2">
-            <Link href="/quotes" className="text-muted-foreground hover:text-foreground">
+            <Link
+              href="/quotes"
+              className="hidden text-muted-foreground hover:text-foreground sm:inline"
+            >
               {t("quotes.title")}
             </Link>
-            <span aria-hidden className="text-muted-foreground">
+            <span aria-hidden className="hidden text-muted-foreground sm:inline">
               /
             </span>
             <span className="font-mono">{quote.quote_number}</span>
@@ -229,10 +241,11 @@ function Studio({ quote }: { quote: QuoteDetail }) {
         }
       />
 
-      <div className="grid min-h-0 flex-1 grid-rows-[minmax(240px,40%)_1fr] lg:grid-cols-[clamp(280px,30%,560px)_minmax(0,1fr)] lg:grid-rows-1">
+      {/* Below lg the panels stack and the page scrolls; from lg it is the split screen. */}
+      <div className="min-h-0 flex-1 overflow-y-auto lg:grid lg:grid-cols-[clamp(280px,28%,560px)_minmax(0,1fr)] lg:overflow-hidden">
         <RfqPanel quote={quote} />
 
-        <section aria-labelledby="bom-heading" className="flex min-h-0 min-w-0 flex-col">
+        <section aria-labelledby="bom-heading" className="flex min-w-0 flex-col lg:min-h-0">
           <div className="flex min-h-10 shrink-0 flex-wrap items-center gap-2 border-b bg-card px-3 py-1.5 [&_[data-slot=button]]:text-xs">
             <h2
               id="bom-heading"
@@ -323,12 +336,12 @@ function Studio({ quote }: { quote: QuoteDetail }) {
             </div>
             <ul id="approve-blockers" className="sr-only">
               {quote.approve_blockers.map((b) => (
-                <li key={b}>{b}</li>
+                <li key={b}>{tr(b)}</li>
               ))}
             </ul>
           </div>
 
-          <div className="min-h-0 flex-1 overflow-auto bg-background">
+          <div className="min-h-40 overflow-x-auto bg-background lg:min-h-0 lg:flex-1 lg:overflow-auto">
             <BomTable
               items={shown.items}
               currency={quote.currency}
@@ -375,10 +388,11 @@ function Blockers({ quote }: { quote: QuoteDetail }) {
 }
 
 function List({ items }: { items: string[] }) {
+  const tr = useServerText();
   return (
     <ul className="list-disc space-y-0.5 pl-4">
       {items.map((i) => (
-        <li key={i}>{i}</li>
+        <li key={i}>{tr(i)}</li>
       ))}
     </ul>
   );

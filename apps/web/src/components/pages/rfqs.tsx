@@ -73,9 +73,10 @@ export function RfqsPage() {
 
   return (
     <>
-      <PageHeader title={t("rfqs.title")} />
-      <div className="grid min-h-0 flex-1 xl:grid-cols-[1fr_380px]">
-        <div className="min-h-0 overflow-auto">
+      <PageHeader title={t("rfqs.title")} documentTitle={t("rfqs.title")} />
+      {/* Below xl the list and the form stack and the page scrolls. */}
+      <div className="min-h-0 flex-1 overflow-y-auto xl:grid xl:grid-cols-[1fr_380px] xl:overflow-hidden">
+        <div className="overflow-x-auto xl:min-h-0 xl:overflow-auto">
           <DataTable
             data={data}
             columns={columns}

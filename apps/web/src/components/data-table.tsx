@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, Loader2 } from "lucide-react";
 
+import { useServerText } from "@/lib/server-messages";
 import { useI18n } from "@/i18n";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,7 @@ export function DataTable<T>({
   rowClassName?: (row: T) => string | undefined;
 }) {
   const { t } = useI18n();
+  const tr = useServerText();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [active, setActive] = useState(0);
   const bodyRef = useRef<HTMLTableSectionElement>(null);
@@ -163,7 +165,7 @@ export function DataTable<T>({
                 </span>
               ) : error ? (
                 <span role="alert" className="text-destructive">
-                  {error.message}
+                  {tr(error.message)}
                 </span>
               ) : (
                 t("common.none")

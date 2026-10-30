@@ -104,7 +104,7 @@ export function QuotesPage() {
 
   return (
     <>
-      <PageHeader title={t("quotes.title")} />
+      <PageHeader title={t("quotes.title")} documentTitle={t("quotes.title")} />
       <Toolbar>
         <SearchInput value={q} onChange={setQ} placeholder={t("common.search")} />
         <div role="radiogroup" aria-label="Status" className="flex rounded-md border p-0.5">

@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
+import { useServerText } from "@/lib/server-messages";
 import { ApiError } from "@/lib/api/client";
 import { usePrepareIdoc, useSendIdoc } from "@/lib/api/queries";
 import { formatNumber } from "@/lib/format";
@@ -36,6 +37,7 @@ export function IdocDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const { t, locale } = useI18n();
+  const tr = useServerText();
   const toast = useToast();
   const prepare = usePrepareIdoc(quote.id);
   const send = useSendIdoc(quote.id);
@@ -122,11 +124,11 @@ export function IdocDialog({
             role="alert"
             className="rounded-md border border-destructive/40 bg-destructive/5 p-3 text-sm"
           >
-            <p className="font-medium text-destructive">{prepare.error.message}</p>
+            <p className="font-medium text-destructive">{tr(prepare.error.message)}</p>
             {prepare.error instanceof ApiError && prepare.error.reasons.length > 0 && (
               <ul className="mt-1 list-disc pl-5 text-xs">
                 {prepare.error.reasons.map((r) => (
-                  <li key={r}>{r}</li>
+                  <li key={r}>{tr(r)}</li>
                 ))}
               </ul>
             )}
@@ -189,11 +191,15 @@ export function IdocDialog({
               >
                 <TriangleAlert className="size-4 shrink-0 text-destructive" aria-hidden />
                 <div className="flex-1">
-                  <p>{stale ? `${t("idoc.stale")} ${send.error.message}` : send.error.message}</p>
+                  <p>
+                    {stale
+                      ? `${t("idoc.stale")} ${tr(send.error.message)}`
+                      : tr(send.error.message)}
+                  </p>
                   {send.error instanceof ApiError && send.error.reasons.length > 0 && (
                     <ul className="mt-1 list-disc pl-5 text-xs">
                       {send.error.reasons.map((r) => (
-                        <li key={r}>{r}</li>
+                        <li key={r}>{tr(r)}</li>
                       ))}
                     </ul>
                   )}

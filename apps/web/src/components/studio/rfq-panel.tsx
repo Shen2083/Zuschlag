@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { useI18n } from "@/i18n";
+import { useServerText } from "@/lib/server-messages";
 import { ApiError } from "@/lib/api/client";
 import { useReparse } from "@/lib/api/queries";
 import { findEntities, segments, type Entity } from "@/lib/entities";
@@ -35,6 +36,7 @@ const KIND_STYLE: Record<Entity["kind"], string> = {
 
 export function RfqPanel({ quote }: { quote: QuoteDetail }) {
   const { t, locale } = useI18n();
+  const tr = useServerText();
   const [tab, setTab] = useState<Tab>("email");
   const bodyRef = useRef<HTMLDivElement>(null);
   const rfq = quote.rfq;
@@ -66,7 +68,10 @@ export function RfqPanel({ quote }: { quote: QuoteDetail }) {
   };
 
   return (
-    <section aria-labelledby="rfq-heading" className="flex min-h-0 flex-col border-r bg-card">
+    <section
+      aria-labelledby="rfq-heading"
+      className="flex max-h-[45vh] min-h-0 flex-col border-b bg-card lg:max-h-none lg:border-r lg:border-b-0"
+    >
       <div className="flex h-10 shrink-0 items-center gap-2 border-b px-3">
         <h2
           id="rfq-heading"
@@ -235,7 +240,7 @@ export function RfqPanel({ quote }: { quote: QuoteDetail }) {
                 </h3>
                 <ul className="list-disc space-y-1 pl-5 text-xs">
                   {quote.review_reasons.map((r) => (
-                    <li key={r}>{r}</li>
+                    <li key={r}>{tr(r)}</li>
                   ))}
                 </ul>
               </div>
@@ -271,6 +276,7 @@ function Legend() {
 
 function ReparseButton({ quote }: { quote: QuoteDetail }) {
   const { t } = useI18n();
+  const tr = useServerText();
   const toast = useToast();
   const router = useRouter();
   const reparse = useReparse(quote.id);
@@ -295,7 +301,7 @@ function ReparseButton({ quote }: { quote: QuoteDetail }) {
           <span className="text-muted-foreground">{t("studio.reparsing")}</span>
         )}
         {reparse.isError && (
-          <Badge variant="destructive" title={reparse.error.message}>
+          <Badge variant="destructive" title={tr(reparse.error.message)}>
             {reparse.error instanceof ApiError ? `HTTP ${reparse.error.status}` : t("common.error")}
           </Badge>
         )}

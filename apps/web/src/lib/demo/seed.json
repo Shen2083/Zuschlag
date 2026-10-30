@@ -47,7 +47,7 @@
   },
   "materials": [
     {
-      "id": "f4368ccb-fd4a-42a9-af3a-5fb8a82fd0a8",
+      "id": "42b32503-93ab-40c5-b3d3-f06993c9ff67",
       "matnr": "FG-RACK-42U",
       "material_type": "FERT",
       "material_group": null,
@@ -62,10 +62,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+      "id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
       "matnr": "FG-WT-1200",
       "material_type": "FERT",
       "material_group": null,
@@ -80,10 +80,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+      "id": "6720097e-38e5-4423-8369-fcae687ffbd7",
       "matnr": "PT-CAS-125HD",
       "material_type": "HAWA",
       "material_group": null,
@@ -98,10 +98,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "57dccb27-1eb5-4384-bc38-1cecce199b0b",
+      "id": "7d864b27-264d-42f2-b76a-71c6b20a6054",
       "matnr": "PT-FAN-EC120",
       "material_type": "HAWA",
       "material_group": null,
@@ -116,10 +116,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+      "id": "8fa9b372-d9ba-42fa-bbe1-695d752db19a",
       "matnr": "PT-HNG-SS180",
       "material_type": "HAWA",
       "material_group": null,
@@ -134,10 +134,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+      "id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
       "matnr": "RM-1430-SH20",
       "material_type": "ROH",
       "material_group": null,
@@ -152,10 +152,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+      "id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
       "matnr": "RM-1430-TQ40",
       "material_type": "ROH",
       "material_group": null,
@@ -170,10 +170,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "81c22d69-9645-494f-936c-73ee01c17dce",
+      "id": "87e511c2-be79-4e76-b962-3c423f62e5cb",
       "matnr": "RM-SEAL-EPDM",
       "material_type": "ROH",
       "material_group": null,
@@ -188,10 +188,10 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": null,
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+      "id": "27f1d367-7b00-41fb-873a-6f74575e83d0",
       "matnr": "shenai",
       "material_type": "FERT",
       "material_group": "001",
@@ -206,12 +206,12 @@
       "is_active": true,
       "has_embedding": true,
       "source_docnum": 12345,
-      "updated_at": "2026-10-28T20:35:33.644143Z"
+      "updated_at": "2026-10-30T17:52:20.672132Z"
     }
   ],
   "customers": [
     {
-      "id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+      "id": "256c0bbc-c634-4b25-a86d-c78a9b3f321e",
       "kunnr": "0000100042",
       "name1": "Shenba 01A212 GmbH",
       "name2": "IT-Consulting",
@@ -231,10 +231,10 @@
           "is_active": true
         }
       ],
-      "updated_at": "2026-10-28T20:35:33.704522Z"
+      "updated_at": "2026-10-30T17:52:20.870974Z"
     },
     {
-      "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "id": "f86634a6-975d-40bf-a662-46f71ad1728c",
       "kunnr": "0000100077",
       "name1": "Rechenzentrum Nord GmbH",
       "name2": null,
@@ -254,10 +254,10 @@
           "is_active": true
         }
       ],
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     },
     {
-      "id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+      "id": "b2a0b3c3-bad6-4e11-9093-f81bee7502db",
       "kunnr": "0000100099",
       "name1": "Nordwind Marine AG",
       "name2": null,
@@ -277,69 +277,69 @@
           "is_active": true
         }
       ],
-      "updated_at": "2026-10-28T20:35:33.154439Z"
+      "updated_at": "2026-10-30T17:52:19.274206Z"
     }
   ],
   "rfqs": [
     {
-      "id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+      "id": "ad7853c5-f1a1-4fa7-ac8e-8b7471718d67",
       "source": "email",
       "status": "quoted",
       "subject": "Angebot für 100 Stück Shen AI Product Description",
       "customer_ref": null,
-      "received_at": "2026-10-28T20:35:34.099441Z",
+      "received_at": "2026-10-30T17:52:22.055576Z",
       "preview": "Bitte senden Sie uns ein Angebot für 100 Stück Shen AI Product Description\n",
       "quote": {
-        "id": "a25681be-6790-4fe4-9a39-71808090efb6",
-        "quote_number": "AN-20261028-2D3755",
+        "id": "f19fa0dd-00bf-46ae-bd97-73b7d7739022",
+        "quote_number": "AN-20261030-495190",
         "status": "needs_review",
-        "net_total": "0.00",
+        "net_total": "1500.00",
         "currency": "EUR"
       }
     },
     {
-      "id": "74e2c296-411d-418c-b9b9-882abdda2873",
+      "id": "866c2d2f-2441-4029-be32-185804c21d6f",
       "source": "email",
       "status": "quoted",
       "subject": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
       "customer_ref": null,
-      "received_at": "2026-10-28T20:35:34.021595Z",
+      "received_at": "2026-10-30T17:52:21.960943Z",
       "preview": "Betreff: Anfrage Serverschränke Halle B\n\nSehr geehrte Damen und Herren,\n\nwir benötigen ein Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftungsschlitzen und Schwerlastrollen. Belastung mindestens 250 kg pro Rack.\nAbmessungen ca. 60",
       "quote": {
-        "id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
-        "quote_number": "AN-20261028-D4A432",
+        "id": "968b5a91-5f7c-46a2-999f-0144529a7688",
+        "quote_number": "AN-20261030-30E83E",
         "status": "needs_review",
         "net_total": "42300.45",
         "currency": "EUR"
       }
     },
     {
-      "id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+      "id": "6aff107e-c4cc-49c6-824f-5efea952f9d3",
       "source": "email",
       "status": "quoted",
       "subject": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
       "customer_ref": null,
-      "received_at": "2026-10-28T20:35:33.965426Z",
+      "received_at": "2026-10-30T17:52:21.902839Z",
       "preview": "Hallo zusammen,\n\nbitte um Preis für:\n- 40 Stück PT-CAS-125HD (Schwerlastrollen mit Bremse)\n- 50 kg Lochblech 1.4301, 1,5 mm, Rundloch R5T8\n\nLieferung bis 15.12.2026 an Werk Süd.\n\nGruß\nAnja Krüger, Einkauf\nBrenner Lebensmitteltechnik\n",
       "quote": {
-        "id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
-        "quote_number": "AN-20261028-494432",
+        "id": "5d7da19a-df8f-40a2-bcac-ce0b68d79b25",
+        "quote_number": "AN-20261030-366FF1",
         "status": "needs_review",
         "net_total": "1898.32",
         "currency": "EUR"
       }
     },
     {
-      "id": "295f432f-e2df-4545-8983-bcff0ff18148",
+      "id": "562a8a74-2414-47b7-bb73-6fdee100440b",
       "source": "email",
       "status": "quoted",
       "subject": "Quote for 2 stainless steel work tables 1200 x 700 mm",
       "customer_ref": null,
-      "received_at": "2026-10-28T20:35:33.752421Z",
+      "received_at": "2026-10-30T17:52:21.427130Z",
       "preview": "Hi, could you quote 2 stainless steel work tables, 1200 x 700 mm, delivered within 3 weeks?\nThanks, Tom Hansen (Nordwind Marine AG)\n",
       "quote": {
-        "id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
-        "quote_number": "AN-20261028-B51840",
+        "id": "bc34fc1f-5647-491a-98a7-41c1d8f5f9fe",
+        "quote_number": "AN-20261030-E80DC2",
         "status": "draft",
         "net_total": "1561.60",
         "currency": "EUR"
@@ -348,14 +348,14 @@
   ],
   "quotes": [
     {
-      "id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
-      "quote_number": "AN-20261028-B51840",
+      "id": "bc34fc1f-5647-491a-98a7-41c1d8f5f9fe",
+      "quote_number": "AN-20261030-E80DC2",
       "status": "draft",
       "revision": 1,
       "needs_review": false,
       "review_reasons": [],
-      "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
-      "customer_id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+      "rfq_id": "562a8a74-2414-47b7-bb73-6fdee100440b",
+      "customer_id": "b2a0b3c3-bad6-4e11-9093-f81bee7502db",
       "customer_name": "Nordwind Marine AG",
       "contact_name": "Tom Hansen",
       "contact_email": null,
@@ -369,7 +369,7 @@
       "total_cost": "1280.00",
       "net_total": "1561.60",
       "llm_model": "anthropic.claude-opus-5-5",
-      "llm_compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87",
+      "llm_compliance_hash": "4ac9be21ebf058e38b713cd7b612fa7c1c10b692e18db074bf4e00b25a80c186",
       "extraction": {
         "summary": "Quote for 2 stainless steel work tables 1200 x 700 mm",
         "customer": {
@@ -408,7 +408,7 @@
       },
       "items": [
         {
-          "id": "274dc3c2-d6da-47e6-8266-5c4fd86fa840",
+          "id": "e3ac3fcd-5bd5-4b52-8141-5e1f9c8ff5ea",
           "parent_item_id": null,
           "position": 10,
           "kind": "finished_good",
@@ -425,7 +425,7 @@
           "quantity": "2.000",
           "quantity_per_parent": null,
           "uom": "PCE",
-          "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+          "material_id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
           "matnr": "FG-WT-1200",
           "material_type": "FERT",
           "match_status": "MATCHED",
@@ -438,7 +438,7 @@
               "score": 0.9982,
               "base_uom": "PCE",
               "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
-              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
               "material_type": "FERT",
               "dense_similarity": 0.9969,
               "lexical_similarity": 0.6
@@ -449,7 +449,7 @@
               "score": 0.4094,
               "base_uom": "PCE",
               "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
               "material_type": "ROH",
               "dense_similarity": 0.6312,
               "lexical_similarity": 0.2286
@@ -460,7 +460,7 @@
               "score": 0.3734,
               "base_uom": "PCE",
               "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
-              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
               "material_type": "ROH",
               "dense_similarity": 0.4984,
               "lexical_similarity": 0.2754
@@ -486,19 +486,19 @@
       "calculated_at": null,
       "last_idoc_docnum": null,
       "exported_at": null,
-      "created_at": "2026-10-28T20:35:33.752421Z",
-      "updated_at": "2026-10-28T20:35:33.752421Z",
+      "created_at": "2026-10-30T17:52:21.427130Z",
+      "updated_at": "2026-10-30T17:52:21.427130Z",
       "rfq": {
-        "id": "295f432f-e2df-4545-8983-bcff0ff18148",
+        "id": "562a8a74-2414-47b7-bb73-6fdee100440b",
         "source": "email",
         "subject": "Quote for 2 stainless steel work tables 1200 x 700 mm",
         "customer_ref": null,
         "body_text": "Hi, could you quote 2 stainless steel work tables, 1200 x 700 mm, delivered within 3 weeks?\nThanks, Tom Hansen (Nordwind Marine AG)\n",
         "attachment_object_key": null,
-        "received_at": "2026-10-28T20:35:33.752421Z"
+        "received_at": "2026-10-30T17:52:21.427130Z"
       },
       "customer": {
-        "id": "7194d450-b1d2-4415-bd1d-bb5691a8e8a2",
+        "id": "b2a0b3c3-bad6-4e11-9093-f81bee7502db",
         "kunnr": "0000100099",
         "name1": "Nordwind Marine AG",
         "name2": null,
@@ -510,20 +510,20 @@
       },
       "trail": [
         {
-          "id": 2652,
-          "timestamp_utc": "2026-10-28T20:35:33.875188Z",
+          "id": 2672,
+          "timestamp_utc": "2026-10-30T17:52:21.856142Z",
           "actor_id": "julia.schmidt",
           "event": "rfq.received",
           "details": {
             "chars": 132,
-            "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
+            "rfq_id": "562a8a74-2414-47b7-bb73-6fdee100440b",
             "text_sha256": "7b26c88bbc41a44d51d2fde8d7177a723eb4a3649db4ec0f3123b4637ff1a49d",
             "customer_ref": "100099"
           }
         },
         {
-          "id": 2653,
-          "timestamp_utc": "2026-10-28T20:35:33.875395Z",
+          "id": 2673,
+          "timestamp_utc": "2026-10-30T17:52:21.858954Z",
           "actor_id": "ai:anthropic.claude-opus-5-5",
           "event": "ai.extraction",
           "details": {
@@ -532,12 +532,12 @@
             "components": 0,
             "line_items": 1,
             "customer_match": null,
-            "compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87"
+            "compliance_hash": "4ac9be21ebf058e38b713cd7b612fa7c1c10b692e18db074bf4e00b25a80c186"
           }
         },
         {
-          "id": 2654,
-          "timestamp_utc": "2026-10-28T20:35:33.932899Z",
+          "id": 2674,
+          "timestamp_utc": "2026-10-30T17:52:21.877866Z",
           "actor_id": "system:matcher",
           "event": "ai.matching",
           "details": {
@@ -555,8 +555,8 @@
           }
         },
         {
-          "id": 2655,
-          "timestamp_utc": "2026-10-28T20:35:33.932992Z",
+          "id": 2675,
+          "timestamp_utc": "2026-10-30T17:52:21.877892Z",
           "actor_id": "system:costing",
           "event": "quote.priced",
           "details": {
@@ -570,8 +570,8 @@
           }
         },
         {
-          "id": 2656,
-          "timestamp_utc": "2026-10-28T20:35:33.933016Z",
+          "id": 2676,
+          "timestamp_utc": "2026-10-30T17:52:21.877897Z",
           "actor_id": "julia.schmidt",
           "event": "quote.created",
           "details": {
@@ -588,8 +588,8 @@
       "sap_transport": null
     },
     {
-      "id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
-      "quote_number": "AN-20261028-494432",
+      "id": "5d7da19a-df8f-40a2-bcac-ce0b68d79b25",
+      "quote_number": "AN-20261030-366FF1",
       "status": "needs_review",
       "revision": 1,
       "needs_review": true,
@@ -597,8 +597,8 @@
         "Item 20 'Lochblech 1.4301, 1,5 mm, Rundloch R5T8': not found in SAP catalog (missing material)",
         "Item 20: no price available"
       ],
-      "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
-      "customer_id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "rfq_id": "6aff107e-c4cc-49c6-824f-5efea952f9d3",
+      "customer_id": "f86634a6-975d-40bf-a662-46f71ad1728c",
       "customer_name": "Brenner Lebensmitteltechnik",
       "contact_name": "Anja Krüger",
       "contact_email": null,
@@ -612,7 +612,7 @@
       "total_cost": "1556.00",
       "net_total": "1898.32",
       "llm_model": "anthropic.claude-opus-5-5",
-      "llm_compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5",
+      "llm_compliance_hash": "c21e730528fda11262e09f604a7a3569e0ff5bbf1bb297fb52d09686cfa65ed1",
       "extraction": {
         "summary": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
         "customer": {
@@ -664,7 +664,7 @@
       },
       "items": [
         {
-          "id": "eeb09130-7def-4c41-9356-d3642ca0fcbc",
+          "id": "14b5c14b-0ba1-4677-a1e5-ddff5ef7cf05",
           "parent_item_id": null,
           "position": 10,
           "kind": "purchased_part",
@@ -674,7 +674,7 @@
           "quantity": "40.000",
           "quantity_per_parent": null,
           "uom": "PCE",
-          "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+          "material_id": "6720097e-38e5-4423-8369-fcae687ffbd7",
           "matnr": "PT-CAS-125HD",
           "material_type": "HAWA",
           "match_status": "MATCHED",
@@ -687,7 +687,7 @@
               "score": 1.0,
               "base_uom": "PCE",
               "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
-              "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+              "material_id": "6720097e-38e5-4423-8369-fcae687ffbd7",
               "material_type": "HAWA",
               "dense_similarity": null,
               "lexical_similarity": 1.0
@@ -706,7 +706,7 @@
           "components": []
         },
         {
-          "id": "a8174b59-7dfc-4d2f-965f-ad84cea834b9",
+          "id": "4c86ac44-a549-4cde-9843-a2a036b482c7",
           "parent_item_id": null,
           "position": 20,
           "kind": "raw_material",
@@ -736,7 +736,7 @@
               "score": 0.5121,
               "base_uom": "PCE",
               "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
-              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
               "material_type": "ROH",
               "dense_similarity": 0.7039,
               "lexical_similarity": 0.2459
@@ -747,7 +747,7 @@
               "score": 0.3979,
               "base_uom": "PCE",
               "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
               "material_type": "ROH",
               "dense_similarity": 0.5949,
               "lexical_similarity": 0.1774
@@ -758,7 +758,7 @@
               "score": 0.2271,
               "base_uom": "PCE",
               "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
-              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
               "material_type": "FERT",
               "dense_similarity": 0.4687,
               "lexical_similarity": 0.0882
@@ -784,19 +784,19 @@
       "calculated_at": null,
       "last_idoc_docnum": null,
       "exported_at": null,
-      "created_at": "2026-10-28T20:35:33.965426Z",
-      "updated_at": "2026-10-28T20:35:33.965426Z",
+      "created_at": "2026-10-30T17:52:21.902839Z",
+      "updated_at": "2026-10-30T17:52:21.902839Z",
       "rfq": {
-        "id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+        "id": "6aff107e-c4cc-49c6-824f-5efea952f9d3",
         "source": "email",
         "subject": "Preisanfrage für 40 Schwerlastrollen PT-CAS-125HD und 50 kg Lochblech 1.4301",
         "customer_ref": null,
         "body_text": "Hallo zusammen,\n\nbitte um Preis für:\n- 40 Stück PT-CAS-125HD (Schwerlastrollen mit Bremse)\n- 50 kg Lochblech 1.4301, 1,5 mm, Rundloch R5T8\n\nLieferung bis 15.12.2026 an Werk Süd.\n\nGruß\nAnja Krüger, Einkauf\nBrenner Lebensmitteltechnik\n",
         "attachment_object_key": null,
-        "received_at": "2026-10-28T20:35:33.965426Z"
+        "received_at": "2026-10-30T17:52:21.902839Z"
       },
       "customer": {
-        "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+        "id": "f86634a6-975d-40bf-a662-46f71ad1728c",
         "kunnr": "0000100077",
         "name1": "Rechenzentrum Nord GmbH",
         "name2": null,
@@ -808,20 +808,20 @@
       },
       "trail": [
         {
-          "id": 2657,
-          "timestamp_utc": "2026-10-28T20:35:33.983213Z",
+          "id": 2677,
+          "timestamp_utc": "2026-10-30T17:52:21.917494Z",
           "actor_id": "julia.schmidt",
           "event": "rfq.received",
           "details": {
             "chars": 233,
-            "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+            "rfq_id": "6aff107e-c4cc-49c6-824f-5efea952f9d3",
             "text_sha256": "760857ffca71c0cf7c5a450087a84b7d303db0b9d9ff8420de05274f0ef73ca7",
             "customer_ref": "100077"
           }
         },
         {
-          "id": 2658,
-          "timestamp_utc": "2026-10-28T20:35:33.983248Z",
+          "id": 2678,
+          "timestamp_utc": "2026-10-30T17:52:21.917934Z",
           "actor_id": "ai:anthropic.claude-opus-5-5",
           "event": "ai.extraction",
           "details": {
@@ -830,12 +830,12 @@
             "components": 0,
             "line_items": 2,
             "customer_match": null,
-            "compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5"
+            "compliance_hash": "c21e730528fda11262e09f604a7a3569e0ff5bbf1bb297fb52d09686cfa65ed1"
           }
         },
         {
-          "id": 2659,
-          "timestamp_utc": "2026-10-28T20:35:34.002966Z",
+          "id": 2679,
+          "timestamp_utc": "2026-10-30T17:52:21.932858Z",
           "actor_id": "system:matcher",
           "event": "ai.matching",
           "details": {
@@ -862,8 +862,8 @@
           }
         },
         {
-          "id": 2660,
-          "timestamp_utc": "2026-10-28T20:35:34.003009Z",
+          "id": 2680,
+          "timestamp_utc": "2026-10-30T17:52:21.932898Z",
           "actor_id": "system:costing",
           "event": "quote.priced",
           "details": {
@@ -877,8 +877,8 @@
           }
         },
         {
-          "id": 2661,
-          "timestamp_utc": "2026-10-28T20:35:34.003018Z",
+          "id": 2681,
+          "timestamp_utc": "2026-10-30T17:52:21.932903Z",
           "actor_id": "julia.schmidt",
           "event": "quote.created",
           "details": {
@@ -903,8 +903,8 @@
       "sap_transport": null
     },
     {
-      "id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
-      "quote_number": "AN-20261028-D4A432",
+      "id": "968b5a91-5f7c-46a2-999f-0144529a7688",
+      "quote_number": "AN-20261030-30E83E",
       "status": "needs_review",
       "revision": 1,
       "needs_review": true,
@@ -912,8 +912,8 @@
         "Item 10: AI-proposed BOM and labor for custom build must be confirmed; a new SAP material (FERT) is needed before ERP sync",
         "Open question: Oberfläche (geschliffen K240 oder gebürstet)?"
       ],
-      "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
-      "customer_id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+      "rfq_id": "866c2d2f-2441-4029-be32-185804c21d6f",
+      "customer_id": "f86634a6-975d-40bf-a662-46f71ad1728c",
       "customer_name": "Rechenzentrum Nord GmbH",
       "contact_name": "Markus Weber",
       "contact_email": "m.weber@rz-nord.de",
@@ -927,7 +927,7 @@
       "total_cost": "34672.50",
       "net_total": "42300.45",
       "llm_model": "anthropic.claude-opus-5-5",
-      "llm_compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0",
+      "llm_compliance_hash": "4746d103114341cc4b71c0e7927d916ff77b038e2eb218489a72c568a59b2d6d",
       "extraction": {
         "summary": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
         "customer": {
@@ -1063,7 +1063,7 @@
       },
       "items": [
         {
-          "id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+          "id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
           "parent_item_id": null,
           "position": 10,
           "kind": "finished_good",
@@ -1116,7 +1116,7 @@
               "score": 0.737,
               "base_uom": "PCE",
               "description": "Serverschrank 42 HE, Stahlblech lackiert",
-              "material_id": "f4368ccb-fd4a-42a9-af3a-5fb8a82fd0a8",
+              "material_id": "42b32503-93ab-40c5-b3d3-f06993c9ff67",
               "material_type": "FERT",
               "dense_similarity": 0.5883,
               "lexical_similarity": 0.58
@@ -1126,7 +1126,7 @@
               "score": 0.334,
               "base_uom": "PCE",
               "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
               "material_type": "ROH",
               "dense_similarity": 0.4949,
               "lexical_similarity": 0.22
@@ -1136,7 +1136,7 @@
               "score": 0.321,
               "base_uom": "PCE",
               "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
-              "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+              "material_id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
               "material_type": "FERT",
               "dense_similarity": 0.3905,
               "lexical_similarity": 0.2083
@@ -1154,8 +1154,8 @@
           "catalog_warning": "needs_fert",
           "components": [
             {
-              "id": "49a388a6-b085-4f46-8625-53b39429a2aa",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "c09c53a4-2a43-45f5-b030-60c0b4e1ad2a",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 1,
               "kind": "raw_material",
               "description": "Edelstahlblech 1.4301, 2 mm, 2000 x 1000",
@@ -1171,7 +1171,7 @@
               "quantity": "90.000",
               "quantity_per_parent": "6.000",
               "uom": "PCE",
-              "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+              "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
               "matnr": "RM-1430-SH20",
               "material_type": "ROH",
               "match_status": "MATCHED",
@@ -1184,7 +1184,7 @@
                   "score": 0.9817,
                   "base_uom": "PCE",
                   "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
-                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
                   "material_type": "ROH",
                   "dense_similarity": 0.9962,
                   "lexical_similarity": 0.58
@@ -1195,7 +1195,7 @@
                   "score": 0.591,
                   "base_uom": "PCE",
                   "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
                   "material_type": "ROH",
                   "dense_similarity": 0.6312,
                   "lexical_similarity": 0.3654
@@ -1206,7 +1206,7 @@
                   "score": 0.3672,
                   "base_uom": "PCE",
                   "description": "Edelstahl-Arbeitstisch 1200 x 700 mm",
-                  "material_id": "8e806e8c-2e03-4979-abda-82b8adb32419",
+                  "material_id": "731ebe2c-e758-4b17-bb23-e21b988d6ba0",
                   "material_type": "FERT",
                   "dense_similarity": 0.4979,
                   "lexical_similarity": 0.2667
@@ -1225,8 +1225,8 @@
               "components": []
             },
             {
-              "id": "06fd3158-3e4a-47ca-a3e3-1018067dcabd",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "a46fc566-6c38-40e3-b232-edc3ea555c3f",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 2,
               "kind": "raw_material",
               "description": "Vierkantrohr 1.4301, 40 x 40 x 3 mm, 6 m",
@@ -1235,7 +1235,7 @@
               "quantity": "60.000",
               "quantity_per_parent": "4.000",
               "uom": "PCE",
-              "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+              "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
               "matnr": "RM-1430-TQ40",
               "material_type": "ROH",
               "match_status": "MATCHED",
@@ -1248,7 +1248,7 @@
                   "score": 0.9571,
                   "base_uom": "PCE",
                   "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
                   "material_type": "ROH",
                   "dense_similarity": 0.9904,
                   "lexical_similarity": 0.5536
@@ -1259,7 +1259,7 @@
                   "score": 0.4781,
                   "base_uom": "PCE",
                   "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
-                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
                   "material_type": "ROH",
                   "dense_similarity": 0.5861,
                   "lexical_similarity": 0.2581
@@ -1270,7 +1270,7 @@
                   "score": 0.3737,
                   "base_uom": "PCE",
                   "description": "Scharnier Edelstahl, 180° Öffnung",
-                  "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+                  "material_id": "8fa9b372-d9ba-42fa-bbe1-695d752db19a",
                   "material_type": "HAWA",
                   "dense_similarity": 0.5855,
                   "lexical_similarity": 0.2105
@@ -1289,8 +1289,8 @@
               "components": []
             },
             {
-              "id": "ce00c857-1a9e-4286-925b-de376a962ba1",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "677b0a51-97d9-42ef-85a7-0f4ac3964518",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 3,
               "kind": "purchased_part",
               "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
@@ -1306,7 +1306,7 @@
               "quantity": "60.000",
               "quantity_per_parent": "4.000",
               "uom": "PCE",
-              "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+              "material_id": "6720097e-38e5-4423-8369-fcae687ffbd7",
               "matnr": "PT-CAS-125HD",
               "material_type": "HAWA",
               "match_status": "MATCHED",
@@ -1319,7 +1319,7 @@
                   "score": 0.97,
                   "base_uom": "PCE",
                   "description": "Schwerlast-Lenkrolle Ø125 mm, 150 kg, mit Bremse",
-                  "material_id": "b4930be2-0095-428f-a3a8-d0272d7422d1",
+                  "material_id": "6720097e-38e5-4423-8369-fcae687ffbd7",
                   "material_type": "HAWA",
                   "dense_similarity": null,
                   "lexical_similarity": 1.0
@@ -1338,8 +1338,8 @@
               "components": []
             },
             {
-              "id": "e458afc9-eb7c-45e6-9f01-467b577d0d9f",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "552f9dd4-9153-4fae-8dd5-639aabab7782",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 4,
               "kind": "purchased_part",
               "description": "Scharnier Edelstahl 180°",
@@ -1348,7 +1348,7 @@
               "quantity": "60.000",
               "quantity_per_parent": "4.000",
               "uom": "PCE",
-              "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+              "material_id": "8fa9b372-d9ba-42fa-bbe1-695d752db19a",
               "matnr": "PT-HNG-SS180",
               "material_type": "HAWA",
               "match_status": "MATCHED",
@@ -1361,7 +1361,7 @@
                   "score": 0.9978,
                   "base_uom": "PCE",
                   "description": "Scharnier Edelstahl, 180° Öffnung",
-                  "material_id": "526e2fb0-bf0a-435d-b2b9-79931bc7b64e",
+                  "material_id": "8fa9b372-d9ba-42fa-bbe1-695d752db19a",
                   "material_type": "HAWA",
                   "dense_similarity": 0.9963,
                   "lexical_similarity": 0.6316
@@ -1372,7 +1372,7 @@
                   "score": 0.53,
                   "base_uom": "PCE",
                   "description": "Vierkantrohr Edelstahl 1.4301, 40 x 40 x 3 mm, 6 m",
-                  "material_id": "9715839f-a17c-4376-b291-0eb0aafb091d",
+                  "material_id": "52a372bb-0153-4be6-a85d-bbd6c08d9427",
                   "material_type": "ROH",
                   "dense_similarity": 0.6308,
                   "lexical_similarity": 0.2895
@@ -1383,7 +1383,7 @@
                   "score": 0.4098,
                   "base_uom": "PCE",
                   "description": "Edelstahlblech 1.4301, 2,0 mm, 2000 x 1000",
-                  "material_id": "051f5d0f-bd26-4ed5-ba12-2d933b364d92",
+                  "material_id": "f4090bc9-4fb6-4bfa-af28-c153f81e7b31",
                   "material_type": "ROH",
                   "dense_similarity": 0.4975,
                   "lexical_similarity": 0.2391
@@ -1402,8 +1402,8 @@
               "components": []
             },
             {
-              "id": "5bccc5ec-1c52-40f7-9f90-0407d7321402",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "2d331676-3213-4666-ba8e-fc4b71eed405",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 5,
               "kind": "labor",
               "description": "Cutting: Laserzuschnitt",
@@ -1432,8 +1432,8 @@
               "components": []
             },
             {
-              "id": "31431168-f21d-47b9-ba87-e44deabac282",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "2f35df94-9ad8-464f-97f1-13fed1724432",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 6,
               "kind": "labor",
               "description": "Bending",
@@ -1462,8 +1462,8 @@
               "components": []
             },
             {
-              "id": "7874dfde-e9bf-4a18-a997-4b4dce63c49d",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "b6d8efd5-c147-4c1f-829b-895e6abc30be",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 7,
               "kind": "labor",
               "description": "Welding: WIG-Schweißen Rahmen",
@@ -1492,8 +1492,8 @@
               "components": []
             },
             {
-              "id": "163174db-6cc5-4fb1-8c2d-0233df10ee26",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "e499d51f-d4a0-4c6c-9aaa-e363685d005f",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 8,
               "kind": "labor",
               "description": "Assembly",
@@ -1522,8 +1522,8 @@
               "components": []
             },
             {
-              "id": "456b8c21-baf0-474b-baaf-eaeca385af2d",
-              "parent_item_id": "51b3cc38-e323-497d-b2a5-0d1abfec6b56",
+              "id": "c409445d-cab0-4afc-936d-6ccc92387b67",
+              "parent_item_id": "cd06ad24-f666-4a48-a3e6-a03f6305f194",
               "position": 9,
               "kind": "labor",
               "description": "Quality Inspection: Belastungsprüfung 250 kg",
@@ -1561,19 +1561,19 @@
       "calculated_at": null,
       "last_idoc_docnum": null,
       "exported_at": null,
-      "created_at": "2026-10-28T20:35:34.021595Z",
-      "updated_at": "2026-10-28T20:35:34.021595Z",
+      "created_at": "2026-10-30T17:52:21.960943Z",
+      "updated_at": "2026-10-30T17:52:21.960943Z",
       "rfq": {
-        "id": "74e2c296-411d-418c-b9b9-882abdda2873",
+        "id": "866c2d2f-2441-4029-be32-185804c21d6f",
         "source": "email",
         "subject": "Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftung und Schwerlastrollen",
         "customer_ref": null,
         "body_text": "Betreff: Anfrage Serverschränke Halle B\n\nSehr geehrte Damen und Herren,\n\nwir benötigen ein Angebot für 15 Edelstahl-Server-Racks nach Maß mit Belüftungsschlitzen und Schwerlastrollen. Belastung mindestens 250 kg pro Rack.\nAbmessungen ca. 600 x 1000 x 2000 mm (B x T x H), 19 Zoll, 42 HE. Türen vorne und hinten abschließbar.\n\nLiefertermin: bis KW 48.\n\nMit freundlichen Grüßen\nMarkus Weber\nLeiter IT-Infrastruktur\nRechenzentrum Nord GmbH\nm.weber@rz-nord.de\nTel. +49 40 123456-0\n",
         "attachment_object_key": null,
-        "received_at": "2026-10-28T20:35:34.021595Z"
+        "received_at": "2026-10-30T17:52:21.960943Z"
       },
       "customer": {
-        "id": "b0f439b5-8fdd-4c5e-a848-5d73a3ecd42b",
+        "id": "f86634a6-975d-40bf-a662-46f71ad1728c",
         "kunnr": "0000100077",
         "name1": "Rechenzentrum Nord GmbH",
         "name2": null,
@@ -1585,20 +1585,20 @@
       },
       "trail": [
         {
-          "id": 2662,
-          "timestamp_utc": "2026-10-28T20:35:34.044360Z",
+          "id": 2682,
+          "timestamp_utc": "2026-10-30T17:52:21.986219Z",
           "actor_id": "julia.schmidt",
           "event": "rfq.received",
           "details": {
             "chars": 477,
-            "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
+            "rfq_id": "866c2d2f-2441-4029-be32-185804c21d6f",
             "text_sha256": "11271651e639a48d8bff0640c11058869fe3de7240636e384473b7bd015c2258",
             "customer_ref": null
           }
         },
         {
-          "id": 2663,
-          "timestamp_utc": "2026-10-28T20:35:34.044454Z",
+          "id": 2683,
+          "timestamp_utc": "2026-10-30T17:52:21.986908Z",
           "actor_id": "ai:anthropic.claude-opus-5-5",
           "event": "ai.extraction",
           "details": {
@@ -1610,12 +1610,12 @@
               "kunnr": "0000100077",
               "similarity": 1.0
             },
-            "compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0"
+            "compliance_hash": "4746d103114341cc4b71c0e7927d916ff77b038e2eb218489a72c568a59b2d6d"
           }
         },
         {
-          "id": 2664,
-          "timestamp_utc": "2026-10-28T20:35:34.068425Z",
+          "id": 2684,
+          "timestamp_utc": "2026-10-30T17:52:22.020239Z",
           "actor_id": "system:matcher",
           "event": "ai.matching",
           "details": {
@@ -1669,8 +1669,8 @@
           }
         },
         {
-          "id": 2665,
-          "timestamp_utc": "2026-10-28T20:35:34.068624Z",
+          "id": 2685,
+          "timestamp_utc": "2026-10-30T17:52:22.020591Z",
           "actor_id": "system:costing",
           "event": "quote.priced",
           "details": {
@@ -1684,8 +1684,8 @@
           }
         },
         {
-          "id": 2666,
-          "timestamp_utc": "2026-10-28T20:35:34.068635Z",
+          "id": 2686,
+          "timestamp_utc": "2026-10-30T17:52:22.020601Z",
           "actor_id": "julia.schmidt",
           "event": "quote.created",
           "details": {
@@ -1706,28 +1706,28 @@
       "sap_transport": null
     },
     {
-      "id": "a25681be-6790-4fe4-9a39-71808090efb6",
-      "quote_number": "AN-20261028-2D3755",
+      "id": "f19fa0dd-00bf-46ae-bd97-73b7d7739022",
+      "quote_number": "AN-20261030-495190",
       "status": "needs_review",
       "revision": 1,
       "needs_review": true,
       "review_reasons": ["Item 10: no price available"],
-      "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
-      "customer_id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+      "rfq_id": "ad7853c5-f1a1-4fa7-ac8e-8b7471718d67",
+      "customer_id": "256c0bbc-c634-4b25-a86d-c78a9b3f321e",
       "customer_name": "Shenba 01A212 GmbH",
       "contact_name": null,
       "contact_email": null,
       "requested_delivery_date": null,
       "language": "de",
       "currency": "EUR",
-      "margin_pct": "22.00",
-      "material_cost": "0.00",
+      "margin_pct": "20.00",
+      "material_cost": "1250.00",
       "labor_hours": "0.00",
       "labor_cost": "0.00",
-      "total_cost": "0.00",
-      "net_total": "0.00",
+      "total_cost": "1250.00",
+      "net_total": "1500.00",
       "llm_model": "anthropic.claude-opus-5-5",
-      "llm_compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715",
+      "llm_compliance_hash": "2c9029956e6d021c8a2ebdcb8817938355023d02f0e82e599666d68464fc4ccc",
       "extraction": {
         "summary": "Angebot für 100 Stück Shen AI Product Description",
         "customer": {
@@ -1759,7 +1759,7 @@
       },
       "items": [
         {
-          "id": "abcf182f-6138-4108-af6b-aba8a5c3e253",
+          "id": "8774b428-d238-46fd-847f-bf20acd3ce19",
           "parent_item_id": null,
           "position": 10,
           "kind": "finished_good",
@@ -1769,7 +1769,7 @@
           "quantity": "100.000",
           "quantity_per_parent": null,
           "uom": "PCE",
-          "material_id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+          "material_id": "27f1d367-7b00-41fb-873a-6f74575e83d0",
           "matnr": "shenai",
           "material_type": "FERT",
           "match_status": "MATCHED",
@@ -1782,45 +1782,45 @@
               "score": 0.97,
               "base_uom": "PCE",
               "description": "Shen AI Product Description",
-              "material_id": "8ba890c2-0c2c-4c84-829e-727d3a613096",
+              "material_id": "27f1d367-7b00-41fb-873a-6f74575e83d0",
               "material_type": "FERT",
               "dense_similarity": null,
               "lexical_similarity": 1.0
             }
           ],
           "sourcing": "catalog",
-          "unit_cost": null,
+          "unit_cost": "12.5000",
           "labor_hours": null,
           "labor_rate": null,
-          "extended_cost": null,
-          "margin_pct": null,
-          "unit_margin": null,
-          "unit_price": null,
-          "line_total": null,
+          "extended_cost": "1250.00",
+          "margin_pct": "20.00",
+          "unit_margin": "2.5000",
+          "unit_price": "15.0000",
+          "line_total": "1500.00",
           "catalog_warning": "no_price",
           "components": []
         }
       ],
-      "vat_rate": null,
-      "vat_amount": "0.00",
-      "gross_total": "0.00",
-      "payment_terms": null,
-      "calculated_at": null,
+      "vat_rate": "19.00",
+      "vat_amount": "285.00",
+      "gross_total": "1785.00",
+      "payment_terms": "NT30",
+      "calculated_at": "2026-10-30T17:52:22.191212Z",
       "last_idoc_docnum": null,
       "exported_at": null,
-      "created_at": "2026-10-28T20:35:34.099441Z",
-      "updated_at": "2026-10-28T20:35:34.099441Z",
+      "created_at": "2026-10-30T17:52:22.055576Z",
+      "updated_at": "2026-10-30T17:52:22.187306Z",
       "rfq": {
-        "id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+        "id": "ad7853c5-f1a1-4fa7-ac8e-8b7471718d67",
         "source": "email",
         "subject": "Angebot für 100 Stück Shen AI Product Description",
         "customer_ref": null,
         "body_text": "Bitte senden Sie uns ein Angebot für 100 Stück Shen AI Product Description\n",
         "attachment_object_key": null,
-        "received_at": "2026-10-28T20:35:34.099441Z"
+        "received_at": "2026-10-30T17:52:22.055576Z"
       },
       "customer": {
-        "id": "2f4bd18b-e8fd-4cae-962c-dc352dfb3664",
+        "id": "256c0bbc-c634-4b25-a86d-c78a9b3f321e",
         "kunnr": "0000100042",
         "name1": "Shenba 01A212 GmbH",
         "name2": "IT-Consulting",
@@ -1832,20 +1832,20 @@
       },
       "trail": [
         {
-          "id": 2667,
-          "timestamp_utc": "2026-10-28T20:35:34.114002Z",
+          "id": 2687,
+          "timestamp_utc": "2026-10-30T17:52:22.074930Z",
           "actor_id": "julia.schmidt",
           "event": "rfq.received",
           "details": {
             "chars": 75,
-            "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+            "rfq_id": "ad7853c5-f1a1-4fa7-ac8e-8b7471718d67",
             "text_sha256": "4531d541fa9958fa69c684e4ba7ea1f81490faca750c78a1e99691d3081f5eb6",
             "customer_ref": "100042"
           }
         },
         {
-          "id": 2668,
-          "timestamp_utc": "2026-10-28T20:35:34.114052Z",
+          "id": 2688,
+          "timestamp_utc": "2026-10-30T17:52:22.075336Z",
           "actor_id": "ai:anthropic.claude-opus-5-5",
           "event": "ai.extraction",
           "details": {
@@ -1854,12 +1854,12 @@
             "components": 0,
             "line_items": 1,
             "customer_match": null,
-            "compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715"
+            "compliance_hash": "2c9029956e6d021c8a2ebdcb8817938355023d02f0e82e599666d68464fc4ccc"
           }
         },
         {
-          "id": 2669,
-          "timestamp_utc": "2026-10-28T20:35:34.121484Z",
+          "id": 2689,
+          "timestamp_utc": "2026-10-30T17:52:22.082105Z",
           "actor_id": "system:matcher",
           "event": "ai.matching",
           "details": {
@@ -1877,8 +1877,8 @@
           }
         },
         {
-          "id": 2670,
-          "timestamp_utc": "2026-10-28T20:35:34.121519Z",
+          "id": 2690,
+          "timestamp_utc": "2026-10-30T17:52:22.082148Z",
           "actor_id": "system:costing",
           "event": "quote.priced",
           "details": {
@@ -1892,52 +1892,116 @@
           }
         },
         {
-          "id": 2671,
-          "timestamp_utc": "2026-10-28T20:35:34.121527Z",
+          "id": 2691,
+          "timestamp_utc": "2026-10-30T17:52:22.082154Z",
           "actor_id": "julia.schmidt",
           "event": "quote.created",
           "details": {
             "status": "needs_review",
             "review_reasons": ["Item 10: no price available"]
           }
+        },
+        {
+          "id": 2692,
+          "timestamp_utc": "2026-10-30T17:52:22.161193Z",
+          "actor_id": "julia.schmidt",
+          "event": "item.edited",
+          "details": {
+            "after": {
+              "uom": "PCE",
+              "matnr": "shenai",
+              "quantity": "100.000",
+              "unit_cost": "12.5000",
+              "description": "Shen AI Product Description",
+              "match_status": "MATCHED"
+            },
+            "before": {
+              "uom": "PCE",
+              "matnr": "shenai",
+              "quantity": "100.000",
+              "unit_cost": null,
+              "description": "Shen AI Product Description",
+              "match_status": "MATCHED"
+            },
+            "changed": ["unit_cost"],
+            "item_id": "8774b428-d238-46fd-847f-bf20acd3ce19",
+            "position": "00010",
+            "revision": "v1",
+            "net_total": "1525.00",
+            "approval_revoked": false
+          }
+        },
+        {
+          "id": 2693,
+          "timestamp_utc": "2026-10-30T17:52:22.194406Z",
+          "actor_id": "julia.schmidt",
+          "event": "quote.calculated",
+          "details": {
+            "after": {
+              "vat_rate": "19",
+              "net_total": "1500.00",
+              "margin_pct": "20",
+              "vat_amount": "285.00",
+              "gross_total": "1785.00",
+              "factory_cost": "1250.00",
+              "payment_terms": "NT30"
+            },
+            "before": {
+              "net_total": "1525.00",
+              "margin_pct": "22.00",
+              "gross_total": "1814.75",
+              "payment_terms": null
+            },
+            "revision": "v1",
+            "agreed_payment_terms": ["NT30"],
+            "missing_price_positions": [],
+            "payment_terms_deviation": false
+          }
         }
       ],
-      "approve_blockers": [
-        "quote has not been calculated (Zuschlag, VAT and payment terms)",
-        "Item 00010: not priced"
-      ],
-      "export_blockers": [
-        "quote is needs_review; it must be approved before ERP sync",
-        "quote has not been calculated (no payment terms); call /calculate first",
-        "Item 00010: not priced"
-      ],
+      "approve_blockers": [],
+      "export_blockers": ["quote is needs_review; it must be approved before ERP sync"],
       "sap_transport": null
     }
   ],
   "audit_logs": [
     {
+      "seq": 11,
+      "timestamp_utc": "2026-10-30T17:52:22.157414Z",
+      "actor_id": "julia.schmidt",
+      "action": "quote.item.edited",
+      "entity_type": "quote",
+      "entity_id": "f19fa0dd-00bf-46ae-bd97-73b7d7739022",
+      "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
+      "context": {
+        "fields": ["unit_cost"],
+        "item_id": "8774b428-d238-46fd-847f-bf20acd3ce19"
+      },
+      "entry_hash": "1253b66bb102ae4d1bed1de51772b9320d6e3f96619ad62211309fd9729370fe"
+    },
+    {
       "seq": 10,
-      "timestamp_utc": "2026-10-28T20:35:34.117665Z",
+      "timestamp_utc": "2026-10-30T17:52:22.079083Z",
       "actor_id": "julia.schmidt",
       "action": "quote.generated_from_rfq",
       "entity_type": "quote",
-      "entity_id": "a25681be-6790-4fe4-9a39-71808090efb6",
+      "entity_id": "f19fa0dd-00bf-46ae-bd97-73b7d7739022",
       "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
       "context": {
         "items": 1,
-        "rfq_id": "b595ae33-3eef-40d9-9c84-5c396c1e25fd",
+        "rfq_id": "ad7853c5-f1a1-4fa7-ac8e-8b7471718d67",
         "status": "needs_review",
-        "llm_compliance_hash": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715"
+        "llm_compliance_hash": "2c9029956e6d021c8a2ebdcb8817938355023d02f0e82e599666d68464fc4ccc"
       },
-      "entry_hash": "e4c996046f813ecd6566d85c0f8f02fcd2afb2747cec1bb862b4818d74872b5f"
+      "entry_hash": "8739de2fdcc8fd01c9fc622a5642822131ae7e71ed0611794a778ef302695602"
     },
     {
       "seq": 9,
-      "timestamp_utc": "2026-10-28T20:35:34.104184Z",
+      "timestamp_utc": "2026-10-30T17:52:22.060791Z",
       "actor_id": "julia.schmidt",
       "action": "llm.completion",
       "entity_type": "llm_call",
-      "entity_id": "13b7eb4431e308e657f70821fc3b9cc46760c6a45afa685705e840e4894ce715",
+      "entity_id": "2c9029956e6d021c8a2ebdcb8817938355023d02f0e82e599666d68464fc4ccc",
       "ip_sha256": null,
       "context": {
         "model": "anthropic.claude-opus-5-5",
@@ -1945,35 +2009,35 @@
         "provider": "fake",
         "input_tokens": 18,
         "output_tokens": 136,
-        "prompt_sha256": "a7445883dfc9380148898f97b94cc7ef968f8bd7d5134511de89dcc21bf5e118",
+        "prompt_sha256": "6d59c593947e1e4731ccb036dbd91b1fe2b5e7446cf027c580d9193ddf78d771",
         "data_retention": false,
         "response_sha256": "0088d106281dc508922378ac335c4a80d81844d1e58049cf9158ee54d1123e4e"
       },
-      "entry_hash": "1470fcaf8f3b0e620fef3a05454af7c98960dfa88e85c36d0e5d436d9e93c900"
+      "entry_hash": "bf44b88645c6b9bf71a57d1081db9c90864c200a31567fff3d3ee84aaf5d520f"
     },
     {
       "seq": 8,
-      "timestamp_utc": "2026-10-28T20:35:34.064476Z",
+      "timestamp_utc": "2026-10-30T17:52:22.014926Z",
       "actor_id": "julia.schmidt",
       "action": "quote.generated_from_rfq",
       "entity_type": "quote",
-      "entity_id": "54728953-fa28-4fe4-aaaa-b59114ea31a8",
+      "entity_id": "968b5a91-5f7c-46a2-999f-0144529a7688",
       "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
       "context": {
         "items": 1,
-        "rfq_id": "74e2c296-411d-418c-b9b9-882abdda2873",
+        "rfq_id": "866c2d2f-2441-4029-be32-185804c21d6f",
         "status": "needs_review",
-        "llm_compliance_hash": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0"
+        "llm_compliance_hash": "4746d103114341cc4b71c0e7927d916ff77b038e2eb218489a72c568a59b2d6d"
       },
-      "entry_hash": "b8097e0e8d0ef42d40395693a8e3afb750be512f997799df020687583692864d"
+      "entry_hash": "b0758016fb5b2c9f37d4b60615dadad67e9374bbde0f1a3c01cabc88dab49bb3"
     },
     {
       "seq": 7,
-      "timestamp_utc": "2026-10-28T20:35:34.025353Z",
+      "timestamp_utc": "2026-10-30T17:52:21.966053Z",
       "actor_id": "julia.schmidt",
       "action": "llm.completion",
       "entity_type": "llm_call",
-      "entity_id": "5b9a11f1e8c77a2ad0ab6526b229ef07847318d050ab14ff62684d9270c067a0",
+      "entity_id": "4746d103114341cc4b71c0e7927d916ff77b038e2eb218489a72c568a59b2d6d",
       "ip_sha256": null,
       "context": {
         "model": "anthropic.claude-opus-5-5",
@@ -1981,35 +2045,35 @@
         "provider": "fake",
         "input_tokens": 75,
         "output_tokens": 609,
-        "prompt_sha256": "64403ec4453d251fc7ac7afce157f692425b3243a1be532e50a81c33e975088d",
+        "prompt_sha256": "e8b6cab0c2f73ef52d1c36085ef401ba6fbd07cb3360b8a2af5c288a18622baf",
         "data_retention": false,
         "response_sha256": "fc5e6d4488140064eba5940f7ef264f6a781a11bbf3da4add69f548bb4ca86cf"
       },
-      "entry_hash": "28dcee1e503c8a5ad5059275c358f38f785981934ae534688dc07d259578400f"
+      "entry_hash": "14915f9d17b5640343e0ba552fd22bcdcc61916935de160618c1d4933c03e586"
     },
     {
       "seq": 6,
-      "timestamp_utc": "2026-10-28T20:35:33.998608Z",
+      "timestamp_utc": "2026-10-30T17:52:21.929514Z",
       "actor_id": "julia.schmidt",
       "action": "quote.generated_from_rfq",
       "entity_type": "quote",
-      "entity_id": "ec31176d-4b60-49ef-93e0-9736ef89fbbf",
+      "entity_id": "5d7da19a-df8f-40a2-bcac-ce0b68d79b25",
       "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
       "context": {
         "items": 2,
-        "rfq_id": "55ac86c7-7022-4b6f-b410-2500671fcf9f",
+        "rfq_id": "6aff107e-c4cc-49c6-824f-5efea952f9d3",
         "status": "needs_review",
-        "llm_compliance_hash": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5"
+        "llm_compliance_hash": "c21e730528fda11262e09f604a7a3569e0ff5bbf1bb297fb52d09686cfa65ed1"
       },
-      "entry_hash": "50c95d350e4e21001dbc4fdfaaec214e8f8e34d5e8ddaeb851de1465d45f4750"
+      "entry_hash": "194237c09bea4ffd202903481295485bfe295a603d95d8782fb7fd424cfe3a6f"
     },
     {
       "seq": 5,
-      "timestamp_utc": "2026-10-28T20:35:33.971186Z",
+      "timestamp_utc": "2026-10-30T17:52:21.907966Z",
       "actor_id": "julia.schmidt",
       "action": "llm.completion",
       "entity_type": "llm_call",
-      "entity_id": "202d64a0baee97a79bfcf1db4ce51edc7fa3c652c0d917cb83f60b096cf6f3b5",
+      "entity_id": "c21e730528fda11262e09f604a7a3569e0ff5bbf1bb297fb52d09686cfa65ed1",
       "ip_sha256": null,
       "context": {
         "model": "anthropic.claude-opus-5-5",
@@ -2017,35 +2081,35 @@
         "provider": "fake",
         "input_tokens": 39,
         "output_tokens": 249,
-        "prompt_sha256": "d6820f40cf63ba83c7006a21cc56457db147ceb19308759df0c70195c9376283",
+        "prompt_sha256": "77a727b973a85d6bb6c50f9c1e05c21777420cf23a5e2fbfed29f8ffb919759c",
         "data_retention": false,
         "response_sha256": "af2a986b615dd4d2c2a292e6f92ea311421b1eb21a0c8f137047af01413a79f4"
       },
-      "entry_hash": "696ae44a778bbbc8d70dedaa0bbb0a52dcfb7c8028bb39997e3fe8a4726ece2c"
+      "entry_hash": "b315150aad466acd8013e3f4a416dc47c49f20a9366edf0f366df1490eb250d8"
     },
     {
       "seq": 4,
-      "timestamp_utc": "2026-10-28T20:35:33.927177Z",
+      "timestamp_utc": "2026-10-30T17:52:21.873919Z",
       "actor_id": "julia.schmidt",
       "action": "quote.generated_from_rfq",
       "entity_type": "quote",
-      "entity_id": "dd3090f7-c7b1-45e4-977d-f5cc28e1955c",
+      "entity_id": "bc34fc1f-5647-491a-98a7-41c1d8f5f9fe",
       "ip_sha256": "f398576590b35c476f4fa0b31ff13b63d2c6bd332d7841d4436d517b8a68d1ad",
       "context": {
         "items": 1,
-        "rfq_id": "295f432f-e2df-4545-8983-bcff0ff18148",
+        "rfq_id": "562a8a74-2414-47b7-bb73-6fdee100440b",
         "status": "draft",
-        "llm_compliance_hash": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87"
+        "llm_compliance_hash": "4ac9be21ebf058e38b713cd7b612fa7c1c10b692e18db074bf4e00b25a80c186"
       },
-      "entry_hash": "57cbbbd256dde4374ce9f7f3035010f9200aab9f7aa918878187456bc3c27594"
+      "entry_hash": "e3ca5d28c2175fa6979273077218fef5b664e4fbba674e51a3313c63e4dca431"
     },
     {
       "seq": 3,
-      "timestamp_utc": "2026-10-28T20:35:33.768255Z",
+      "timestamp_utc": "2026-10-30T17:52:21.742913Z",
       "actor_id": "julia.schmidt",
       "action": "llm.completion",
       "entity_type": "llm_call",
-      "entity_id": "4a24f292b6c4faecf1aec5cff9132559d5ca06991c67d2927d1a54e25cf96f87",
+      "entity_id": "4ac9be21ebf058e38b713cd7b612fa7c1c10b692e18db074bf4e00b25a80c186",
       "ip_sha256": null,
       "context": {
         "model": "anthropic.claude-opus-5-5",
@@ -2053,15 +2117,15 @@
         "provider": "fake",
         "input_tokens": 28,
         "output_tokens": 174,
-        "prompt_sha256": "6a805f79c2d853da441c397d7a2e4e3d7c8653c0d8f332c8e93806cb6aa00c0a",
+        "prompt_sha256": "01c6bb763c6bb7760caeae4771a0ae27af8f5ec4f18936a1be27f4d73ae7fe30",
         "data_retention": false,
         "response_sha256": "270a9c31ce34a2ebd4d85debf30997b0ea1e583a1576aaba67a497df51d2c585"
       },
-      "entry_hash": "e2db7cfec1137db660cc03c444c72275d4d304683a6fcf8488c4feacafefc914"
+      "entry_hash": "749fbebead46e5cd6f7bf5792fcd1e3f2fb9d217a3a15204529da543bd6cc308"
     },
     {
       "seq": 2,
-      "timestamp_utc": "2026-10-28T20:35:33.724492Z",
+      "timestamp_utc": "2026-10-30T17:52:21.399621Z",
       "actor_id": "sap:mock",
       "action": "sap.debmas06.ingested",
       "entity_type": "sap_idoc_payload",
@@ -2080,11 +2144,11 @@
         "docnum_last": "0000000000123456",
         "docnum_first": "0000000000123456"
       },
-      "entry_hash": "e5f35b3605dc3af66a87a03fe625c590ba1f26c5fe40bb91258e49bbcee9a93d"
+      "entry_hash": "52fbafdde4fe2e5b53b404a57a6cdfe1e1ff430ff746acc55d3000b0115d1af0"
     },
     {
       "seq": 1,
-      "timestamp_utc": "2026-10-28T20:35:33.682150Z",
+      "timestamp_utc": "2026-10-30T17:52:20.838299Z",
       "actor_id": "sap:mock",
       "action": "sap.matmas05.ingested",
       "entity_type": "sap_idoc_payload",
@@ -2103,7 +2167,8 @@
         "docnum_last": "0000000000012345",
         "docnum_first": "0000000000012345"
       },
-      "entry_hash": "6948fa9f945e497ee17f40044fd28232a97fce806db6f13dcf4f2b8fc935ec6d"
+      "entry_hash": "7514f9e5e40d615787a54279078763eb043a61da163844dcc540703eefebf0eb"
     }
-  ]
+  ],
+  "captured_at": "2026-10-30T17:52:22.501943+00:00"
 }

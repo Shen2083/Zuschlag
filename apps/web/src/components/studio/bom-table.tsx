@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -110,22 +110,24 @@ function toPatch(
     case "matnr":
       return value === (item.matnr ?? "") ? null : { matnr: value || null };
     case "description":
-      if (!value) return t("common.error");
+      if (!value) return t("studio.invalid.description");
       return value === item.description ? null : { description: value };
     case "uom": {
       const uom = value.toUpperCase();
-      if (!/^[A-Z0-9]{2,3}$/.test(uom)) return "PCE, KGM, MTR, HUR…";
+      if (!/^[A-Z0-9]{2,3}$/.test(uom)) return t("studio.invalid.unit");
       return uom === item.uom ? null : { uom };
     }
     case "quantity": {
       const qty = parseDecimalInput(value, locale);
-      if (!qty || Dec.from(qty).cmp(0) <= 0) return "> 0";
+      if (!qty) return t("studio.invalid.number");
+      if (Dec.from(qty).cmp(0) <= 0) return t("studio.invalid.quantity");
       return Dec.from(qty).eq(item.quantity) ? null : { quantity: qty };
     }
     case "unit_cost": {
       if (!value) return item.unit_cost === null ? null : { unit_cost: null };
       const cost = parseDecimalInput(value, locale);
-      if (!cost || Dec.from(cost).isNegative()) return "≥ 0";
+      if (!cost) return t("studio.invalid.number");
+      if (Dec.from(cost).isNegative()) return t("studio.invalid.cost");
       return item.unit_cost !== null && Dec.from(cost).eq(item.unit_cost)
         ? null
         : { unit_cost: cost };
@@ -453,7 +455,7 @@ export function BomTable({
                 role="columnheader"
                 aria-colindex={i + 1}
                 className={cn(
-                  "truncate border-b px-2 py-1.5 text-left text-[11px] font-semibold tracking-wide whitespace-nowrap text-muted-foreground uppercase",
+                  "border-b px-2 py-1.5 text-left align-bottom text-[11px] leading-tight font-semibold tracking-wide hyphens-auto text-muted-foreground uppercase",
                   metaOf(i).align === "right" && "text-right",
                   metaOf(i).className,
                 )}
@@ -506,7 +508,7 @@ export function BomTable({
                       meta.align === "right" && "text-right",
                       canEdit && "cursor-text group-hover:bg-card",
                       isActive && "ring-2 ring-ring ring-inset",
-                      isEditing && "p-0",
+                      isEditing && "relative p-0",
                     )}
                   >
                     {isEditing && editing ? (
@@ -576,33 +578,45 @@ function CellEditor({
     input.focus();
     input.setSelectionRange(input.value.length, input.value.length);
   }, []);
+  const errorId = useId();
   return (
-    <input
-      ref={ref}
-      value={value}
-      aria-label={label}
-      aria-invalid={error ? true : undefined}
-      title={error}
-      onChange={(e) => onChange(e.target.value)}
-      onBlur={() => onCommit("none")}
-      onKeyDown={(e) => {
-        e.stopPropagation();
-        if (e.key === "Enter") {
-          e.preventDefault();
-          onCommit("down");
-        } else if (e.key === "Tab") {
-          e.preventDefault();
-          onCommit("right");
-        } else if (e.key === "Escape") {
-          e.preventDefault();
-          onCancel();
-        }
-      }}
-      className={cn(
-        "h-8 w-full bg-card px-2 font-[inherit] text-[12.5px] outline-2 -outline-offset-2 outline-ring",
-        align === "right" && "text-right tabular-nums",
-        error && "outline-destructive",
+    <>
+      <input
+        ref={ref}
+        value={value}
+        aria-label={label}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={() => onCommit("none")}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onCommit("down");
+          } else if (e.key === "Tab") {
+            e.preventDefault();
+            onCommit("right");
+          } else if (e.key === "Escape") {
+            e.preventDefault();
+            onCancel();
+          }
+        }}
+        className={cn(
+          "h-8 w-full bg-card px-2 font-[inherit] text-[12.5px] outline-2 -outline-offset-2 outline-ring",
+          align === "right" && "text-right tabular-nums",
+          error && "outline-destructive",
+        )}
+      />
+      {error && (
+        <span
+          id={errorId}
+          role="alert"
+          className="absolute top-full left-0 z-20 mt-1 w-max max-w-64 rounded bg-destructive px-2 py-1 text-xs font-medium whitespace-normal text-white shadow-md"
+        >
+          {error}
+        </span>
       )}
-    />
+    </>
   );
 }

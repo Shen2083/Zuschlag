@@ -3,6 +3,7 @@
 import * as React from "react";
 import { CheckCircle2, CircleAlert, X } from "lucide-react";
 
+import { useServerText } from "@/lib/server-messages";
 import { cn } from "@/lib/utils";
 
 interface Toast {
@@ -18,7 +19,11 @@ export function useToast() {
   return React.useContext(ToastContext);
 }
 
-/** Announced via aria-live; errors stay until dismissed, successes fade after 5 s. */
+/**
+ * Announced via aria-live. Successes fade after 5 s and clear older errors;
+ * errors fade after 12 s and an identical error replaces itself instead of
+ * stacking. Server messages in details are shown in the UI language.
+ */
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = React.useState<Toast[]>([]);
   const nextId = React.useRef(0);
@@ -26,13 +31,26 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     (id: number) => setToasts((all) => all.filter((t) => t.id !== id)),
     [],
   );
+  const tr = useServerText();
   const push = React.useCallback(
     (toast: Omit<Toast, "id">) => {
       const id = ++nextId.current;
-      setToasts((all) => [...all.slice(-3), { ...toast, id }]);
-      if (toast.kind === "success") setTimeout(() => dismiss(id), 5000);
+      const detail = Array.isArray(toast.detail)
+        ? toast.detail.map(tr)
+        : toast.detail
+          ? tr(toast.detail)
+          : undefined;
+      const next = { ...toast, title: tr(toast.title), detail, id };
+      const key = (t: Toast) => `${t.kind}|${t.title}|${JSON.stringify(t.detail)}`;
+      setToasts((all) => {
+        const kept = all.filter((t) =>
+          toast.kind === "success" ? t.kind === "success" : key(t) !== key(next),
+        );
+        return [...kept.slice(-2), next];
+      });
+      setTimeout(() => dismiss(id), toast.kind === "success" ? 5000 : 12000);
     },
-    [dismiss],
+    [dismiss, tr],
   );
   return (
     <ToastContext.Provider value={push}>

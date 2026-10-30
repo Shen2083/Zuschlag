@@ -63,7 +63,7 @@ export function AuditPage() {
 
   return (
     <>
-      <PageHeader title={t("audit.title")} />
+      <PageHeader title={t("audit.title")} documentTitle={t("audit.title")} />
       <Toolbar>
         <p className="text-xs text-muted-foreground">{t("audit.help")}</p>
         <div className="ml-auto flex items-center gap-2" role="status" aria-live="polite">

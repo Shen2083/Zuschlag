@@ -10,7 +10,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "Zuschlag.ai", template: "%s · Zuschlag.ai" },
-  description: "From unstructured RFQs to SAP-compliant quotes.",
+  description: "Von der unstrukturierten Kundenanfrage zum SAP-konformen Angebot – mit KI.",
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    siteName: "Zuschlag.ai",
+    title: "Zuschlag.ai – Quote Studio",
+    description:
+      "Kundenanfrage rein, SAP-Angebot (ORDERS05) raus: KI-Stückliste, Materialabgleich mit MATMAS, Zuschlagskalkulation, GoBD-Freigabe.",
+  },
   robots: { index: false, follow: false },
 };
 

@@ -113,7 +113,7 @@ export function CatalogPage() {
 
   return (
     <>
-      <PageHeader title={t("catalog.title")} />
+      <PageHeader title={t("catalog.title")} documentTitle={t("catalog.title")} />
       <Toolbar>
         <SearchInput value={q} onChange={setQ} placeholder={t("common.search")} />
         <Select
